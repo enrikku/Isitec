@@ -67,70 +67,49 @@ if (count($_POST) == 6) {
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Register</title>
 </head>
-<body>
-    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-    <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
-    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Registra tu cuenta</h2>
-  </div>
+<body class="bg-gray-900 flex items-center justify-center h-screen">
 
-  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-  <form class="space-y-6" action="register.php" method="POST">
-      <!-- Username  -->
-    <div>
-        <label for="user" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
-        <div class="mt-2">
-          <input id="user" name="user" type="text" autocomplete="user" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-        </div>
-      </div>
-      <!-- Correo -->
-      <div>
-        <label for="mail" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
-        <div class="mt-2">
-          <input id="mail" name="mail" type="mail" autocomplete="mail" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-        </div>
-      </div>
-      <!-- Nombre -->
-      <div>
-        <label for="nombre" class="block text-sm font-medium leading-6 text-gray-900">Nombre</label>
-        <div class="mt-2">
-          <input id="nombre" name="nombre" type="text" autocomplete="nombre" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-        </div>
-      </div>
-      <!-- Apellidos -->
-      <div>
-        <label for="apellidos" class="block text-sm font-medium leading-6 text-gray-900">Apellidos</label>
-        <div class="mt-2">
-          <input id="apellidos" name="apellidos" type="text" autocomplete="apellidos" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-        </div>
-      </div>
-        <!-- Contraseña -->
-        <div>
-        <label for="pass" class="block text-sm font-medium leading-6 text-gray-900">Contraseña</label>
-        <div class="mt-2">
-          <input id="pass" name="pass" type="password" autocomplete="pass" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-        </div>
-      </div>
-      <!-- Contraseña2 -->
-      <div>
-        <label for="pass2" class="block text-sm font-medium leading-6 text-gray-900">Repetir contraseña</label>
-        <div class="mt-2">
-          <input id="pass2" name="pass2" type="password" autocomplete="pass2" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-        </div>
-      </div>
-      <div>
-      <?php if (!empty($errMsg)): ?>
-        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-            <?php echo $errMsg; ?>
-        </div>
-    <?php endif;?>
+    <!-- Card Container -->
+    <div class="bg-gray-800 p-6 rounded-lg max-w-sm mx-auto">
+        <h2 class="text-green-400 text-center text-2xl font-bold mb-4">Register</h2>
 
+        <!-- Error Message -->
+        <?php if ($errMsg != ""): ?>
+        <p class="bg-red-500 text-white p-2 rounded"><?php echo $errMsg; ?></p>
+        <?php endif;?>
 
-      <input type="submit" value="Crear cuenta" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-
-      </div>
-    </form>
-  </div>
-</div>
+        <!-- Form Start -->
+        <form action="register.php" method="post" class="space-y-4 bg-gray-800 p-6 rounded-lg">
+            <div>
+                <input type="email" name="mail" id="mail" required placeholder="Email"
+                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
+            </div>
+            <div>
+                <input type="text" name="user" id="user" required placeholder="Username"
+                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
+            </div>
+            <div>
+                <input type="text" name="nombre" id="nombre" placeholder="Nombre"
+                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
+            </div>
+            <div>
+                <input type="text" name="apellidos" id="apellidos" placeholder="Apellidos"
+                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
+            </div>
+            <div>
+                <input type="password" name="pass" id="pass" required placeholder="Password"
+                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
+            </div>
+            <div>
+                <input type="password" name="pass2" id="pass2" required placeholder="Repeat Password"
+                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
+            </div>
+            <div>
+                <input type="submit" value="Register"
+                    class="block w-full px-4 py-2 mt-4 text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 cursor-pointer">
+            </div>
+        </form>
+        <!-- Form End -->
+    </div>
 </body>
 </html>

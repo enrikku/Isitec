@@ -44,54 +44,50 @@ function compruebaUsuario($user, $pass, $opcion)
     }
 }
 
-
-function sigin($user, $pass, $mail, $nombre, $apellidos){
+function signUp($user, $pass, $mail, $nombre, $apellidos)
+{
     $dbo = conexion();
     $signed = false;
 
-    $sql = "INSERT INTO users (username, passHash, mail, userFirstName, userLastName, creationDate) 
+    $sql = "INSERT INTO users (username, passHash, mail, userFirstName, userLastName, creationDate)
                         VALUES (:user, :pass, :mail, :nombre, :apellidos, NOW())";
 
-    if(!existeMail($mail))
-    {
-        try{
+    if (!existeMail($mail)) {
+        try {
 
             $pass = password_hash($pass, PASSWORD_DEFAULT);
 
             $resultat = $dbo->prepare($sql);
-            $resultat->execute([":user" => $user, 
-                                ":pass" => $pass, 
-                                ":mail" => $mail, 
-                                ":nombre" => $nombre, 
-                                ":apellidos" => $apellidos
-                            ]);
+            $resultat->execute([":user" => $user,
+                ":pass" => $pass,
+                ":mail" => $mail,
+                ":nombre" => $nombre,
+                ":apellidos" => $apellidos,
+            ]);
             $row = $resultat->fetch(PDO::FETCH_ASSOC);
-    
+
             if ($row) {
                 $signed = true;
             }
-        }
-        catch (PDOException $e) {
+        } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         } finally {
             return $signed;
         }
-    }
-    else{
+    } else {
         $signed = false;
         return $signed;
     }
-
-    
 }
 
-function existeMail($mail){
+function existeMail($mail)
+{
     $db = conexion();
     $existe = false;
 
     $sql = "SELECT * FROM users WHERE mail = :mail";
 
-    try{
+    try {
         $resultat = $db->prepare($sql);
         $resultat->execute([":mail" => $mail]);
         $row = $resultat->fetch(PDO::FETCH_ASSOC);
@@ -99,9 +95,9 @@ function existeMail($mail){
         if ($row) {
             $existe = true;
         }
-    }catch (PDOException $e) {
+    } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
-    }finally {
+    } finally {
         return $existe;
     }
 }

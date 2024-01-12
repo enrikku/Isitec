@@ -38,20 +38,18 @@ if (count($_POST) == 6) {
             $errMsg = "El correo electrónico ya existe";
         }
 
-        $signed = sigin($user, $pass, $mail, $nombre, $apellidos);
+        $signed = signUp($user, $pass, $mail, $nombre, $apellidos);
     } else {
         $signed = false;
     }
 
     if ($singed == true) {
-        header("Location: ./login.php");
+        header("Location: ./index.php");
     } else {
 
     }
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -75,34 +73,34 @@ if (count($_POST) == 6) {
         <?php endif;?>
 
         <!-- Form Start -->
-        <form action="sigin.php" method="post" class="space-y-4">
+        <form action="register.php" method="post" class="space-y-4 bg-gray-800 p-6 rounded-lg">
             <div>
                 <input type="email" name="mail" id="mail" required placeholder="Email"
-                    class="w-full px-4 py-2 rounded-md bg-gray-700 text-white placeholder-gray-300">
+                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
             </div>
             <div>
                 <input type="text" name="user" id="user" required placeholder="Username"
-                    class="w-full px-4 py-2 rounded-md bg-gray-700 text-white placeholder-gray-300">
+                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
             </div>
             <div>
-                <input type="text" name="nombre" id="nombre" placeholder="First Name"
-                    class="w-full px-4 py-2 rounded-md bg-gray-700 text-white placeholder-gray-300">
+                <input type="text" name="nombre" id="nombre" placeholder="Nombre"
+                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
             </div>
             <div>
-                <input type="text" name="apellidos" id="apellidos" placeholder="Last Name"
-                    class="w-full px-4 py-2 rounded-md bg-gray-700 text-white placeholder-gray-300">
+                <input type="text" name="apellidos" id="apellidos" placeholder="Apellidos"
+                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
             </div>
             <div>
                 <input type="password" name="pass" id="pass" required placeholder="Password"
-                    class="w-full px-4 py-2 rounded-md bg-gray-700 text-white placeholder-gray-300">
+                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
             </div>
             <div>
                 <input type="password" name="pass2" id="pass2" required placeholder="Repeat Password"
-                    class="w-full px-4 py-2 rounded-md bg-gray-700 text-white placeholder-gray-300">
+                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
             </div>
             <div>
                 <input type="submit" value="Register"
-                    class="w-full py-2 rounded-md bg-green-500 hover:bg-green-600 text-white cursor-pointer">
+                    class="block w-full px-4 py-2 mt-4 text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 cursor-pointer">
             </div>
         </form>
         <!-- Form End -->

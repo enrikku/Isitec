@@ -1,9 +1,9 @@
 <?php
 function conexion()
 {
-    $connString = 'mysql:host=localhost;port=3106;dbname=isitec';
+    $connString = 'mysql:host=localhost;port=3306;dbname=isitec';
     $user = 'root';
-    $pass = '';
+    $pass = '0000';
     $db = null;
 
     try {
@@ -44,29 +44,32 @@ function compruebaUsuario($user, $pass, $opcion)
     }
 }
 
+
+
 function signUp($user, $pass, $mail, $nombre, $apellidos)
 {
     $dbo = conexion();
     $signed = false;
 
-    $sql = "INSERT INTO users (username, passHash, mail, userFirstName, userLastName, creationDate)
-                        VALUES (:user, :pass, :mail, :nombre, :apellidos, NOW())";
+    $sql = "INSERT INTO users (username, passHash, mail, userFirstName, userLastName, creationDate) 
+            VALUES (:user, :pass, :mail, :nombre, :apellidos, NOW())";
 
-    if (!existeMail($mail)) {
+    if (!existeMail($mail) && !existeUsername($user)) {
         try {
-
             $pass = password_hash($pass, PASSWORD_DEFAULT);
 
             $resultat = $dbo->prepare($sql);
-            $resultat->execute([":user" => $user,
-                ":pass" => $pass,
-                ":mail" => $mail,
-                ":nombre" => $nombre,
-                ":apellidos" => $apellidos,
-            ]);
-            $row = $resultat->fetch(PDO::FETCH_ASSOC);
 
-            if ($row) {
+            $resultat->execute([
+                ":user" => $user, 
+                ":pass" => $pass, 
+                ":mail" => $mail, 
+                ":nombre" => $nombre, 
+                ":apellidos" => $apellidos
+            ]);
+
+            $rowCount = $resultat->rowCount();
+            if ($rowCount > 0) {
                 $signed = true;
             }
         } catch (PDOException $e) {
@@ -80,8 +83,8 @@ function signUp($user, $pass, $mail, $nombre, $apellidos)
     }
 }
 
-function existeMail($mail)
-{
+
+function existeMail($mail){
     $db = conexion();
     $existe = false;
 
@@ -90,6 +93,27 @@ function existeMail($mail)
     try {
         $resultat = $db->prepare($sql);
         $resultat->execute([":mail" => $mail]);
+        $row = $resultat->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            $existe = true;
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    } finally {
+        return $existe;
+    }
+}
+
+function existeUsername($username){
+    $db = conexion();
+    $existe = false;
+
+    $sql = "SELECT * FROM users WHERE username = :username";
+
+    try {
+        $resultat = $db->prepare($sql);
+        $resultat->execute([":username" => $username]);
         $row = $resultat->fetch(PDO::FETCH_ASSOC);
 
         if ($row) {

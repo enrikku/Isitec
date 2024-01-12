@@ -67,6 +67,7 @@ if (count($_POST) == 6) {
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Register</title>
 </head>
+
 <body class="bg-gray-900 flex items-center justify-center h-screen">
 
     <!-- Card Container -->
@@ -112,4 +113,5 @@ if (count($_POST) == 6) {
         <!-- Form End -->
     </div>
 </body>
+
 </html>

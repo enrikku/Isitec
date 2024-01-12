@@ -1,9 +1,9 @@
 <?php
 function conexion()
 {
-    $connString = 'mysql:host=localhost;port=3306;dbname=isitec';
+    $connString = 'mysql:host=localhost;port=3106;dbname=isitec';
     $user = 'root';
-    $pass = '0000';
+    $pass = '';
     $db = null;
 
     try {
@@ -44,14 +44,12 @@ function compruebaUsuario($user, $pass, $opcion)
     }
 }
 
-
-
 function signUp($user, $pass, $mail, $nombre, $apellidos)
 {
     $dbo = conexion();
     $signed = false;
 
-    $sql = "INSERT INTO users (username, passHash, mail, userFirstName, userLastName, creationDate) 
+    $sql = "INSERT INTO users (username, passHash, mail, userFirstName, userLastName, creationDate)
             VALUES (:user, :pass, :mail, :nombre, :apellidos, NOW())";
 
     if (!existeMail($mail) && !existeUsername($user)) {
@@ -61,11 +59,11 @@ function signUp($user, $pass, $mail, $nombre, $apellidos)
             $resultat = $dbo->prepare($sql);
 
             $resultat->execute([
-                ":user" => $user, 
-                ":pass" => $pass, 
-                ":mail" => $mail, 
-                ":nombre" => $nombre, 
-                ":apellidos" => $apellidos
+                ":user" => $user,
+                ":pass" => $pass,
+                ":mail" => $mail,
+                ":nombre" => $nombre,
+                ":apellidos" => $apellidos,
             ]);
 
             $rowCount = $resultat->rowCount();
@@ -83,8 +81,8 @@ function signUp($user, $pass, $mail, $nombre, $apellidos)
     }
 }
 
-
-function existeMail($mail){
+function existeMail($mail)
+{
     $db = conexion();
     $existe = false;
 
@@ -105,7 +103,8 @@ function existeMail($mail){
     }
 }
 
-function existeUsername($username){
+function existeUsername($username)
+{
     $db = conexion();
     $existe = false;
 

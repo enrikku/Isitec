@@ -5,6 +5,7 @@ require __DIR__ . '\..\..\lib\bbdd.php';
 $db = conexion();
 $logged = false;
 
+conexion();
 
 if(count($_POST) == 2){
     $user   = isset($_POST["user"]) ? $_POST["user"] : "";
@@ -34,7 +35,7 @@ if(count($_POST) == 2){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
 </head>
 <body>
     <form action="login.php" method="post">

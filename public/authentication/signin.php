@@ -7,21 +7,19 @@ $logged = false;
 
 conexion();
 
-if(count($_POST) == 2){
-    $user   = isset($_POST["user"]) ? $_POST["user"] : "";
-    $pass   = isset($_POST["pass"]) ? $_POST["pass"] : "";
-    
-    if(str_contains($user, "@")){
+if (count($_POST) == 2) {
+    $user = isset($_POST["user"]) ? $_POST["user"] : "";
+    $pass = isset($_POST["pass"]) ? $_POST["pass"] : "";
+
+    if (str_contains($user, "@")) {
         $logged = compruebaUsuario($user, $pass, 1);
-    }
-    else{
+    } else {
         $logged = compruebaUsuario($user, $pass, 2);
     }
-    
-    if($logged){
+
+    if ($logged) {
         echo "Login echo";
-    }
-    else{
+    } else {
         echo "Login no hecho";
     }
 }
@@ -35,7 +33,7 @@ if(count($_POST) == 2){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>SigIn</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
@@ -44,7 +42,7 @@ if(count($_POST) == 2){
     <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
     <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
   </div>
-
+<!-- Todo adaptado al PHP -->
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
     <form class="space-y-6" action="login.php" method="POST">
       <div>

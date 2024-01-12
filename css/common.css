@@ -1,0 +1,16 @@
+/* Definición de variables de color */
+:root {
+    --color-primario: #3498db; /* Azul */
+    --color-secundario: #2ecc71; /* Verde */
+    --color-fondo: #f3f3f3; /* Gris claro */
+    --color-texto: #333; /* Gris oscuro */
+    /* Añade más colores según tus necesidades */
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('../fonts/JetBrainsMono-Italic-VariableFont_wght.ttf') format('ttf'),
+         url('../fonts/JetBrainsMono-VariableFont_wght.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}

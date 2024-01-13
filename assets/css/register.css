@@ -1,0 +1,42 @@
+/* Base setup */
+.form-field {
+  position: relative;
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+/* Label base style */
+.form-field label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0 1rem;
+  margin: 0.5rem 0;
+  background: #1f2937;
+  color: #9ca3af;
+  transition: all 0.3s ease;
+  transform-origin: 0 0;
+}
+
+/* Input base style */
+.form-field input {
+  width: 100%;
+  padding: 1rem;
+  background: #1f2937;
+  border: 2px solid transparent;
+  color: #f9fafb;
+}
+
+/* Floating label style */
+.form-field input:focus + label,
+.form-field input:not(:placeholder-shown) + label {
+  transform: scale(0.75) translateY(-50%) translateX(-0.5rem);
+  color: #10b981;
+  border-color: #10b981;
+}
+
+/* Input focus style */
+.form-field input:focus {
+  outline: none;
+  border-color: #10b981;
+}

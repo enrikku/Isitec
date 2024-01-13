@@ -33,18 +33,15 @@ if (count($_POST) == 6) {
         $validEmail = false;
     }
 
-
     if ($validEmail && $equalPass) {
         if (existeMail($mail)) {
             $errMsg = "El correo electrónico ya existe";
             $signed = false;
-          
-        } 
-        else if (existeUsername($user)) {
+
+        } else if (existeUsername($user)) {
             $errMsg = "El usuario ya existe";
             $signed = false;
-        }
-        else {
+        } else {
             $signed = signUp($user, $pass, $mail, $nombre, $apellidos);
         }
     } else {
@@ -58,6 +55,9 @@ if (count($_POST) == 6) {
 }
 ?>
 
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -65,52 +65,65 @@ if (count($_POST) == 6) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/register.css">
     <title>Register</title>
 </head>
 
-<body class="bg-gray-900 flex items-center justify-center h-screen">
+<body class="bg-gray-900 flex items-center justify-center min-h-screen p-4">
 
-    <!-- Card Container -->
-    <div class="bg-gray-800 p-6 rounded-lg max-w-sm mx-auto">
+    <div class="bg-gray-800 p-6 rounded-lg max-w-2xl mx-auto w-full">
         <h2 class="text-green-400 text-center text-2xl font-bold mb-4">Register</h2>
 
-        <!-- Error Message -->
-        <?php if ($errMsg != ""): ?>
-        <p class="bg-red-500 text-white p-2 rounded"><?php echo $errMsg; ?></p>
-        <?php endif;?>
+        <!-- Error Message Intentare poner en cada input la validacion y que cambie el borde a rojo etc -->
 
-        <!-- Form Start -->
-        <form action="register.php" method="post" class="space-y-4 bg-gray-800 p-6 rounded-lg">
-            <div>
-                <input type="email" name="mail" id="mail" required placeholder="Email"
-                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
+        <form action="register.php" method="post" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Email -->
+                <div class="form-field">
+                    <input type="email" name="mail" id="mail" placeholder=" " required class="input-style">
+                    <label for="mail" class="label-style">Email</label>
+                </div>
+                <!-- Username -->
+                <div class="form-field">
+                    <input type="text" name="user" id="user" placeholder=" " required class="input-style">
+                    <label for="user" class="label-style">Username</label>
+                </div>
             </div>
-            <div>
-                <input type="text" name="user" id="user" required placeholder="Username"
-                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Nombre -->
+                <div class="form-field">
+                    <input type="text" name="nombre" id="nombre" placeholder=" " class="input-style">
+                    <label for="nombre" class="label-style">Nombre</label>
+                </div>
+                <!-- Apellidos -->
+                <div class="form-field">
+                    <input type="text" name="apellidos" id="apellidos" placeholder=" " class="input-style">
+                    <label for="apellidos" class="label-style">Apellidos</label>
+                </div>
             </div>
-            <div>
-                <input type="text" name="nombre" id="nombre" placeholder="Nombre"
-                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
+
+            <div class="grid grid-cols-1 gap-6">
+                <!-- Password -->
+                <div class="form-field">
+                    <input type="password" name="pass" id="pass" placeholder=" " required class="input-style">
+                    <label for="pass" class="label-style">Password</label>
+                </div>
+
+                <!-- Repeat Password -->
+                <div class="form-field">
+                    <input type="password" name="pass2" id="pass2" placeholder=" " required class="input-style">
+                    <label for="pass2" class="label-style">Repeat Password</label>
+                </div>
             </div>
-            <div>
-                <input type="text" name="apellidos" id="apellidos" placeholder="Apellidos"
-                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
-            </div>
-            <div>
-                <input type="password" name="pass" id="pass" required placeholder="Password"
-                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
-            </div>
-            <div>
-                <input type="password" name="pass2" id="pass2" required placeholder="Repeat Password"
-                    class="block w-full px-4 py-2 mt-2 text-white bg-gray-700 rounded-md focus:border-green-500 hover:border-green-500">
-            </div>
-            <div>
+
+            <!-- Register Button -->
+            <div class="flex justify-center">
                 <input type="submit" value="Register"
-                    class="block w-full px-4 py-2 mt-4 text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 cursor-pointer">
+                    class="block w-full py-2 mt-3 text-lg border-2 border-green-700 text-green-700 hover:bg-green-600 hover:text-white
+                    rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
             </div>
         </form>
-        <!-- Form End -->
     </div>
 </body>
 

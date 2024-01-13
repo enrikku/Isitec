@@ -65,14 +65,15 @@ if (count($_POST) == 6) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../assets/css/common.css">
     <link rel="stylesheet" href="../../assets/css/register.css">
     <title>Register</title>
 </head>
 
 <body class="bg-gray-900 flex items-center justify-center min-h-screen p-4">
 
-    <div class="bg-gray-800 p-6 rounded-lg max-w-2xl mx-auto w-full">
-        <h2 class="text-green-400 text-center text-2xl font-bold mb-4">Register</h2>
+    <div class="form-container p-6 rounded-lg max-w-2xl mx-auto w-full">
+        <h2 class="text-green-400 text-center text-2xl font-bold mb-4">Registro</h2>
 
         <!-- Error Message Intentare poner en cada input la validacion y que cambie el borde a rojo etc -->
 
@@ -86,7 +87,7 @@ if (count($_POST) == 6) {
                 <!-- Username -->
                 <div class="form-field">
                     <input type="text" name="user" id="user" placeholder=" " required class="input-style">
-                    <label for="user" class="label-style">Username</label>
+                    <label for="user" class="label-style">Usuario</label>
                 </div>
             </div>
 
@@ -107,24 +108,36 @@ if (count($_POST) == 6) {
                 <!-- Password -->
                 <div class="form-field">
                     <input type="password" name="pass" id="pass" placeholder=" " required class="input-style">
-                    <label for="pass" class="label-style">Password</label>
+                    <label for="pass" class="label-style">Contraseña</label>
                 </div>
 
                 <!-- Repeat Password -->
                 <div class="form-field">
                     <input type="password" name="pass2" id="pass2" placeholder=" " required class="input-style">
-                    <label for="pass2" class="label-style">Repeat Password</label>
+                    <label for="pass2" class="label-style">Confirmar Contraseña</label>
                 </div>
             </div>
 
             <!-- Register Button -->
-            <div class="flex justify-center">
-                <input type="submit" value="Register"
-                    class="block w-full py-2 mt-3 text-lg border-2 border-green-700 text-green-700 hover:bg-green-600 hover:text-white
+            <!--             <div class="flex justify-center">
+                <input type="submit" value="Enviar" id="registerBtn"
+                    class="block w-full py-2 mt-3 text-2xl border-2 border-green-700 text-green-700 hover:bg-green-600 hover:text-white
                     rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+            </div> -->
+            <!-- Botón de registro con animación -->
+            <div class="flex justify-center">
+                <input type="submit" value="Enviar" id="registerBtn" class="relative overflow-hidden block w-full py-2 mt-3 text-2xl border-2 border-green-700 text-green-700
+                        rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent
+                        hover:bg-green-600 hover:text-white hover:opacity-60">
             </div>
+
         </form>
     </div>
 </body>
 
 </html>
+
+<div
+    style="background-image: url('../../assets/img/fondo_register.webp'); height: 100vh; background-size: cover; background-position: center;">
+    <!-- Contenido sobre el fondo con degradado -->
+</div>

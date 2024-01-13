@@ -1,3 +1,30 @@
+body {
+  background-image: url("../../assets/img/fondo_register.webp");
+  background-size: cover;
+  background-position: center;
+  max-height: 100vh;
+}
+
+/* .background {
+  background: rgb(36, 49, 110);
+  background: linear-gradient(
+    180deg,
+    rgba(36, 49, 110, 1) 0%,
+    rgba(29, 78, 216, 1) 50%,
+    rgba(0, 212, 255, 1) 100%
+  );
+} */
+
+.form-container {
+  background: rgba(0, 0, 0, 0.5); /* Fondo oscuro con transparencia */
+  backdrop-filter: blur(
+    5px
+  ); /* Difuminar cualquier contenido detrás del contenedor */
+  border-radius: 15px; /* Bordes redondeados para suavizar el contenedor */
+  padding: 2rem; /* Espaciado dentro del contenedor */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave para dar profundidad */
+}
+
 /* Base setup */
 .form-field {
   position: relative;
@@ -39,4 +66,44 @@
 .form-field input:focus {
   outline: none;
   border-color: #10b981;
+}
+
+#registerBtn {
+  position: relative; /* Esto es importante para que el pseudoelemento se posicione correctamente */
+  z-index: 1; /* Esto asegura que el texto del botón se muestre por encima del pseudoelemento */
+  /* Resto de tus estilos para el botón */
+}
+#registerBtn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    #00ff00,
+    #00e676,
+    #00c853,
+    #00e676,
+    #00ff00,
+    #00e676,
+    #00c853,
+    #00e676
+  );
+  background-size: 800%;
+  border-radius: 10px;
+  filter: blur(8px);
+  animation: glowingGreen 20s linear infinite !important;
+}
+
+@keyframes glowingGreen {
+  0%,
+  100% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
 }

@@ -5,7 +5,8 @@
   --color-secundario: #2ecc71; /* Verde */
   --color-fondo: #f3f3f3; /* Gris claro */
   --color-texto: #333; /* Gris oscuro */
-  /* Añade más colores según tus necesidades */
+  --color-success: #22c55e;
+  --color-error: #ef4444;
 }
 
 body {

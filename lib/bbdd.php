@@ -1,9 +1,9 @@
 <?php
 function conexion()
 {
-    $connString = 'mysql:host=localhost;port=3306;dbname=isitec';
+    $connString = 'mysql:host=localhost;port=3106;dbname=isitec';
     $user = 'root';
-    $pass = '0000';
+    $pass = '';
     $db = null;
 
     try {

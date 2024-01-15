@@ -5,16 +5,23 @@ body {
   max-height: 100vh;
 }
 
-/* .background {
-  background: rgb(36, 49, 110);
-  background: linear-gradient(
-    180deg,
-    rgba(36, 49, 110, 1) 0%,
-    rgba(29, 78, 216, 1) 50%,
-    rgba(0, 212, 255, 1) 100%
-  );
-} */
+.error {
+  border: 1px solid red;
+}
+.hidden {
+  display: none;
+}
+.input-style.error {
+  border-color: red;
+}
 
+#error-container {
+  display: none;
+  background-color: #ffcccc;
+  color: red;
+  padding: 10px;
+  margin-bottom: 10px;
+}
 .form-container {
   background: rgba(0, 0, 0, 0.5); /* Fondo oscuro con transparencia */
   backdrop-filter: blur(
@@ -63,10 +70,10 @@ body {
 }
 
 /* Input focus style */
-.form-field input:focus {
+/* .form-field input:focus {
   outline: none;
   border-color: #10b981;
-}
+} */
 
 #registerBtn {
   position: relative; /* Esto es importante para que el pseudoelemento se posicione correctamente */

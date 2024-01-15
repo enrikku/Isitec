@@ -23,6 +23,7 @@ if (count($_POST) == 2) {
         echo "Login no hecho";
     }
 }
+//TODO:Una vegada completat amb èxit el registre, caldrà informar de l’èxit de l’operació a la web principal(index.php).
 
 ?>
 

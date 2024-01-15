@@ -44,13 +44,13 @@ function compruebaUsuario($user, $pass, $opcion)
     }
 }
 
-function signUp($user, $pass, $mail, $nombre, $apellidos)
+function signUp($user, $pass, $mail, $nombre, $apellidos) //?:Hay que poner el campo active en 1
 {
     $dbo = conexion();
     $signed = false;
 
-    $sql = "INSERT INTO users (username, passHash, mail, userFirstName, userLastName, creationDate)
-            VALUES (:user, :pass, :mail, :nombre, :apellidos, NOW())";
+    $sql = "INSERT INTO users (username, passHash, mail, userFirstName, userLastName, creationDate, active)
+            VALUES (:user, :pass, :mail, :nombre, :apellidos, NOW(), 1)";
 
     if (!existeMail($mail) && !existeUsername($user)) {
         try {

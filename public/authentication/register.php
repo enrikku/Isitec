@@ -126,9 +126,10 @@ if (count($_POST) == 6) {
             </div> -->
             <!-- Botón de registro con animación -->
             <div class="flex justify-center">
-                <input type="submit" value="Enviar" id="registerBtn" class="relative overflow-hidden block w-full py-2 mt-3 text-2xl border-2 border-green-700 text-green-700
-                        rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent
-                        hover:bg-green-600 hover:text-white hover:opacity-60">
+            <?php if ($errMsg != ""): ?>
+                <p class="bg-red-500 text-white p-2 rounded"><?php echo $errMsg; ?></p>
+            <?php endif;?>
+                <input type="submit" value="Enviar" id="registerBtn" class="relative overflow-hidden block w-full py-2 mt-3 text-2xl border-2 border-green-700 text-green-700 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent hover:bg-green-600 hover:text-white hover:opacity-60">
             </div>
 
         </form>

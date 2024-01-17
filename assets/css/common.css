@@ -7,8 +7,47 @@
   --color-texto: #333; /* Gris oscuro */
   --color-success: #22c55e;
   --color-error: #ef4444;
+  --color-gray-500: #6b7280;
 }
 
 body {
   font-family: "JetBrains Mono", monospace;
+}
+
+/* Animation logo */
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+.animate-blink {
+  animation: blink 1s step-start 0s infinite;
+}
+
+/* Para manejar el auto completar */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #1f2937 inset !important; /* Cambiar al color de fondo de tu input, #1f2937 corresponde a gray-900 en Tailwind */
+  -webkit-text-fill-color: white !important; /* Cambiar el color del texto, #6B7280 corresponde a gray-500 en Tailwind */
+  caret-color: #2acf14 !important; /* Cambiar el color del cursor si quieres usar un verde específico */
+  border-color: #6b7280 !important; /* El color que deseas para el borde */
+}
+
+/* Otra opción para manejar el auto completar */
+.autocomplete\:bg-transparent:-webkit-autofill {
+  background-color: transparent !important; /* Cambiar el color de fondo de tu input */
+}
+
+/* Media queries para ajustar el tamaño del texto en dispositivos móviles *para el input y el label de correo del login*/
+@media (max-width: 640px) {
+  /* Asumiendo que 640px es tu breakpoint para móviles */
+  .label-style {
+    font-size: 0.875rem; /* Esto es equivalente a text-sm en Tailwind */
+  }
 }

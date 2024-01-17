@@ -80,9 +80,20 @@ $signed = false;
     <title>Register</title>
 </head>
 
-<body class="bg-gray-900 flex items-center justify-center min-h-screen p-4">
+<body class="bg-gray-900 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <section class="my-8 hidden sm:flex justify-center items-center">
+        <span class="text-4xl text-red-500">developer</span>
+        <span class="text-4xl text-green-500">@</span>
+        <span class="text-4xl text-blue-500">php:</span>
+        <span class="text-4xl text-yellow-500">~</span>
+        <span class="text-4xl text-purple-500">$</span>
+        <span class="text-4xl font-bold mx-2 text-gray-200">ISITEC</span>
+        <span class="text-4xl animate-blink text-green-500">|</span>
+    </section>
 
     <div class="form-container p-6 rounded-lg max-w-2xl mx-auto w-full">
+
         <h2 class="text-gray-200 text-center text-2xl font-bold mb-4">Registro</h2>
         <div> <span id="error-container"></span></div>
         <form action="register.php" method="post" class="... group space-y-6 " id="form-register"

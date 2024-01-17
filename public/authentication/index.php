@@ -35,61 +35,56 @@ if (count($_POST) == 2) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SigIn</title>
+    <title>Iniciar Sesión</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../../assets/css/common.css">
+    <link rel="stylesheet" href="../../assets/css/register.css">
 </head>
 
-<body>
-    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-            <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt="Your Company">
-            <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your
-                account</h2>
-        </div>
-        <!-- Todo adaptado al PHP -->
-        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form class="space-y-6" action="login.php" method="POST">
-                <div>
-                    <label for="user" class="block text-sm font-medium leading-6 text-gray-900">User/email
-                        address</label>
-                    <div class="mt-2">
-                        <input id="user" name="user" type="user" autocomplete="user" required
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300
-                            placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    </div>
-                </div>
+<body class="bg-gray-900 flex flex-col items-center justify-center min-h-screen p-4">
 
-                <div>
-                    <div class="flex items-center justify-between">
-                        <label for="pass" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
-                        <div class="text-sm">
-                            <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
-                        </div>
-                    </div>
-                    <div class="mt-2">
-                        <input id="pass" name="pass" type="password" autocomplete="current-password" required
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300
-                            placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    </div>
-                </div>
+    <section class="my-8 hidden sm:flex justify-center items-center">
+        <span class="text-4xl text-red-500">developer</span>
+        <span class="text-4xl text-green-500">@</span>
+        <span class="text-4xl text-blue-500">php:</span>
+        <span class="text-4xl text-yellow-500">~</span>
+        <span class="text-4xl text-purple-500">$</span>
+        <span class="text-4xl font-bold mx-2 text-gray-200">ISITEC</span>
+        <span class="text-4xl animate-blink text-green-500">|</span>
+    </section>
 
-                <div>
-                    <button type="submit"
-                        class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500
-                        focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign
-                        in</button>
-                </div>
-            </form>
+    <div class="form-container p-6 rounded-lg max-w-md mx-auto w-full">
+        <h2 class="text-gray-200 text-center text-3xl font-bold mb-6">Iniciar Sesión</h2>
+        <form class="space-y-6" action="index.php" method="POST">
+            <div class="form-field">
+                <input id="user" name="user" type="user" autocomplete="user" required
+                    class="input-style focus:outline-none focus:border-gray-500 autocomplete:bg-transparent">
+                <label for="user" class="label-style text-sm md:text-base">Usuario o dirección de email</label>
+            </div>
 
-            <p class="mt-10 text-center text-sm text-gray-500">
-                Don’t have
-                an account yet?
-                <a href="register.php" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"> Sign
-                    Up</a>
-            </p>
-        </div>
+            <div class="form-field">
+                <input id="pass" name="pass" type="password" autocomplete="current-password" required
+                    class="input-style focus:outline-none focus:border-gray-500 autocomplete:bg-transparent">
+                <label for="pass" class="label-style">Contraseña</label>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <div class="flex justify-center">
+                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md
+                    shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none
+                    focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Ingresar
+                </button>
+            </div>
+        </form>
+
+        <p class="mt-6 text-center text-sm text-gray-500">
+            ¿No tienes cuenta?
+            <a href="register.php" class="text-indigo-600 hover:text-indigo-500"> Regístrate</a>
+        </p>
     </div>
 </body>
 

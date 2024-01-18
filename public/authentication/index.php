@@ -19,6 +19,7 @@ if (count($_POST) == 2) {
 
     if ($logged) {
         echo "Login echo";
+        header("Location: ../home.php");
     } else {
         echo "Login no hecho";
     }

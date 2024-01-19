@@ -1,5 +1,11 @@
 <?php
 
+$cookie = isset($_COOKIE['token']) ? $_COOKIE['token'] : null;
+
+if ($cookie == null) {
+    header("Location: ./authentication/index.php");
+}
+
 ?>
 
 
@@ -13,6 +19,43 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Obtén referencias a los elementos necesarios
+        var userMenuButton = document.getElementById("user-menu-button");
+        var userMenu = document.querySelector(".absolute.right-0");
+
+        // Agrega la clase 'hidden' al menú para que aparezca inicialmente oculto
+        userMenu.classList.add("hidden");
+
+        // Agrega el event listener al botón
+        userMenuButton.addEventListener("click", function () {
+            // Toggle la clase 'hidden' para mostrar u ocultar el menú
+            userMenu.classList.toggle("hidden");
+        });
+
+        // Cierra el menú si se hace clic fuera de él
+        document.addEventListener("click", function (event) {
+            if (!userMenu.contains(event.target) && !userMenuButton.contains(event.target)) {
+                userMenu.classList.add("hidden");
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+  // Obtén referencias a los elementos del DOM
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  // Agrega el evento click al botón del menú
+  mobileMenuButton.addEventListener('click', function () {
+    // Alternar la visibilidad del menú móvil al hacer clic en el botón
+    mobileMenu.classList.toggle('hidden');
+  });
+});
+
+
+</script>
     <!--
   This example requires updating your template:
 
@@ -74,14 +117,18 @@
                 <!-- Active: "bg-gray-100", Not Active: "" -->
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+                <a href="..\controller\logout.php" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
               </div>
             </div>
           </div>
         </div>
         <div class="-mr-2 flex md:hidden">
-          <!-- Mobile menu button -->
-          <button type="button" class="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" aria-controls="mobile-menu" aria-expanded="false">
+          
+        
+        
+        
+        <!-- Mobile menu button -->
+          <button type="button" class="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" aria-controls="mobile-menu" aria-expanded="false" id="mobile-menu-button">
             <span class="absolute -inset-0.5"></span>
             <span class="sr-only">Open main menu</span>
             <!-- Menu open: "hidden", Menu closed: "block" -->
@@ -98,7 +145,7 @@
     </div>
 
     <!-- Mobile menu, show/hide based on menu state. -->
-    <div class="md:hidden" id="mobile-menu">
+    <div class="md:hidden hidden " id="mobile-menu">
       <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
         <a href="#" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Dashboard</a>
@@ -127,7 +174,8 @@
         <div class="mt-3 space-y-1 px-2">
           <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Your Profile</a>
           <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Settings</a>
-          <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Sign out</a>
+          <a href="..\controller\logout.php" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Sign out</a>
+
         </div>
       </div>
     </div>
@@ -135,7 +183,7 @@
 
   <header class="bg-white shadow">
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <h1 class="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900"> Bienvenido <?php echo $_COOKIE['token']; ?></h1>
     </div>
   </header>
   <main>

@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '\..\..\lib\bbdd.php';
-//require __DIR__ . '\..\..\utils\utils.php';
+require_once __DIR__ . '\..\..\utils\utils.php';
 
 $db = conexion();
 $signed = false;
@@ -62,6 +62,8 @@ $signed = false;
 } */
 
     if ($signed) {
+        session_start();
+        $_SESSION['registro'] = true;
         header("Location: ./index.php");
         exit();
     }

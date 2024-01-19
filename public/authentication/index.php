@@ -1,11 +1,28 @@
 <?php
 
-require __DIR__ . '\..\..\lib\bbdd.php';
+require_once __DIR__ . '\..\..\lib\bbdd.php';
+require_once '..\..\utils\utils.php';
+
 
 $db = conexion();
 $logged = false;
+$errMsg = "";
+$succesRegister = "";
 
 conexion();
+
+session_start();
+$registro = isset($_SESSION["registro"]) && $_SESSION["registro"];
+$token = isset($_COOKIE["token"]) ? $_COOKIE["token"] : null;
+
+if ($token != null) {
+    header("Location: ../home.php");
+}
+
+if ($registro) {
+    $succesRegister = "Se ha registrado correctamente";
+    unset($_SESSION["registro"]);
+}
 
 if (count($_POST) == 2) {
     $user = isset($_POST["user"]) ? $_POST["user"] : "";
@@ -18,10 +35,13 @@ if (count($_POST) == 2) {
     }
 
     if ($logged) {
-        echo "Login echo";
+        session_start();
+        $_SESSION['token'] = $user;
+        setcookie("token", $user, time() + 3600, "/");
+
         header("Location: ../home.php");
     } else {
-        echo "Login no hecho";
+        $errMsg = "No es posible iniciar sesión con los datos ingresados"; 
     }
 }
 //TODO:Una vegada completat amb èxit el registre, caldrà informar de l’èxit de l’operació a la web principal(index.php).
@@ -74,6 +94,15 @@ if (count($_POST) == 2) {
                 <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500">¿Olvidaste tu contraseña?</a>
             </div>
 
+            
+            <span class="mt-2 text-sm text-green-500" id="succes-register">
+                <?= $succesRegister ?>
+            </span>
+
+            <span class="mt-2 text-sm text-red-500" id="error-login">
+                <?= $errMsg ?>
+            </span>
+
             <div class="flex justify-center">
                 <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md
                     shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none
@@ -88,6 +117,7 @@ if (count($_POST) == 2) {
             <a href="register.php" class="text-indigo-600 hover:text-indigo-500"> Regístrate</a>
         </p>
     </div>
+
 </body>
 
 </html>

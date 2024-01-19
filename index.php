@@ -1,10 +1,8 @@
 <?php
 
-require_once __DIR__ . '\..\..\lib\bbdd.php';
-require_once '..\..\utils\utils.php';
+require_once __DIR__ . '\lib\bbdd.php';
+require_once __DIR__ . '\utils\utils.php';
 
-
-$db = conexion();
 $logged = false;
 $errMsg = "";
 $succesRegister = "";
@@ -16,7 +14,7 @@ $registro = isset($_SESSION["registro"]) && $_SESSION["registro"];
 $token = isset($_COOKIE["token"]) ? $_COOKIE["token"] : null;
 
 if ($token != null) {
-    header("Location: ../home.php");
+    header("Location: public/home.php");
 }
 
 if ($registro) {
@@ -39,9 +37,9 @@ if (count($_POST) == 2) {
         $_SESSION['token'] = $user;
         setcookie("token", $user, time() + 3600, "/");
 
-        header("Location: ../home.php");
+        header("Location: public/home.php");
     } else {
-        $errMsg = "No es posible iniciar sesión con los datos ingresados"; 
+        $errMsg = "No es posible iniciar sesión con los datos ingresados";
     }
 }
 //TODO:Una vegada completat amb èxit el registre, caldrà informar de l’èxit de l’operació a la web principal(index.php).
@@ -58,8 +56,8 @@ if (count($_POST) == 2) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../../assets/css/common.css">
-    <link rel="stylesheet" href="../../assets/css/register.css">
+    <link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="assets/css/register.css">
 </head>
 
 <body class="bg-gray-900 flex flex-col items-center justify-center min-h-screen p-4">
@@ -94,13 +92,13 @@ if (count($_POST) == 2) {
                 <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500">¿Olvidaste tu contraseña?</a>
             </div>
 
-            
+
             <span class="mt-2 text-sm text-green-500" id="succes-register">
-                <?= $succesRegister ?>
+                <?=$succesRegister?>
             </span>
 
             <span class="mt-2 text-sm text-red-500" id="error-login">
-                <?= $errMsg ?>
+                <?=$errMsg?>
             </span>
 
             <div class="flex justify-center">
@@ -114,7 +112,7 @@ if (count($_POST) == 2) {
 
         <p class="mt-6 text-center text-sm text-gray-500">
             ¿No tienes cuenta?
-            <a href="register.php" class="text-indigo-600 hover:text-indigo-500"> Regístrate</a>
+            <a href="public/authentication/register.php" class="text-indigo-600 hover:text-indigo-500"> Regístrate</a>
         </p>
     </div>
 

@@ -21,50 +21,30 @@ if (count($_POST) == 6) {
 
     $mail = isset($_POST["mail"]) ? filter_input(INPUT_POST, 'mail', FILTER_SANITIZE_EMAIL) : '';
 
-    $regexMail = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
-
-    $validEmail = preg_match($regexMail, $mail);
-
-    //$validEmail = isValidEmail($mail);
+    $validEmail = isValidEmail($mail);
 
     if ($validEmail && $equalPass) {
         if (existeMail($mail)) {
             $errMsgMail = "El correo electrónico ya existe";
             $signed = false;
 
-        } else if (existeUsername($user)) {
+        }
+        if (existeUsername($user)) {
             $errMsgUser = "El usuario ya existe";
             $signed = false;
-        } else {
+        }
+
+        if (!existeMail($mail) && !existeUsername($user)) {
             $signed = signUp($user, $pass, $mail, $nombre, $apellidos);
         }
     } else {
         $signed = false;
     }
 
-//?:ESTA TE PONE EL MENSAJE EN LOS DOS CASOS
-/*     if ($validEmail && $equalPass) {
-if (existeMail($mail)) {
-$errMsgMail = "El correo electrónico ya existe";
-$signed = false;
-
-}
-if (existeUsername($user)) {
-$errMsgUser = "El usuario ya existe";
-$signed = false;
-}
-
-if (!existeMail($mail) && !existeUsername($user)) {
-$signed = signUp($user, $pass, $mail, $nombre, $apellidos);
-}
-} else {
-$signed = false;
-} */
-
     if ($signed) {
         session_start();
         $_SESSION['registro'] = true;
-        header("Location: ./index.php");
+        header("Location: ../../index.php");
         exit();
     }
 }

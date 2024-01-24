@@ -84,6 +84,7 @@ if (count($_POST) == 6) {
                 <!-- Email -->
                 <div class="form-field">
                     <input type="email" name="mail" id="mail" placeholder=" " required
+                        value="<?php echo isset($_POST['mail']) ? htmlspecialchars($_POST['mail']) : ''; ?>"
                         class="input-style focus:outline-none focus:border-gray-500">
                     <label for="mail" class="label-style" id="label-mail">Email</label>
                     <?php if ($errMsgMail != ""): ?>
@@ -94,6 +95,7 @@ if (count($_POST) == 6) {
                 <!-- Username -->
                 <div class="form-field">
                     <input type="text" name="user" id="user" placeholder=" " required
+                        value="<?php echo isset($_POST['user']) ? htmlspecialchars($_POST['user']) : ''; ?>"
                         class="input-style focus:outline-none focus:border-gray-500">
                     <label for="user" class="label-style" id="label-user">Usuario</label>
                     <?php if ($errMsgUser != ""): ?>
@@ -109,12 +111,14 @@ if (count($_POST) == 6) {
                 <!-- Nombre -->
                 <div class="form-field">
                     <input type="text" name="nombre" id="nombre" placeholder=" "
+                        value="<?php echo isset($_POST['nombre']) ? htmlspecialchars($_POST['nombre']) : ''; ?>"
                         class="input-style focus:outline-none focus:border-gray-500">
                     <label for="nombre" class="label-style">Nombre</label>
                 </div>
                 <!-- Apellidos -->
                 <div class="form-field">
                     <input type="text" name="apellidos" id="apellidos" placeholder=" "
+                        value="<?php echo isset($_POST['apellidos']) ? htmlspecialchars($_POST['apellidos']) : ''; ?>"
                         class="input-style focus:outline-none focus:border-gray-500">
                     <label for="apellidos" class="label-style">Apellidos</label>
                 </div>

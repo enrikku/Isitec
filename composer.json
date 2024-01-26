@@ -1,0 +1,18 @@
+{
+    "name": "composer/isitec",
+    "description": "proyecto isitec",
+    "autoload": {
+        "psr-4": {
+            "Composer\\Isitec\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "frusg",
+            "email": "francisco.rusg@educem.net"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}

@@ -42,6 +42,8 @@ if (count($_POST) == 6) {
     }
 
     if ($signed) {
+        echo "HEADERS SENT";
+        echo "<br>";
         session_start();
         $_SESSION['registro'] = true;
         header("Location: ../../index.php");

@@ -2,7 +2,13 @@
 
 require_once __DIR__ . '\lib\bbdd.php';
 require_once __DIR__ . '\utils\utils.php';
-
+require_once __DIR__ . '\config\configMail.php';
+/* $result = $mail->Send();
+if ($result) {
+echo "Message Sent!";
+} else {
+echo "Error: " . $mail->ErrorInfo;
+} */
 $logged = false;
 $errMsg = "";
 $succesRegister = "";

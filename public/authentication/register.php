@@ -2,6 +2,8 @@
 require __DIR__ . '\..\..\lib\bbdd.php';
 require_once __DIR__ . '\..\..\utils\utils.php';
 
+session_start();
+
 $db = conexion();
 $signed = false;
 $validEmail = false;
@@ -42,9 +44,7 @@ if (count($_POST) == 6) {
     }
 
     if ($signed) {
-        echo "HEADERS SENT";
-        echo "<br>";
-        session_start();
+        //session_start(); //TODO:NO SE ESTA CREANDO UNA SESION
         $_SESSION['registro'] = true;
         header("Location: ../../index.php");
         exit();

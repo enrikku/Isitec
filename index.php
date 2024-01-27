@@ -3,15 +3,10 @@
 require_once __DIR__ . '\lib\bbdd.php';
 require_once __DIR__ . '\utils\utils.php';
 require_once __DIR__ . '\config\configMail.php';
-/* $result = $mail->Send();
-if ($result) {
-echo "Message Sent!";
-} else {
-echo "Error: " . $mail->ErrorInfo;
-} */
+
 $logged = false;
 $errMsg = "";
-$succesRegister = "";
+$successRegister = "";
 
 conexion();
 
@@ -24,7 +19,7 @@ if ($token != null) {
 }
 
 if ($registro) {
-    $succesRegister = "Se ha registrado correctamente";
+    $successRegister = "Registro exitoso. Revisa tu correo electrónico para activar tu cuenta.";
     unset($_SESSION["registro"]);
 }
 
@@ -39,8 +34,8 @@ if (count($_POST) == 2) {
     }
 
     if ($logged) {
-        session_start();
-        $_SESSION['token'] = $user;
+        //session_start();
+        $_SESSION['token'] = $user; //TODO:Se deberia buscar el nombre del usuario para que no salga el email al iniciar sesion
         setcookie("token", $user, time() + 3600, "/");
 
         header("Location: public/home.php");
@@ -48,11 +43,7 @@ if (count($_POST) == 2) {
         $errMsg = "No es posible iniciar sesión con los datos ingresados";
     }
 }
-//TODO:Una vegada completat amb èxit el registre, caldrà informar de l’èxit de l’operació a la web principal(index.php).
-
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,7 +54,7 @@ if (count($_POST) == 2) {
     <title>Iniciar Sesión</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/common.css">
-    <link rel="stylesheet" href="assets/css/register.css">
+    <link rel="stylesheet" href="assets/css/index.css">
 </head>
 
 <body class="bg-gray-900 flex flex-col items-center justify-center min-h-screen p-4">
@@ -94,13 +85,17 @@ if (count($_POST) == 2) {
                 <label for="pass" class="label-style">Contraseña</label>
             </div>
 
+            <!--             <div class="flex items-center justify-between">
+                    <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500">¿Olvidaste tu contraseña?</a>
+                </div> -->
+
+
             <div class="flex items-center justify-between">
-                <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500">¿Olvidaste tu contraseña?</a>
+                <a href="#" class="text-sm text-gradient hover:opacity-75">¿Olvidaste tu contraseña?</a>
             </div>
 
-
             <span class="mt-2 text-sm text-green-500" id="succes-register">
-                <?=$succesRegister?>
+                <?=$successRegister?>
             </span>
 
             <span class="mt-2 text-sm text-red-500" id="error-login">
@@ -109,17 +104,24 @@ if (count($_POST) == 2) {
 
             <div class="flex justify-center">
                 <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md
-                    shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none
-                    focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none
+                        focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Ingresar
                 </button>
             </div>
         </form>
 
+        <!--         <p class="mt-6 text-center text-sm text-gray-500">
+                ¿No tienes cuenta?
+                <a href="public/authentication/register.php" class="text-indigo-600 hover:text-indigo-500"> Regístrate</a>
+            </p> -->
         <p class="mt-6 text-center text-sm text-gray-500">
             ¿No tienes cuenta?
-            <a href="public/authentication/register.php" class="text-indigo-600 hover:text-indigo-500"> Regístrate</a>
+            <a href="public/authentication/register.php" class="text-gradient hover:opacity-75">
+                Regístrate
+            </a>
         </p>
+
     </div>
 
 </body>

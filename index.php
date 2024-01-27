@@ -3,14 +3,12 @@
 require_once __DIR__ . '\lib\bbdd.php';
 require_once __DIR__ . '\utils\utils.php';
 require_once __DIR__ . '\config\configMail.php';
+require_once __DIR__ . '\public\authentication\mailCheckAccount.php';
 
 $logged = false;
 $errMsg = "";
 $successRegister = "";
 
-conexion();
-
-session_start();
 $registro = isset($_SESSION["registro"]) && $_SESSION["registro"];
 $token = isset($_COOKIE["token"]) ? $_COOKIE["token"] : null;
 
@@ -21,6 +19,16 @@ if ($token != null) {
 if ($registro) {
     $successRegister = "Registro exitoso. Revisa tu correo electrónico para activar tu cuenta.";
     unset($_SESSION["registro"]);
+}
+
+if (isset($_SESSION['activation_status'])) {
+    $ActivationStatus = $_SESSION['activation_status'];
+    $ActivationMessage = $_SESSION['activation_message'];
+    if ($ActivationStatus == "success") {
+        $successRegister = $ActivationMessage;
+    } else {
+        $errMsg = $ActivationMessage;
+    }
 }
 
 if (count($_POST) == 2) {
@@ -34,9 +42,9 @@ if (count($_POST) == 2) {
     }
 
     if ($logged) {
-        //session_start();
         $_SESSION['token'] = $user; //TODO:Se deberia buscar el nombre del usuario para que no salga el email al iniciar sesion
         setcookie("token", $user, time() + 3600, "/");
+        unset($_SESSION['activation_status'], $_SESSION['activation_message']);
 
         header("Location: public/home.php");
     } else {
@@ -85,11 +93,6 @@ if (count($_POST) == 2) {
                 <label for="pass" class="label-style">Contraseña</label>
             </div>
 
-            <!--             <div class="flex items-center justify-between">
-                    <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500">¿Olvidaste tu contraseña?</a>
-                </div> -->
-
-
             <div class="flex items-center justify-between">
                 <a href="#" class="text-sm text-gradient hover:opacity-75">¿Olvidaste tu contraseña?</a>
             </div>
@@ -111,10 +114,6 @@ if (count($_POST) == 2) {
             </div>
         </form>
 
-        <!--         <p class="mt-6 text-center text-sm text-gray-500">
-                ¿No tienes cuenta?
-                <a href="public/authentication/register.php" class="text-indigo-600 hover:text-indigo-500"> Regístrate</a>
-            </p> -->
         <p class="mt-6 text-center text-sm text-gray-500">
             ¿No tienes cuenta?
             <a href="public/authentication/register.php" class="text-gradient hover:opacity-75">

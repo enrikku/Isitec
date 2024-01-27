@@ -1,14 +1,18 @@
 <?php
-require __DIR__ . '\..\..\lib\bbdd.php';
 require_once __DIR__ . '\..\..\utils\utils.php';
+session_start();
 
 if (isset($_GET['code']) && isset($_GET['mail'])) {
     $code = $_GET['code'];
     $mail = $_GET['mail'];
 
-    if (verifyCode($code, $mail)) {
-        activateUser($mail);
+    if (verifyCode($code, $mail) && activateUser($mail)) {
+        $_SESSION['activation_status'] = "success";
+        $_SESSION['activation_message'] = "Cuenta activada exitosamente.";
+        header("Location: ../../index.php");
+        exit();
+    } elseif (!verifyCode($code, $mail) && !activateUser($mail)) {
+        $_SESSION['activation_status'] = "error";
+        $_SESSION['activation_message'] = "Código inválido o la cuenta ya está activa.";
     }
-} else {
-    echo "Código o email no proporcionado.";
 }

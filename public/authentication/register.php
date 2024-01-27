@@ -44,7 +44,6 @@ if (count($_POST) == 6) {
     }
 
     if ($signed) {
-        //session_start(); //TODO:NO SE ESTA CREANDO UNA SESION
         $_SESSION['registro'] = true;
         header("Location: ../../index.php");
         exit();

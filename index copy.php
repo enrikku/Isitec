@@ -66,6 +66,7 @@ if (count($_POST) == 2) {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 

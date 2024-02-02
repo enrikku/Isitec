@@ -9,6 +9,7 @@ if (isset($_GET['code']) && isset($_GET['mail'])) {
     if (verifyCode($code, $mail) && activateUser($mail)) {
         $_SESSION['activation_status'] = "success";
         $_SESSION['activation_message'] = "Cuenta activada exitosamente.";
+        setcookie("token", $mail, time() + 3600, "/");
         header("Location: ../../index.php");
         exit();
     } elseif (!verifyCode($code, $mail) && !activateUser($mail)) {

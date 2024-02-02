@@ -57,10 +57,11 @@ if (count($_POST) == 6) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="icon" href="../../assets/img/Register.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../../assets/css/common.css">
     <link rel="stylesheet" href="../../assets/css/register.css">
-    <title>Register</title>
 </head>
 
 <body class="bg-gray-900 flex flex-col items-center justify-center min-h-screen p-4">

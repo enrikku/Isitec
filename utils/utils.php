@@ -175,11 +175,17 @@ function sendVerificationMail($email, $user, $randomValue)
 
     // Inicia el contenido HTML con un diseño mejorado
     $htmlContent = "<html><body style='font-family: JetBrains Mono, monospace; background-color: #e9ecef; padding: 40px; text-align: center;'>";
+
+    //$htmlContent = "<html><body style='font-family: JetBrains Mono, monospace; background-image: url(https://i.postimg.cc/X70q4WXW/fondo-register.png); text-align: center;'>";
+
     $htmlContent .= "<div style='max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>";
 
     // Área para el logo de la empresa
     $htmlContent .= "<div style='margin-bottom: 20px;'>";
-    $htmlContent .= "<img src='https://isitec.com/path/to/your/logo.png' alt='ISITEC Logo' style='max-width: 100px;'>";
+    //$htmlContent .= "<img src='https://isitec.com/path/to/your/logo.png' alt='ISITEC Logo' style='max-width: 100px;'>";
+    //$htmlContent .= "<img src='https://i.postimg.cc/qRZ7GGqk/logo.png' alt='ISITEC Logo' style='max-width: 100px;'>";
+    $htmlContent .= "<img src='https://i.postimg.cc/fRQzzkDZ/logo.png' alt='ISITEC Logo' style='width: 400px; height: auto;'>";
+
     $htmlContent .= "</div>";
 
     // Mensaje de bienvenida y código de verificación
@@ -192,7 +198,7 @@ function sendVerificationMail($email, $user, $randomValue)
 
     // Enlace para activar la cuenta
     $htmlContent .= "<div style='text-align: center; margin: 20px;'>";
-    $htmlContent .= "<a href='" . $verificationUrl . "' style='background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;'>Activa tu cuenta ahora!</a>";
+    $htmlContent .= "<a href='" . $verificationUrl . "' style='background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;'>Activar!</a>";
     $htmlContent .= "</div>";
 
     $htmlContent .= "</div>";
@@ -218,6 +224,67 @@ function sendVerificationMail($email, $user, $randomValue)
         echo 'El mensaje no se pudo enviar. Error del mailer: ' . $mail->ErrorInfo;
     } else {
         echo 'El mensaje ha sido enviado';
+    }
+}
+
+function sendResetPasswordMail($email, $code)
+{
+    $mail = configMail();
+//$verificationUrl = "https://isitec.cat/public/authentication/mailCheckAccount.php?code=" . urlencode($randomValue) . "&mail=" . urlencode($email);
+    $verificationUrl = "http://localhost/Isitec/public/authentication/resetPasswordSend.php?code=" . urlencode($code) . "&mail=" . urlencode($email);
+
+// Inicia el contenido HTML con un diseño mejorado
+    $htmlContent = "<html><body style='font-family: JetBrains Mono, monospace; background-color: #e9ecef; padding: 40px; text-align: center;'>";
+
+//$htmlContent = "<html><body style='font-family: JetBrains Mono, monospace; background-image: url(https://i.postimg.cc/X70q4WXW/fondo-register.png); text-align: center;'>";
+
+    $htmlContent .= "<div style='max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>";
+
+// Área para el logo de la empresa
+    $htmlContent .= "<div style='margin-bottom: 20px;'>";
+//$htmlContent .= "<img src='https://isitec.com/path/to/your/logo.png' alt='ISITEC Logo' style='max-width: 100px;'>";
+//$htmlContent .= "<img src='https://i.postimg.cc/qRZ7GGqk/logo.png' alt='ISITEC Logo' style='max-width: 100px;'>";
+    $htmlContent .= "<img src='https://i.postimg.cc/fRQzzkDZ/logo.png' alt='ISITEC Logo' style='width: 400px; height: auto;'>";
+
+    $htmlContent .= "</div>";
+
+// Mensaje de bienvenida y código de verificación
+    $htmlContent .= "<h1 style='text-align: center; color: #333;'>Hola " . htmlspecialchars($email) . ",</h1>";
+    $htmlContent .= "<p style='color: #555;'>Recibimos tu solicitud, por favor da clic en el siguiente enlace para restablecer tu contraseña, tiene 30 minutos desde su solicitud.</p>";
+    $htmlContent .= "<div style='background-color: #f8f9fa; padding: 20px; margin: 20px auto; text-align: center; border-radius: 5px;'>";
+    $htmlContent .= "<p style='font-size: 24px; font-weight: bold; color: #4A90E2; letter-spacing: 3px;'>" . htmlspecialchars($code) . "</p>";
+    $htmlContent .= "</div>";
+    $htmlContent .= "<p style='color: #555; text-align: center;'>Si no has sido tú, por favor ignora este mensaje.</p>";
+
+// Enlace para activar la cuenta
+    $htmlContent .= "<div style='text-align: center; margin: 20px;'>";
+    $htmlContent .= "<a href='" . $verificationUrl . "' style='background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;'>Recuperar!</a>";
+    $htmlContent .= "</div>";
+
+    $htmlContent .= "</div>";
+    $htmlContent .= "</body></html>";
+
+// Define el cuerpo del mensaje (versión HTML)
+    $mail->Body = $htmlContent;
+
+// Define el cuerpo alternativo del mensaje (versión de texto sin formato)
+    $altBody = "Hola " . $email . ",\n\n";
+    $altBody .= "Recibimos tu solicitud, por favor da clic en el siguiente enlace para restablecer tu contraseña, tiene 30 minutos desde su solicitud.\n";
+    $altBody .= $verificationUrl . "\n\n";
+    $altBody .= "Si no has sido tú, por favor ignora este mensaje.";
+    $mail->AltBody = $altBody;
+
+    $mail->IsHTML(true);
+
+// Añade la dirección del destinatario
+    $mail->addAddress($email);
+
+// Enviar el correo
+    if (!$mail->send()) {
+        echo 'El mensaje no se pudo enviar. Error del mailer: ' . $mail->ErrorInfo;
+    } else {
+        echo 'El mensaje ha sido enviado';
+        $successEmailResetPass = "Email enviado, revisa tu correo";
     }
 }
 
@@ -265,4 +332,56 @@ function activateUser($mail)
     } catch (PDOException $e) {
         echo "Error de la base de datos: " . $e->getMessage();
     }
+}
+
+function resetPassCode($mail, $code)
+{
+    $db = conexion();
+
+    $sql = "UPDATE users
+            SET resetPassExpiry = NOW() + INTERVAL 30 MINUTE, resetPassCode = :code
+            WHERE mail = :mail AND active = 1";
+
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':mail', $mail);
+        $stmt->bindParam(':code', $code);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+    }
+
+}
+
+function updatePassUser($mailURL, $password)
+{
+    $db = conexion();
+
+    $passHash = password_hash($password, PASSWORD_DEFAULT);
+
+    $sql = "UPDATE users
+        SET passHash = :passHash, resetPassExpiry = NULL, resetPassCode = NULL
+        WHERE mail = :mailURL AND (resetPassExpiry > (NOW() - INTERVAL 30 MINUTE)) AND active = 1";
+
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':passHash', $passHash);
+        $stmt->bindParam(':mailURL', $mailURL);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+    }
+
 }

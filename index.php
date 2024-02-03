@@ -56,7 +56,7 @@ if (count($_POST) == 2) {
     }
 
     if ($logged) {
-        $_SESSION['token'] = $user; //TODO:Se deberia buscar el nombre del usuario para que no salga el email al iniciar sesion
+        $_SESSION['token'] = $user;
         setcookie("token", $user, time() + 3600, "/");
         unset($_SESSION['activation_status'], $_SESSION['activation_message']);
 
@@ -80,7 +80,6 @@ if (count($_POST) == 2) {
 </head>
 
 <body class="bg-gray-900 flex flex-col items-center justify-center min-h-screen p-4">
-
     <section class="my-8 flex justify-center items-center md:flex">
         <span class="text-lg sm:text-xl md:text-2xl lg:text-3xl text-red-500">developer</span>
         <span class="text-lg sm:text-xl md:text-2xl lg:text-3xl text-green-500">@</span>
@@ -143,51 +142,63 @@ if (count($_POST) == 2) {
 
     </div>
 
-    <!-- Main modal -->
+    <!-- Modal -->
     <div id="authentication-modal" tabindex="-1" aria-hidden="true"
-        class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 justify-center items-center w-full h-full">
-        <div class="relative p-4 w-full max-w-2xl h-full mx-auto">
-            <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow-2xl dark:bg-gray-700">
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <!-- Modal header -->
-                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                            Sign in to our platform
-                        </h3>
-                        <button type="button" id="close-modal"
-                            class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                            data-modal-hide="authentication-modal">
-                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 14 14">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                            </svg>
-                            <span class="sr-only">Close modal</span>
+        class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 flex justify-center items-center">
+        <div class="relative p-4 w-full max-w-md">
+            <!-- Fondo oscuro semi-transparente -->
+
+
+            <!-- Contenido del modal -->
+            <div class=" relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div
+                    class=" flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600 bg-black-200 opacity-75">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        ¿Olvidaste tu contraseña?
+                    </h3>
+                    <button type="button" id="close-modal" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900
+                        rounded-lg text-sm p-1.5 ml-auto inline-flex items-center
+                        dark:hover:bg-gray-600 dark:hover:text-white close-button animate-close"
+                        data-modal-target="authentication-modal">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM7.707 7.293a1 1 0 011.414 0L10 8.586l.879-.879a1 1 0 111.414 1.414L11.414 10l.879.879a1 1 0 01-1.414 1.414L10 11.414l-.879.879a1 1 0 11-1.414-1.414L8.586 10 7.707 9.121a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-6">
+                    <!-- Formulario del modal -->
+                    <form class="space-y-4" method="post" action="public/authentication/resetPasswordSend.php"
+                        id="forgot-password-form">
+                        <!-- Input de email -->
+                        <div class="form-field">
+                            <input type="email" name="mail" id="mail" placeholder=" " required
+                                class="input-style focus:outline-none focus:border-gray-500">
+                            <label for="mail" class="label-style" id="label-mail">Email</label>
+                            <span class="mt-2 text-sm text-red-500 hidden" id="error-mail"></span>
+                        </div>
+                        <!-- <button type="submit" class="btn-gradient w-full flex justify-center py-2 px-4 border border-transparent rounded-md
+                        shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none
+                        focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ">Enviar</button>
+ -->
+
+
+                        <button type="submit"
+                            class="bg-indigo-600 w-full flex justify-center py-2 px-4 border border-transparent rounded-md
+                        shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Enviar
                         </button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="p-4 md:p-5">
-                        <form class="space-y-4" method="post" action="public/authentication/resetPasswordSend.php"
-                            id="forgot-password-form">
 
-                            <!-- Email -->
-                            <div class="form-field">
-                                <input type="email" name="mail" id="mail" placeholder=" " required
-                                    class="input-style focus:outline-none focus:border-gray-500">
-                                <label for="mail" class="label-style" id="label-mail">Email</label>
-                                <span class="mt-2 text-sm text-red-500 hidden" id="error-mail"></span>
-                            </div>
-                            <button type="submit"
-                                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login
-                                to your account</button>
-
-                        </form>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
 
     <script src="assets/js/index.js"></script>
 </body>

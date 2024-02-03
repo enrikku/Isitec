@@ -6,19 +6,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const mailInput = forgotPasswordForm.querySelector('[name="mail"]');
 
   mailInput.addEventListener("input", validateEmail);
-  // Función para mostrar el modal
-  const showModal = () => {
-    modal.classList.remove("hidden");
-  };
 
-  // Función para ocultar el modal
-  const hideModal = () => {
-    modal.classList.add("hidden");
-  };
+  openModalButton.addEventListener("click", () => {
+    console.log("Opening modal");
+    modal.classList.remove("hidden", "shadow-drop-exit");
+    modal.classList.add("shadow-drop-entrance");
+  });
 
-  // Event listeners para los botones
-  openModalButton.addEventListener("click", showModal);
-  closeModalButton.addEventListener("click", hideModal);
+  closeModalButton.addEventListener("click", () => {
+    console.log("Closing modal");
+    modal.classList.remove("shadow-drop-entrance");
+    modal.classList.add("shadow-drop-exit");
+  });
+
+  modal.addEventListener("animationend", (event) => {
+    console.log("Animation ended:", event.animationName);
+    if (event.animationName === "animacionSalida") {
+      modal.classList.add("hidden");
+    }
+  });
 
   function isValidEmail(email) {
     var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

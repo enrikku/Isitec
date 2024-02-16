@@ -171,7 +171,9 @@ function sendVerificationMail($email, $user, $randomValue)
 {
     $mail = configMail();
     //$verificationUrl = "https://isitec.cat/public/authentication/mailCheckAccount.php?code=" . urlencode($randomValue) . "&mail=" . urlencode($email);
-    $verificationUrl = "http://localhost/Isitec/public/authentication/mailCheckAccount.php?code=" . urlencode($randomValue) . "&mail=" . urlencode($email);
+    //$verificationUrl = "https://www.isitec.cat/public/authentication/mailCheckAccount.php?code=" . urlencode($randomValue) . "&mail=" . urlencode($email);
+    $verificationUrl = "localhost/isitec/public/authentication/mailCheckAccount.php?code=" . urlencode($randomValue) . "&mail=" . urlencode($email);
+
 
     // Inicia el contenido HTML con un diseño mejorado
     $htmlContent = "<html><body style='font-family: JetBrains Mono, monospace; background-color: #e9ecef; padding: 40px; text-align: center;'>";
@@ -230,8 +232,8 @@ function sendVerificationMail($email, $user, $randomValue)
 function sendResetPasswordMail($email, $code)
 {
     $mail = configMail();
-//$verificationUrl = "https://isitec.cat/public/authentication/mailCheckAccount.php?code=" . urlencode($randomValue) . "&mail=" . urlencode($email);
-    $verificationUrl = "http://localhost/Isitec/public/authentication/resetPasswordSend.php?code=" . urlencode($code) . "&mail=" . urlencode($email);
+    $verificationUrl = "localhost/isitec/public/authentication/mailCheckAccount.php?code=" . urlencode($code) . "&mail=" . urlencode($email);
+    //$verificationUrl = "https://www.isitec.cat/public/authentication/resetPasswordSend.php?code=" . urlencode($code) . "&mail=" . urlencode($email);
 
 // Inicia el contenido HTML con un diseño mejorado
     $htmlContent = "<html><body style='font-family: JetBrains Mono, monospace; background-color: #e9ecef; padding: 40px; text-align: center;'>";
@@ -365,9 +367,14 @@ function updatePassUser($mailURL, $password)
 
     $passHash = password_hash($password, PASSWORD_DEFAULT);
 
+    // $sql = "UPDATE users
+    //     SET passHash = :passHash, resetPassExpiry = NULL, resetPassCode = NULL
+    //     WHERE mail = :mailURL AND (resetPassExpiry > (NOW() - INTERVAL 30 MINUTE)) AND active = 1";
+
+    
     $sql = "UPDATE users
         SET passHash = :passHash, resetPassExpiry = NULL, resetPassCode = NULL
-        WHERE mail = :mailURL AND (resetPassExpiry > (NOW() - INTERVAL 30 MINUTE)) AND active = 1";
+        WHERE mail = :mailURL AND (minute(resetPassExpiry)-minute(NOW()) < 30) AND active = 1";
 
     try {
         $stmt = $db->prepare($sql);
@@ -384,4 +391,48 @@ function updatePassUser($mailURL, $password)
         echo "Error de la base de datos: " . $e->getMessage();
     }
 
+}
+
+function obtenerTags(){
+
+    $db = conexion();
+    $tags = [];
+
+    $sql = "SELECT * FROM tags";
+
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+
+        $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    } catch (PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+    }
+
+    return $tags;
+}
+
+function guardarPath($path){
+    $db = conexion();
+
+
+    $sql = "UPDATE courses
+        SET passHash = :passHash, resetPassExpiry = NULL, resetPassCode = NULL
+        WHERE mail = :mailURL AND (minute(resetPassExpiry)-minute(NOW()) < 30) AND active = 1";
+
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':passHash', $passHash);
+        $stmt->bindParam(':mailURL', $mailURL);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+    }
 }

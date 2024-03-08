@@ -26,3 +26,66 @@ document.addEventListener("DOMContentLoaded", function () {
     mobileMenu.classList.toggle("hidden");
   });
 });
+
+
+document.querySelectorAll('.like-button').forEach(button => {
+  button.addEventListener('click', function() {
+      const courseId = this.getAttribute('data-id');
+      console.log("Id del curso: " + courseId);
+
+      setTimeout(function() {
+          window.location.reload();
+      }, 50);
+
+
+      fetch('./guardar-like.php', {
+          method: 'POST',
+          body: JSON.stringify({ courseId: courseId }),
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      })
+      .then(response => {
+          if (response.ok) {
+              return response.json();
+          }
+          throw new Error('Error al guardar el like');
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+
+
+  });
+});
+
+document.querySelectorAll('.dislike-button').forEach(button => {
+  button.addEventListener('click', function() {
+      const courseId = this.getAttribute('data-id');
+      console.log("Id del curso: " + courseId);
+
+      setTimeout(function() {
+          window.location.reload();
+      }, 50);
+
+
+      fetch('./guardar-dislike.php', {
+          method: 'POST',
+          body: JSON.stringify({ courseId: courseId }),
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      })
+      .then(response => {
+          if (response.ok) {
+              return response.json();
+          }
+          throw new Error('Error al guardar el like');
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+
+
+  });
+});

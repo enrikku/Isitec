@@ -534,3 +534,83 @@ function obtenerCursos()
 
     return $cursos;
 }
+
+
+function getLikesCourse($courseId)
+{
+    $db = conexion();
+    $likes = 0;
+    $sql = "SELECT likes FROM votes WHERE courseId = :courseId";
+
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':courseId', $courseId, PDO::PARAM_INT); // Vinculamos el parámetro courseId
+        $stmt->execute();
+
+        $likes = $stmt->fetchColumn(0);
+
+    } catch (PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+    }
+
+    return $likes;
+}
+
+function guardarLike($courseId)
+{
+    $db = conexion();
+
+    $likes = getLikesCourse($courseId);
+
+    $likes ++;
+
+    try {
+        $stmt = $db->prepare("UPDATE votes SET likes = :likes WHERE courseId = :courseId");
+        $stmt->bindParam(':courseId', $courseId);
+        $stmt->bindParam(':likes', $likes);
+        $stmt->execute();
+        return true;
+    } catch (PDOException $e) {
+        die("Error al dar like al video: " . $e->getMessage());
+    }
+}
+
+
+function getDislikesCourse($courseId)
+{
+    $db = conexion();
+    $likes = 0;
+    $sql = "SELECT dislikes FROM votes WHERE courseId = :courseId";
+
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':courseId', $courseId, PDO::PARAM_INT); // Vinculamos el parámetro courseId
+        $stmt->execute();
+
+        $likes = $stmt->fetchColumn(0);
+
+    } catch (PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+    }
+
+    return $likes;
+}
+
+function guardarDislike($courseId)
+{
+    $db = conexion();
+
+    $dislikes = getDislikesCourse($courseId);
+
+    $dislikes ++;
+
+    try {
+        $stmt = $db->prepare("UPDATE votes SET dislikes = :dislikes WHERE courseId = :courseId");
+        $stmt->bindParam(':courseId', $courseId);
+        $stmt->bindParam(':dislikes', $dislikes);
+        $stmt->execute();
+        return true;
+    } catch (PDOException $e) {
+        die("Error al dar like al video: " . $e->getMessage());
+    }
+}

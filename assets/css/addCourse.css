@@ -14,3 +14,34 @@
   border-radius: 10px;
   box-shadow: 0px 48px 35px -48px #e8e8e8;
 }
+
+/* Personalizar el scrollbar para Chrome, Safari y Opera */
+.textarea-custom-scrollbar::-webkit-scrollbar {
+  width: 12px; /* Ancho del scrollbar */
+}
+
+.textarea-custom-scrollbar::-webkit-scrollbar-track {
+  background: #2d3748; /* Color de fondo de la pista del scrollbar */
+}
+
+.textarea-custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #4a5568; /* Color del scrollbar en sí */
+  border-radius: 20px; /* Bordes redondeados */
+  border: 3px solid #2d3748; /* Borde y color de borde del scrollbar */
+}
+
+/* Personalizar el scrollbar para Firefox */
+.textarea-custom-scrollbar {
+  scrollbar-width: thin; /* 'auto' o 'thin' */
+  scrollbar-color: #4a5568 #2d3748; /* Color del scrollbar y color de fondo de la pista */
+}
+
+/* Personalizar el scrollbar para IE y Edge */
+.textarea-custom-scrollbar {
+  -ms-overflow-style: -ms-autohiding-scrollbar; /* Opciones 'auto' o '-ms-autohiding-scrollbar' */
+}
+
+/* Asumiendo que tu navbar tiene una altura de 4rem (64px), ajusta este valor según sea necesario */
+.min-h-content {
+  min-height: calc(100vh - 4rem); /* Resta la altura del navbar */
+}

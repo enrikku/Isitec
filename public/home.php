@@ -10,28 +10,6 @@ if ($cookie == null) {
 // En algún lugar en tu archivo PHP
 $cursos = obtenerCursos();
 
-// Luego, en tu HTML:
-$htmlCourses = "";
-
-// foreach ($cursos as $curso) {
-//     $htmlCourses .= "<div class='rounded overflow-hidden shadow-lg flex flex-col'>
-//                         <a href='#'></a>
-//                         <div class='relative'>
-//                             <a href='#'>
-//                                     <img class='w-full'
-//                                         src=" . $curso.coverURL . "
-//                                         alt='Sunset in the mountains'>
-//                                 <div class='hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25'>
-//                         </div>
-//                         </a>
-//                         <a href='#!'>
-//                         <div class='text-xs absolute top-0 right-0 bg-indigo-600 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out'>
-//                             Cooking
-//                         </div>
-//                         </a>
-//                 </div>";
-// }
-
 ?>
 
 
@@ -473,7 +451,7 @@ $htmlCourses = "";
                             </a>
                         </div>
                         <div class="px-6 py-4 mb-auto">
-                            <a href="#"
+                            <a href="./cursos/curso.php?id=<?php echo htmlspecialchars($curso['courseId']); ?>"
                                 class="font-medium text-lg inline-block hover:text-indigo-600 transition duration-500 ease-in-out inline-block mb-2"> <?php echo htmlspecialchars($curso['title']); ?> </a>
                                 <!-- Tags del curso -->
                                 <div class="px-6 pt-4 pb-2">
@@ -499,7 +477,7 @@ $htmlCourses = "";
 
                                 <button
                                     data-id= <?php echo htmlspecialchars($curso['courseId']); ?>
-                                    class="py-1.5 px-3 hover:text-red-600 hover:scale-105 hover:shadow text-center border border-gray-300 rounded-md border-gray-400 h-8 text-sm flex items-center gap-1 lg:gap-2 dislike-button">
+                                    class="py-1.5 px-3 hover:text-red-600 hover:scale-105 hover:shadow text-center border border-gray-300 rounded-md border-gray-400 h-8 text-sm flex items-center gap-1 lg:gap-2 like-button">
                                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round"

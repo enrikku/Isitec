@@ -535,6 +535,39 @@ function obtenerCursos()
     return $cursos;
 }
 
+function obtenerCurso($courseid)
+{
+    $db = conexion();
+
+    // Obtener el curso específico
+    $stmtCurso = $db->prepare("SELECT * FROM courses WHERE courseId = ?");
+    $stmtCurso->execute([$courseid]);
+    $curso = $stmtCurso->fetch(PDO::FETCH_ASSOC);
+
+    if (!$curso) {
+        return null; // Retorna null si el curso no se encuentra
+    }
+
+    // Obtener los vídeos del curso
+    $stmtVideos = $db->prepare("SELECT * FROM videos WHERE courseId = ?");
+    $stmtVideos->execute([$courseid]);
+    $curso['videos'] = $stmtVideos->fetchAll(PDO::FETCH_ASSOC);
+
+    // Obtener los tags del curso
+    $stmtTags = $db->prepare("SELECT t.* FROM tags t JOIN coursetags ct ON t.tagId = ct.tagId WHERE ct.courseId = ?");
+    $stmtTags->execute([$courseid]);
+    $curso['tags'] = $stmtTags->fetchAll(PDO::FETCH_ASSOC);
+
+    // Obtener los votos del curso
+    $stmtVotos = $db->prepare("SELECT likes, dislikes FROM votes WHERE courseId = ?");
+    $stmtVotos->execute([$courseid]);
+    $votos = $stmtVotos->fetch(PDO::FETCH_ASSOC);
+    $curso['votos'] = $votos ? $votos : ['likes' => 0, 'dislikes' => 0];
+
+    return $curso;
+}
+
+
 
 function getLikesCourse($courseId)
 {
@@ -613,4 +646,10 @@ function guardarDislike($courseId)
     } catch (PDOException $e) {
         die("Error al dar like al video: " . $e->getMessage());
     }
+}
+
+
+function getCourseById()
+{
+
 }

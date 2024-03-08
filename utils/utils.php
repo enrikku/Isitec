@@ -174,7 +174,6 @@ function sendVerificationMail($email, $user, $randomValue)
     //$verificationUrl = "https://www.isitec.cat/public/authentication/mailCheckAccount.php?code=" . urlencode($randomValue) . "&mail=" . urlencode($email);
     $verificationUrl = "localhost/isitec/public/authentication/mailCheckAccount.php?code=" . urlencode($randomValue) . "&mail=" . urlencode($email);
 
-
     // Inicia el contenido HTML con un diseño mejorado
     $htmlContent = "<html><body style='font-family: JetBrains Mono, monospace; background-color: #e9ecef; padding: 40px; text-align: center;'>";
 
@@ -371,7 +370,6 @@ function updatePassUser($mailURL, $password)
     //     SET passHash = :passHash, resetPassExpiry = NULL, resetPassCode = NULL
     //     WHERE mail = :mailURL AND (resetPassExpiry > (NOW() - INTERVAL 30 MINUTE)) AND active = 1";
 
-    
     $sql = "UPDATE users
         SET passHash = :passHash, resetPassExpiry = NULL, resetPassCode = NULL
         WHERE mail = :mailURL AND (minute(resetPassExpiry)-minute(NOW()) < 30) AND active = 1";
@@ -393,7 +391,8 @@ function updatePassUser($mailURL, $password)
 
 }
 
-function obtenerTags(){
+function obtenerTags()
+{
 
     $db = conexion();
     $tags = [];
@@ -413,9 +412,9 @@ function obtenerTags(){
     return $tags;
 }
 
-function guardarPath($path){
+function guardarPath($path)
+{
     $db = conexion();
-
 
     $sql = "UPDATE courses
         SET passHash = :passHash, resetPassExpiry = NULL, resetPassCode = NULL
@@ -435,4 +434,103 @@ function guardarPath($path){
     } catch (PDOException $e) {
         echo "Error de la base de datos: " . $e->getMessage();
     }
+}
+
+function guardarCurso($userId, $title, $description, $coverURL)
+{
+    $db = conexion();
+
+    try {
+        $stmt = $db->prepare("INSERT INTO courses (userId, title, description, publishDate, coverURL) VALUES (:userId, :title, :description, now(), :coverURL)");
+
+        $stmt->bindParam(':userId', $userId);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':coverURL', $coverURL);
+        $stmt->execute();
+
+        return $db->lastInsertId();
+    } catch (PDOException $e) {
+        die("Error al guardar el curso: " . $e->getMessage());
+    }
+}
+
+function guardarTagsDelCurso($courseId, $selectedTags)
+{
+    $db = conexion();
+
+    try {
+        $stmt = $db->prepare("INSERT INTO CourseTags (courseId, tagId) VALUES (:courseId, :tagId)");
+
+        foreach ($selectedTags as $tagId) {
+            $stmt->bindParam(':courseId', $courseId);
+            $stmt->bindParam(':tagId', $tagId);
+            $stmt->execute();
+        }
+        return true;
+    } catch (PDOException $e) {
+        die("Error al guardar los tags del curso: " . $e->getMessage());
+    }
+}
+
+function insertVideoLink($courseId, $videoURL)
+{
+    $db = conexion();
+
+    try {
+        $stmt = $db->prepare("INSERT INTO videos (courseId, videoURL) VALUES (:courseId, :videoURL)");
+        $stmt->bindParam(':courseId', $courseId);
+        $stmt->bindParam(':videoURL', $videoURL);
+        $stmt->execute();
+        return true;
+    } catch (PDOException $e) {
+        die("Error al insertar el vídeo: " . $e->getMessage());
+    }
+}
+
+function getUserIdByUsernameOrEmail($value)
+{
+    $db = conexion();
+    $isEmail = strpos($value, '@') !== false;
+    $column = $isEmail ? 'mail' : 'username';
+
+    try {
+        $stmt = $db->prepare("SELECT iduser FROM users WHERE {$column} = :value");
+        $stmt->bindParam(':value', $value);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $user ? $user['iduser'] : null;
+    } catch (PDOException $e) {
+        die("Error al obtener el userID: " . $e->getMessage());
+    }
+}
+
+function obtenerCursos()
+{
+    $db = conexion();
+
+    // Obtener los cursos
+    $stmtCursos = $db->query("SELECT * FROM courses");
+    $cursos = $stmtCursos->fetchAll(PDO::FETCH_ASSOC);
+
+    // Para cada curso, obtener los vídeos, tags y votos
+    foreach ($cursos as $index => $curso) {
+        // Obtener los vídeos
+        $stmtVideos = $db->prepare("SELECT * FROM videos WHERE courseId = ?");
+        $stmtVideos->execute([$curso['courseId']]);
+        $cursos[$index]['videos'] = $stmtVideos->fetchAll(PDO::FETCH_ASSOC);
+
+        // Obtener los tags
+        $stmtTags = $db->prepare("SELECT t.* FROM tags t JOIN coursetags ct ON t.tagId = ct.tagId WHERE ct.courseId = ?");
+        $stmtTags->execute([$curso['courseId']]);
+        $cursos[$index]['tags'] = $stmtTags->fetchAll(PDO::FETCH_ASSOC);
+
+        // Obtener los votos
+        $stmtVotos = $db->prepare("SELECT likes, dislikes FROM votes WHERE courseId = ?");
+        $stmtVotos->execute([$curso['courseId']]);
+        $votos = $stmtVotos->fetch(PDO::FETCH_ASSOC);
+        $cursos[$index]['votos'] = $votos ? $votos : ['likes' => 0, 'dislikes' => 0];
+    }
+
+    return $cursos;
 }

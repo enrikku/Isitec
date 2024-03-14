@@ -1,0 +1,24 @@
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+.border {
+  border: 1px solid #e2e8f0; /* Este color debería ser más claro que el fondo para destacar */
+}
+.bg-card {
+  background-color: #1f2937 !important; /* Escoge un tono que contraste bien con el azul del fondo */
+}
+.transition-transform {
+  transition: transform 0.3s ease;
+}
+
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+/* .bg-card {
+  background-color: #2a4365; 
+} */
+
+.custom-footer-bg {
+  background-color: #1f2937 !important; /* Usar !important solo como último recurso */
+}

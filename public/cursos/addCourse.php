@@ -64,10 +64,10 @@ if (isset($_FILES['image'])) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Añadir curso</title>
-    <link rel="stylesheet" href="../../assets/css/addCourse.css" />
     <link rel="icon" href="../../assets/img/addCourse.webp" type="image/webp" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <link rel="stylesheet" href="../../assets/css/addCourse.css" />
 </head>
 
 <body class="bg-gray-900 text-white">
@@ -89,19 +89,21 @@ if (isset($_FILES['image'])) {
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                         </svg>
-                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">Click to upload </p>
+                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">Click para subir </p>
                         <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)
                         </p>
                     </div>
                     <input id="dropzone-file" type="file" name="image" class="hidden" accept="image/*" />
                 </label>
 
+
                 <!-- Dropdown para seleccionar tags -->
                 <div class="mb-8 relative">
                     <label class="font-bold mb-2" for="tags">Tags</label>
                     <button id="dropdownButton" data-dropdown-toggle="dropdown"
-                        class="my-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-full text-left"
-                        type="button">
+                        class="my-2 text-white bg-card hover:bg-blue-800 focus:ring-4 focus:outline-none
+                        focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex
+                        items-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800 w-full text-left border-2 border-gray-600" type="button">
                         Selecciona tags
                         <!-- Icono del dropdown -->
                         <svg class="ml-auto -mr-1 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor"
@@ -129,14 +131,15 @@ if (isset($_FILES['image'])) {
                     <!-- Título del curso -->
                     <div class="mb-4">
                         <label for="title" class="font-bold mb-2">Título del Curso</label>
-                        <input name="title" type="text" placeholder="Enter a title for your dream"
+                        <input name="title" type="text" placeholder="Curso de programación web"
                             class="w-full bg-gray-800 rounded-md border border-gray-700 px-4 py-2" />
                     </div>
 
                     <!-- Descripción del curso -->
                     <div class="mb-4">
                         <label for="description" class="font-bold mb-2">Descripción</label>
-                        <textarea name="description" placeholder="Describe your dream in detail"
+                        <textarea name="description"
+                            placeholder="Este curso te enseñara los siguientes temas: sql, php, javascript, etc."
                             class="textarea-custom-scrollbar w-full bg-gray-800 rounded-md border border-gray-700 px-4 py-2 h-44"
                             rows="7"></textarea>
                     </div>
@@ -144,14 +147,16 @@ if (isset($_FILES['image'])) {
                     <!-- Enlace de video -->
                     <div class="mb-4">
                         <label for="videoURL" class="font-bold mb-2">Enlace de video</label>
-                        <input name="videoURL" type="text" placeholder="Enter a video link for your dream"
+                        <input name="videoURL" type="text"
+                            placeholder="https: //www.youtube.com/watch?v=niPExbK8lSw&t=667s"
                             class="w-full bg-gray-800 rounded-md border border-gray-700 px-4 py-2" />
                     </div>
 
 
                     <!-- Botón para subir curso -->
                     <div class="text-center">
-                        <button type="submit" class="bg-blue-600 hover:bg-blue-500 rounded-lg px-4 py-2 font-bold">
+                        <button type="submit"
+                            class="bg-transparent bg-gray-600 hover:bg-gray-500 rounded-lg px-4 py-2 font-bold border-2 border-gray-600">
                             Subir Curso
                         </button>
                     </div>

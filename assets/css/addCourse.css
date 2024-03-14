@@ -45,3 +45,7 @@
 .min-h-content {
   min-height: calc(100vh - 4rem); /* Resta la altura del navbar */
 }
+
+.bg-card {
+  background-color: #1f2937 !important; /* Escoge un tono que contraste bien con el azul del fondo */
+}

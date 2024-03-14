@@ -24,6 +24,7 @@ $cursos = obtenerCursos();
     <link rel="icon" href="../assets/img/Home.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/home.css">
 </head>
 
 <body class="bg-gray-900 text-white">
@@ -119,7 +120,7 @@ $cursos = obtenerCursos();
 
         <div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
             <div class="border-b mb-5 flex justify-between text-sm">
-                <div class="text-indigo-600 flex items-center pb-2 pr-2 border-b-2 border-indigo-600 uppercase">
+                <div class="text-white-700 flex items-center pb-2 pr-2 border-b-2 border-indigo-600 uppercase">
                     <svg class="h-6 mr-3" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 455.005 455.005"
                         style="enable-background:new 0 0 455.005 455.005;" xml:space="preserve">
@@ -149,7 +150,7 @@ $cursos = obtenerCursos();
                     </svg>
                     <a href="#" class="font-semibold inline-block">Cooking BLog</a>
                 </div>
-                <div class="text-indigo-600 flex items-center pb-2 pr-2 border-b-2 border-indigo-600 uppercase">
+                <div class="text-white-700 flex items-center pb-2 pr-2 border-b-2 border-indigo-600 uppercase">
                     <svg class="h-6 mr-3" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 455.005 455.005"
                         style="enable-background:new 0 0 455.005 455.005;" xml:space="preserve">
@@ -188,11 +189,13 @@ $cursos = obtenerCursos();
                 <?php foreach ($cursos as $curso): ?>
 
                 <!-- CARD 1 -->
-                <div class="rounded overflow-hidden shadow-lg flex flex-col">
+                <div
+                    class="rounded overflow-hidden shadow-lg flex flex-col bg-card transition-transform hover:scale-105">
                     <a href="#"></a>
                     <div class="relative"><a href="#">
                             <img class="w-full" src="<?php echo htmlspecialchars($curso['coverURL']); ?>"
-                                alt="Sunset in the mountains" style="max-height: 80%;">
+                                alt="Imagen del curso <?php echo htmlspecialchars($curso['title']); ?>"
+                                style="max-height: 80%;">
                             <div
                                 class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25">
                             </div>
@@ -212,7 +215,7 @@ $cursos = obtenerCursos();
                         <div class="px-6 pt-4 pb-2">
                             <?php foreach ($curso['tags'] as $tag): ?>
                             <span
-                                class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                                class="bg-gray-100 text-gray-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
                                 <?php echo htmlspecialchars($tag['tag']); ?>
                             </span>
                             <?php endforeach;?>
@@ -278,6 +281,8 @@ $cursos = obtenerCursos();
         </div>
     </main>
     </div>
+    <?php require_once __DIR__ . '\..\includes\footer.php';
+?>
     <script src="../assets/js/home.js"></script>
 </body>
 

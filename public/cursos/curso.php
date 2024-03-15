@@ -9,6 +9,21 @@ if ($courseId == null) {
     $course = obtenerCurso($courseId);
 }
 
+function convertirURLparaIFrame($url) {
+    // Expresión regular para extraer el ID del video de la URL de YouTube
+    $pattern = '/(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/';
+
+    // Intenta encontrar el ID del video en la URL
+    if (preg_match($pattern, $url, $matches)) {
+        $video_id = $matches[1]; // ID del video
+        // Construye y devuelve la URL para el iframe
+        return "https://www.youtube.com/embed/$video_id";
+    } else {
+        // Si no se puede extraer el ID del video, devuelve la URL original
+        return $url;
+    }
+}
+
 ?>
 
 
@@ -79,11 +94,15 @@ if ($courseId == null) {
                     </div>
                     <div class="grid gap-4">
 
-                        <video class="w-full h-auto max-w-full border border-gray-200 rounded-lg dark:border-gray-700"
-                            controls>
-                            <source src="https://www.youtube.com/watch?v=b6du6MvQmuQ" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
+                        <!-- Para que funcione el ifram la url tiene que ser https://www.youtube.com/embed/b6du6MvQmuQ -->
+                        <!-- Pero en la bbdd esta asi la url https://www.youtube.com/watch?v=b6du6MvQmuQ -->
+                        <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/b6du6MvQmuQ" frameborder="0" allowfullscreen></iframe> -->
+                            
+                            <iframe width="560" height="315" src="<?php echo convertirURLparaIFrame($course['videos'][0]['videoURL']); ?>" frameborder="0" allowfullscreen></iframe>
+  
+                        <!-- <video class="w-full h-auto max-w-full border border-gray-200 rounded-lg dark:border-gray-700" controls>
+                            <source src="<?php echo htmlspecialchars($course['videos'][0]['videoURL']); ?>" type="video/mp4">
+                        </video> -->
 
                         <h3 class="text-xl font-bold">Course Topics</h3>
                         <ul class="grid gap-2 list-disc list-inside md:grid-cols-2">

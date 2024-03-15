@@ -535,6 +535,39 @@ function obtenerCursos()
     return $cursos;
 }
 
+function obtenerCursosByTag($search_query)
+{
+    $db = conexion();
+
+    // Obtener los cursos
+    $stmtCursos = $db->query("SELECT c.* , t.tag FROM isitec.courses c
+	inner join isitec.coursetags ct on c.courseId = ct.courseId
+    inner join isitec.tags t on ct.tagId = t.tagId
+    where t.tag LIKE '%{$search_query}%'");
+    $cursos = $stmtCursos->fetchAll(PDO::FETCH_ASSOC);
+
+    // Para cada curso, obtener los vídeos, tags y votos
+    foreach ($cursos as $index => $curso) {
+        // Obtener los vídeos
+        $stmtVideos = $db->prepare("SELECT * FROM videos WHERE courseId = ?");
+        $stmtVideos->execute([$curso['courseId']]);
+        $cursos[$index]['videos'] = $stmtVideos->fetchAll(PDO::FETCH_ASSOC);
+
+        // Obtener los tags
+        $stmtTags = $db->prepare("SELECT t.* FROM tags t JOIN coursetags ct ON t.tagId = ct.tagId WHERE ct.courseId = ?");
+        $stmtTags->execute([$curso['courseId']]);
+        $cursos[$index]['tags'] = $stmtTags->fetchAll(PDO::FETCH_ASSOC);
+
+        // Obtener los votos
+        $stmtVotos = $db->prepare("SELECT likes, dislikes FROM votes WHERE courseId = ?");
+        $stmtVotos->execute([$curso['courseId']]);
+        $votos = $stmtVotos->fetch(PDO::FETCH_ASSOC);
+        $cursos[$index]['votos'] = $votos ? $votos : ['likes' => 0, 'dislikes' => 0];
+    }
+
+    return $cursos;
+}
+
 function obtenerCurso($courseid)
 {
     $db = conexion();

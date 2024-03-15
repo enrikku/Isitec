@@ -36,7 +36,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 if ($current_page != 'addCourse.php') {
     ?>
                 <div class="hidden md:block w-full max-w-xs">
-                    <form class="max-w-md mx-auto">
+                    <form class="max-w-md mx-auto" method="get">
                         <label for="default-search"
                             class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Buscar</label>
                         <div class="relative">
@@ -48,6 +48,7 @@ if ($current_page != 'addCourse.php') {
                                 </svg>
                             </div>
                             <input type="search" id="default-search"
+                                name="search"
                                 class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="React, php, Angular, c# ..." required />
                             <button type="submit"
@@ -57,6 +58,7 @@ if ($current_page != 'addCourse.php') {
 
                 </div>
                 <?php
+                
 }
 ?>
 
@@ -91,7 +93,7 @@ if ($current_page != 'addCourse.php') {
                                 </button>
                             </div>
 
-                            <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            <div class="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                                 role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button"
                                 tabindex="-1">
                                 <!-- Active: "bg-gray-100", Not Active: "" -->

@@ -1,3 +1,20 @@
+<?php
+// Obtienes el nombre del archivo actual
+$current_page = basename($_SERVER['PHP_SELF']);
+
+// Función para imprimir la clase correcta
+function print_link_class($page)
+{
+    global $current_page;
+    $base_class = "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium";
+    if ($current_page == $page) {
+        echo "bg-gray-900 text-white " . $base_class;
+    } else {
+        echo $base_class;
+    }
+}
+?>
+
 <div class="min-h-full">
     <nav class="bg-gray-800">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -8,24 +25,16 @@
                     </div>
                     <div class="hidden md:block">
                         <div class="ml-10 flex items-baseline space-x-4">
-                            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                            <a href="/isitec/public/home.php"
-                                class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
-                                aria-current="page">Home</a>
+                            <a href="/isitec/public/home.php" class="<?php print_link_class('home.php');?>"
+                                <?php echo ($current_page == 'home.php' ? 'aria-current="page"' : ''); ?>>Home</a>
 
                             <a href="/isitec/public/cursos/addCourse.php"
-                                class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Añadir
+                                class="<?php print_link_class('addCourse.php');?>"
+                                <?php echo ($current_page == 'addCourse.php' ? 'aria-current="page"' : ''); ?>>Añadir
                                 curso</a>
 
-                            <a href="#"
-                                class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Mis
-                                cursos</a>
+                            <!-- Agrega los otros enlaces aquí siguiendo el mismo patrón -->
 
-                            <a href="#"
-                                class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Calendar</a>
-
-                            <a href="#"
-                                class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Reports</a>
                         </div>
                     </div>
                 </div>
@@ -47,8 +56,7 @@ if ($current_page != 'addCourse.php') {
                                         stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                 </svg>
                             </div>
-                            <input type="search" id="default-search"
-                                name="search"
+                            <input type="search" id="default-search" name="search"
                                 class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="React, php, Angular, c# ..." required />
                             <button type="submit"
@@ -58,7 +66,7 @@ if ($current_page != 'addCourse.php') {
 
                 </div>
                 <?php
-                
+
 }
 ?>
 
@@ -138,21 +146,17 @@ if ($current_page != 'addCourse.php') {
 
         <div class="md:hidden hidden " id="mobile-menu">
             <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-                <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+
                 <a href="/isitec/public/home.php"
-                    class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium"
-                    aria-current="page">Home</a>
+                    class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium <?php echo ($current_page == 'home.php' ? 'bg-gray-900 text-white' : ''); ?>"
+                    <?php echo ($current_page == 'home.php' ? 'aria-current="page"' : ''); ?>>Home</a>
                 <a href="/isitec/public/cursos/addCourse.php"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Añadir
-                    curso</a>
-                <a href="#"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Mis
-                    cursos</a>
-                <a href="#"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Calendar</a>
-                <a href="#"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Reports</a>
+                    class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium <?php echo ($current_page == 'addCourse.php' ? 'bg-gray-900 text-white' : ''); ?>"
+                    <?php echo ($current_page == 'addCourse.php' ? 'aria-current="page"' : ''); ?>>Añadir curso</a>
+
+
             </div>
+
 
 
             <?php

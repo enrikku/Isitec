@@ -11,13 +11,10 @@ if ($cookie == null) {
 // En algún lugar en tu archivo PHP
 //$cursos = obtenerCursos();
 
-if(isset($_GET['search'])) 
-{
+if (isset($_GET['search'])) {
     $search_query = $_GET['search'];
     $cursos = obtenerCursosByTag($search_query);
-} 
-else 
-{
+} else {
     $cursos = obtenerCursos();
 }
 
@@ -36,6 +33,7 @@ else
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <link rel="stylesheet" href="../assets/css/home.css">
+    <link rel="stylesheet" href="assets/css/common.css">
 </head>
 
 <body class="bg-gray-900 text-white">
@@ -132,7 +130,7 @@ else
         <div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
             <div class="border-b mb-5 flex justify-between text-sm">
                 <div class="text-white-700 flex items-center pb-2 pr-2 border-b-2 border-indigo-600 uppercase">
-                <?php echo getSvg("javascript") ?>
+                    <?php echo getSvg("javascript") ?>
                     <a href="./home.php?search=java" class="font-semibold inline-block">javascript</a>
                 </div>
                 <div class="text-white-700 flex items-center pb-2 pr-2 border-b-2 border-indigo-600 uppercase">
@@ -140,12 +138,12 @@ else
                     <a href="./home.php?search=html" class="font-semibold inline-block">html</a>
                 </div>
                 <div class="text-white-700 flex items-center pb-2 pr-2 border-b-2 border-indigo-600 uppercase">
-                <?php echo getSvg("css") ?>
+                    <?php echo getSvg("css") ?>
                     <a href="./home.php?search=css" class="font-semibold inline-block">css</a>
                 </div>
 
                 <div class="text-white-700 flex items-center pb-2 pr-2 border-b-2 border-indigo-600 uppercase">
-                <?php echo getSvg("php") ?>
+                    <?php echo getSvg("php") ?>
                     <a href="./home.php?search=php" class="font-semibold inline-block">php</a>
                 </div>
                 <a href="./home.php">See All</a>

@@ -35,176 +35,92 @@ function convertirURLparaIFrame($url)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Curso</title>
-    <link rel="icon" href="..\../assets/img/CourseDetail.ico" type="image/x-icon">
+    <link rel="icon" href="../../assets/img/CourseDetail.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-    <link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="../../assets/css/common.css">
 </head>
 
 <body class="bg-gray-900 text-white">
 
-    <?php require_once __DIR__ . '\..\..\includes\navBar.php';?>
+    <?php require_once __DIR__ . '/../../includes/navBar.php'; ?>
 
-    <section class="w-full py-12 md:py-24 lg:py-32">
-        <div class="container px-4 md:px-6">
-            <div class="flex flex-col gap-4 md:gap-8 lg:gap-12">
-                <div class="space-y-2">
-                    <h1 class="text-3xl font-bold tracking-tighter sm:text-5xl">
+    <div class="container mx-auto p-4">
+        <div class="flex flex-wrap">
+            <!-- Sidebar para lista de lecciones -->
+            <div class="w-full lg:w-1/4 px-2 mb-4">
+                <div class="mb-4">
+                    <h3 class="text-xl font-bold mb-2">Lecciones del Curso</h3>
+                    <ul class="bg-gray-800 p-4 rounded-lg">
+                        <!-- Suponiendo que tienes un array de lecciones -->
+                        <?php foreach ($course['lessons'] as $lesson): ?>
+                        <li class="py-2 border-b border-gray-700">
+                            <a href="#" class="text-white hover:text-blue-400"><?php echo $lesson['title']; ?></a>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Contenido Principal -->
+            <div class="w-full lg:w-3/4 px-2 mb-4">
+                <!-- Detalles del Curso -->
+                <div class="mb-4">
+                    <h1 class="text-3xl font-bold mb-2">
                         <?php echo htmlspecialchars($course['title']); ?>
                     </h1>
-                    <p
-                        class="max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+                    <p class="text-gray-500 dark:text-gray-400">
                         <?php echo htmlspecialchars($course['description']); ?>
                     </p>
                 </div>
-                <div class="grid gap-4">
-                    <h3 class="text-xl font-bold">Course Objectives</h3>
-                    <ul class="grid gap-2 list-disc list-inside">
-                        <li>
-                            Learn the fundamentals of JavaScript, including variables,
-                            data types, and operators.
-                        </li>
-                        <li>
-                            Understand how to use functions and control structures to
-                            create logic in your programs.
-                        </li>
-                        <li>
-                            Explore the Document Object Model (DOM) and learn how to
-                            manipulate HTML and CSS with JavaScript.
-                        </li>
-                        <li>
-                            Master advanced topics such as asynchronous programming with
-                            Promises and working with APIs.
-                        </li>
-                    </ul>
+
+                <!-- Player de Video -->
+                <div class="mb-4">
+                    <iframe width="560" height="315"
+                        src="<?php echo convertirURLparaIFrame($course['videos'][0]['videoURL']); ?>" frameborder="0"
+                        allowfullscreen></iframe>
                 </div>
-                <div class="grid items-center gap-4 md:grid-cols-2 lg:gap-8">
-                    <div class="flex items-center space-x-4">
-                        <span class="relative flex shrink-0 overflow-hidden rounded-full w-12 h-12">
-                            <img src="<?php echo htmlspecialchars($course['coverURL']); ?>" width="48" height="48"
-                                class="rounded-full object-cover" alt="Instructor"
-                                style="aspect-ratio: 48 / 48; object-fit: cover;">
-                        </span>
-                        <div class="space-y-1">
-                            <h4 class="text-lg font-medium">Dr. Susan Johnson</h4>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">
-                                Dr. Susan Johnson is an experienced software developer with
-                                over 10 years of experience. She is passionate about teaching
-                                and has helped hundreds of students learn JavaScript.
-                            </p>
+
+                <!-- Formulario de Inscripción -->
+                <div class="mb-4">
+                    <h3 class="text-xl font-bold mb-2">Inscribirse en el Curso</h3>
+                    <form action="post" class="bg-gray-800 p-4 rounded-lg">
+                        <div class="mb-4">
+                            <label for="name" class="font-bold mb-1 text-sm block">Nombre Completo</label>
+                            <input type="text" id="name"
+                                class="w-full bg-gray-700 text-white p-2 rounded-lg focus:outline-none focus:shadow-outline"
+                                placeholder="John Doe">
                         </div>
-                    </div>
-                    <div class="grid gap-4">
-
-                        <!-- Para que funcione el ifram la url tiene que ser https://www.youtube.com/embed/b6du6MvQmuQ -->
-                        <!-- Pero en la bbdd esta asi la url https://www.youtube.com/watch?v=b6du6MvQmuQ -->
-                        <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/b6du6MvQmuQ" frameborder="0" allowfullscreen></iframe> -->
-
-                        <iframe width="560" height="315"
-                            src="<?php echo convertirURLparaIFrame($course['videos'][0]['videoURL']); ?>"
-                            frameborder="0" allowfullscreen></iframe>
-
-                        <!-- <video class="w-full h-auto max-w-full border border-gray-200 rounded-lg dark:border-gray-700" controls>
-                            <source src="<?php echo htmlspecialchars($course['videos'][0]['videoURL']); ?>" type="video/mp4">
-                        </video> -->
-
-                        <h3 class="text-xl font-bold">Course Topics</h3>
-                        <ul class="grid gap-2 list-disc list-inside md:grid-cols-2">
-                            <li>Introduction to JavaScript</li>
-                            <li>Variables and Data Types</li>
-                            <li>Operators and Expressions</li>
-                            <li>Control Structures</li>
-                            <li>Functions</li>
-                            <li>Arrays and Objects</li>
-                            <li>DOM Manipulation</li>
-                            <li>Events and Event Handling</li>
-                            <li>Asynchronous JavaScript</li>
-                            <li>Working with APIs</li>
-                        </ul>
-                    </div>
+                        <div class="mb-4">
+                            <label for="email" class="font-bold mb-1 text-sm block">Correo Electrónico</label>
+                            <input type="email" id="email"
+                                class="w-full bg-gray-700 text-white p-2 rounded-lg focus:outline-none focus:shadow-outline"
+                                placeholder="john@example.com">
+                        </div>
+                        <div class="flex justify-center">
+                            <button type="submit"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Inscribirse</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="grid gap-4 max-w-sm mx-auto sm:max-w-none sm:grid-cols-2">
-                    <div class="space-y-2">
-                        <h3 class="text-xl font-bold">Enroll in the Course</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">
-                            Fill out the form below to enroll in the Mastering JavaScript
-                            course. Our team will contact you with further instructions.
-                        </p>
+
+                <!-- Testimonios -->
+                <div class="mb-4">
+                    <h3 class="text-xl font-bold mb-2">Testimonios</h3>
+                    <!-- Suponiendo que tienes un array de testimonios -->
+                    <?php foreach ($course['testimonials'] as $testimonial): ?>
+                    <div class="bg-gray-800 p-4 rounded-lg mb-4">
+                        <p class="text-gray-500 dark:text-gray-400"><?php echo $testimonial['content']; ?></p>
+                        <span class="block text-sm text-gray-400 mt-2">— <?php echo $testimonial['author']; ?></span>
                     </div>
-                    <div class="space-y-4">
-                        <div class="space-y-2">
-                            <label class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
-                                for="name">
-                                Full Name
-                            </label>
-                            <input
-                                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                id="name" placeholder="Enter your full name">
-                        </div>
-                        <div class="space-y-2">
-                            <label class="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm"
-                                for="email">
-                                Email
-                            </label>
-                            <input
-                                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                                id="email" placeholder="Enter your email" type="email">
-                        </div>
-                        <button
-                            class="inline-flex items-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 w-full h-10 justify-center sm:w-auto">
-                            Enroll Now
-                        </button>
-                    </div>
-                </div>
-                <div class="grid gap-4 max-w-sm mx-auto sm:max-w-none sm:grid-cols-2">
-                    <div class="space-y-2">
-                        <h3 class="text-xl font-bold">Testimonials</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400">
-                            Don't just take our word for it. Here's what our students have
-                            to say about the Mastering JavaScript course.
-                        </p>
-                    </div>
-                    <div class="grid gap-4 md:grid-cols-2">
-                        <div class="flex items-start gap-4">
-                            <img src="/placeholder.svg" width="80" height="80" alt="Student"
-                                class="rounded-full overflow-hidden object-cover object-center"
-                                style="aspect-ratio: 80 / 80; object-fit: cover;">
-                            <div class="space-y-2">
-                                <p class="text-sm text-gray-500 dark:text-gray-400">
-                                    “The course was well-structured and easy to follow.
-                                    The instructor provided clear explanations, and I
-                                    appreciated the hands-on projects that helped me apply what
-                                    I learned. I feel much more confident in my JavaScript
-                                    skills after taking this course.”
-                                </p>
-                                <div class="font-medium not-italic">
-                                    — Sarah Thompson
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <img src="/placeholder.svg" width="80" height="80" alt="Student"
-                                class="rounded-full overflow-hidden object-cover object-center"
-                                style="aspect-ratio: 80 / 80; object-fit: cover;">
-                            <div class="space-y-2">
-                                <p class="text-sm text-gray-500 dark:text-gray-400">
-                                    “As someone with no prior programming experience, I
-                                    was a bit intimidated by JavaScript. However, this course
-                                    made the concepts easy to understand. The videos were
-                                    engaging, and the quizzes helped reinforce my
-                                    understanding.”
-                                </p>
-                                <div class="font-medium not-italic">
-                                    — Mark Johnson
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+
     <script src="../../assets/js/home.js"></script>
 </body>
 
 </html>
+>

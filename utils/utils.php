@@ -473,14 +473,15 @@ function guardarTagsDelCurso($courseId, $selectedTags)
     }
 }
 
-function insertVideoLink($courseId, $videoURL)
+function insertVideoLink($courseId, $videoURL, $lessonId = 1)
 {
     $db = conexion();
 
     try {
-        $stmt = $db->prepare("INSERT INTO videos (courseId, videoURL) VALUES (:courseId, :videoURL)");
+        $stmt = $db->prepare("INSERT INTO videos (courseId, videoURL, lessonId) VALUES (:courseId, :videoURL, :lessonId)");
         $stmt->bindParam(':courseId', $courseId);
         $stmt->bindParam(':videoURL', $videoURL);
+        $stmt->bindParam(':lessonId', $lessonId);
         $stmt->execute();
         return true;
     } catch (PDOException $e) {
@@ -531,6 +532,18 @@ function obtenerCursos()
         $votos = $stmtVotos->fetch(PDO::FETCH_ASSOC);
         $cursos[$index]['votos'] = $votos ? $votos : ['likes' => 0, 'dislikes' => 0];
     }
+
+    return $cursos;
+}
+
+function obtenerCursosUsuario($userId)
+{
+    $db = conexion();
+
+    // Preparar la consulta para obtener los cursos del usuario con solo los campos necesarios
+    $stmtCursos = $db->prepare("SELECT courseId, title FROM courses WHERE userId = :userId");
+    $stmtCursos->execute(['userId' => $userId]);
+    $cursos = $stmtCursos->fetchAll(PDO::FETCH_ASSOC);
 
     return $cursos;
 }
@@ -600,8 +613,6 @@ function obtenerCurso($courseid)
     return $curso;
 }
 
-
-
 function getLikesCourse($courseId)
 {
     $db = conexion();
@@ -628,7 +639,7 @@ function guardarLike($courseId)
 
     $likes = getLikesCourse($courseId);
 
-    $likes ++;
+    $likes++;
 
     try {
         $stmt = $db->prepare("UPDATE votes SET likes = :likes WHERE courseId = :courseId");
@@ -640,7 +651,6 @@ function guardarLike($courseId)
         die("Error al dar like al video: " . $e->getMessage());
     }
 }
-
 
 function getDislikesCourse($courseId)
 {
@@ -668,7 +678,7 @@ function guardarDislike($courseId)
 
     $dislikes = getDislikesCourse($courseId);
 
-    $dislikes ++;
+    $dislikes++;
 
     try {
         $stmt = $db->prepare("UPDATE votes SET dislikes = :dislikes WHERE courseId = :courseId");
@@ -681,8 +691,25 @@ function guardarDislike($courseId)
     }
 }
 
-
-function getCourseById()
+function agregarLeccion($cursoId, $titulo, $descripcion, $videoURL, $resourceZip)
 {
+    $db = conexion();
 
+    try {
+        $stmt = $db->prepare("INSERT INTO lessons (courseId, title, description, videoURL, resourceZip) VALUES (:courseId, :title, :description, :videoURL, :resourceZip)");
+
+        $stmt->bindParam(':courseId', $cursoId, PDO::PARAM_INT);
+        $stmt->bindParam(':title', $titulo, PDO::PARAM_STR);
+        $stmt->bindParam(':description', $descripcion, PDO::PARAM_STR);
+        $stmt->bindParam(':videoURL', $videoURL, PDO::PARAM_STR);
+        $stmt->bindParam(':resourceZip', $resourceZip, $resourceZip === null ? PDO::PARAM_NULL : PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $db->lastInsertId();
+    } catch (PDOException $e) {
+        error_log("Error al insertar la lección: " . $e->getMessage()); // Registra el error
+        return false; // Retorna falso si hay error
+
+    }
 }

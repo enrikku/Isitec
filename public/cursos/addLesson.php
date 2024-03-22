@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Añadir Lecciones a Curso</title>
-    <link rel="icon" href="../../assets/img/addLesson.ico" type="image/x-icon">
+    <link rel="icon" href="../../assets/img/addCourse.webp" type="image/webp" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <link rel="stylesheet" href="../../assets/css/addLesson.css">
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <?php require_once __DIR__ . '\..\..\includes\navBar.php';?>
 
-    <div class="container mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-screen">
+    <div class="container mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-content">
         <div class="w-full max-w-4xl mx-auto my-8 md:my-16">
             <h1 class="text-3xl font-bold mb-6 text-center">Añadir Lecciones a tu Curso</h1>
 

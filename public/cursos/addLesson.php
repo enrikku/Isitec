@@ -70,32 +70,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h1 class="text-3xl font-bold mb-6 text-center">Añadir Lecciones a tu Curso</h1>
 
             <div class="flex flex-wrap md:flex-nowrap md:items-start gap-8">
-                <!-- Columna izquierda para Dropdown y ZIP -->
-                <div class="w-full md:w-1/2">
-                    <div class="mb-4">
-                        <label for="cursoId" class="font-bold mb-2 block">Cursos</label>
-                        <select id="cursoId" name="cursoId"
-                            class="bg-gray-800 text-white rounded border border-gray-700 p-2 w-full">
-                            <option disabled selected>Selecciona un curso</option>
-                            <!-- Aquí se iterará sobre cada curso del usuario -->
-                            <?php foreach ($userCourses as $curso): ?>
-                            <option value="<?php echo htmlspecialchars($curso['courseId']); ?>">
-                                <?php echo htmlspecialchars($curso['title']); ?>
-                            </option>
-                            <?php endforeach;?>
-                        </select>
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="resourceZip" class="block mb-2 font-bold">Recursos (ZIP)</label>
-                        <input type="file" id="resourceZip" name="resourceZip"
-                            class="bg-gray-800 text-white rounded border border-gray-700 p-2 w-full">
-                    </div>
-                </div>
+                
                 <!-- Columna derecha para el resto del formulario -->
                 <div class="w-full md:w-1/2">
-                    <form action="ruta_al_script_que_procesa_el_formulario.php" method="post"
+                    <form method="post"
                         enctype="multipart/form-data" class="space-y-4">
+
+                        <!-- Columna izquierda para Dropdown y ZIP -->
+                        <div class="w-full md:w-1/2">
+                            <div class="mb-4">
+                                <label for="cursoId" class="font-bold mb-2 block">Cursos</label>
+                                <select id="cursoId" name="cursoId"
+                                    class="bg-gray-800 text-white rounded border border-gray-700 p-2 w-full">
+                                    <option disabled selected>Selecciona un curso</option>
+                                    <!-- Aquí se iterará sobre cada curso del usuario -->
+                                    <?php foreach ($userCourses as $curso): ?>
+                                    <option value="<?php echo htmlspecialchars($curso['courseId']); ?>">
+                                        <?php echo htmlspecialchars($curso['title']); ?>
+                                    </option>
+                                    <?php endforeach;?>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="resourceZip" class="block mb-2 font-bold">Recursos (ZIP)</label>
+                                <input type="file" id="resourceZip" name="resourceZip"
+                                    class="bg-gray-800 text-white rounded border border-gray-700 p-2 w-full">
+                            </div>
+                        </div>
+
+
+
                         <div class="mb-4">
                             <label for="tituloLeccion" class="block mb-2 font-bold">Título de la Lección</label>
                             <input type="text" id="tituloLeccion" name="tituloLeccion" required

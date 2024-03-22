@@ -610,7 +610,22 @@ function obtenerCurso($courseid)
     $votos = $stmtVotos->fetch(PDO::FETCH_ASSOC);
     $curso['votos'] = $votos ? $votos : ['likes' => 0, 'dislikes' => 0];
 
+    $stmtLessons = $db->prepare("SELECT * FROM lessons WHERE courseId = ?");
+    $stmtLessons->execute([$courseid]);
+    $curso['lessons'] = $stmtLessons->fetchAll(PDO::FETCH_ASSOC);
+
     return $curso;
+}
+
+
+function obtenerLecciones($courseId){
+
+    $db = conexion();
+
+    $stmtLessons = $db->prepare("SELECT * FROM lessons WHERE courseId = ?");
+    $stmtLessons->execute([$courseId]);
+    $lecciones = $stmtLessons->fetchAll(PDO::FETCH_ASSOC);
+    return $lecciones;
 }
 
 function getLikesCourse($courseId)
@@ -713,3 +728,88 @@ function agregarLeccion($cursoId, $titulo, $descripcion, $videoURL, $resourceZip
 
     }
 }
+
+
+function subscribirme($userId, $courseId)
+{
+    $db = conexion();
+
+    try {
+        $stmt = $db->prepare("INSERT INTO course_subscriptions (userId, courseId) VALUES (:userId, :courseId)");
+
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+
+        $stmt->bindParam(':courseId', $courseId, PDO::PARAM_INT);
+
+        $stmt->execute();
+    }
+    catch  (PDOException $e) {
+        error_log("Error al insertar la lección: " . $e->getMessage()); // Registra el error
+        return false; // Retorna falso si hay error
+    }
+    return true;
+}
+
+function hasSubscription($userId, $courseId){
+
+    $db = conexion();
+
+    $sql = "SELECT * FROM course_subscriptions WHERE userId = :userId AND courseId = :courseId";
+
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':courseId', $courseId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Verificar si se encontraron filas en el resultado
+        if($stmt->rowCount() > 0) {
+            return true; // Si hay al menos una fila, devolver true
+        } else {
+            return false; // Si no hay filas, devolver false
+        }
+
+    } catch(PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+        return false; // En caso de error, devolver false
+    }
+}
+
+function enviarComentario($courseId, $userId, $testimonial){
+
+    $rating = 1;
+    $db = conexion();
+
+    $sql = "INSERT INTO testimonials (courseId,userId,testimonial,rating) VALUES (:courseId, :userId, :testimonial, :rating)";
+
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':courseId', $courseId, PDO::PARAM_INT);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':testimonial', $testimonial, PDO::PARAM_STR);
+        $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
+        $stmt->execute();
+    }catch (PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+    }
+}
+
+function obtenerComentarios($courseId){
+    $db = conexion();
+
+    $sql = "SELECT t.*, u.mail, u.username
+            FROM testimonials t 
+            INNER JOIN users u ON t.userId = u.idUser 
+            WHERE t.courseId = :courseId";
+
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':courseId', $courseId, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+    catch (PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+    }
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+

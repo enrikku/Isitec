@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '\redireccion.php';
+
 // Obtienes el nombre del archivo actual
 $current_page = basename($_SERVER['PHP_SELF']);
 

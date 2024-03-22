@@ -2,11 +2,7 @@
 require_once __DIR__ . '\..\utils/utils.php';
 require_once __DIR__ . '\..\includes\svgs.php';
 
-$cookie = isset($_COOKIE['token']) ? $_COOKIE['token'] : null;
 
-if ($cookie == null) {
-    header("Location: ../index.php");
-}
 
 // En algún lugar en tu archivo PHP
 //$cursos = obtenerCursos();

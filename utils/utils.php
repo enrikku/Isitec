@@ -473,7 +473,7 @@ function guardarTagsDelCurso($courseId, $selectedTags)
     }
 }
 
-function insertVideoLink($courseId, $videoURL, $lessonId = 1)
+function insertVideoLink($courseId, $videoURL, $lessonId = null)
 {
     $db = conexion();
 

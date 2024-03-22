@@ -33,11 +33,16 @@ function print_link_class($page)
                                 <?php echo ($current_page == 'addCourse.php' ? 'aria-current="page"' : ''); ?>>Añadir
                                 curso</a>
 
+                            <a href="/isitec/public/cursos/addLesson.php"
+                                class="<?php print_link_class('addLesson.php');?>"
+                                <?php echo ($current_page == 'addLesson.php' ? 'aria-current="page"' : ''); ?>>
+                                Añadir Leccion</a>
+                            <!-- Agrega los otros enlaces aquí siguiendo el mismo patrón -->
+
                             <a href="/isitec/public/cursos/curso.php" class="<?php print_link_class('curso.php');?>"
                                 <?php echo ($current_page == 'curso.php' ? 'aria-current="page"' : ''); ?>>
                                 Curso</a>
                             <!-- Agrega los otros enlaces aquí siguiendo el mismo patrón -->
-
                         </div>
                     </div>
                 </div>
@@ -170,6 +175,10 @@ if ($current_page != 'addCourse.php') {
                     class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium <?php echo ($current_page == 'addCourse.php' ? 'bg-gray-900 text-white' : ''); ?>"
                     <?php echo ($current_page == 'addCourse.php' ? 'aria-current="page"' : ''); ?>>Añadir curso</a>
 
+                <a href="/isitec/public/cursos/addLesson.php" class="<?php print_link_class('addLesson.php');?>"
+                    <?php echo ($current_page == 'addLesson.php' ? 'aria-current="page"' : ''); ?>>
+                    Añadir Leccion</a>
+                <!-- Agrega los otros enlaces aquí siguiendo el mismo patrón -->
 
             </div>
 

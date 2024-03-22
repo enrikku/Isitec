@@ -6,13 +6,11 @@ $courseId = isset($_GET['id']) ? $_GET['id'] : null;
 $user = $_COOKIE['token'];
 $userId = getUserIdByUsernameOrEmail($user);
 
-
-if(isset($_GET['titleLesson']) && isset($_GET['descriptionLesson']) && isset($_GET['videoLesson'])) {
+if (isset($_GET['titleLesson']) && isset($_GET['descriptionLesson']) && isset($_GET['videoLesson'])) {
     $titleLesson = $_GET['titleLesson'];
     $descriptionLesson = $_GET['descriptionLesson'];
     $videoLesson = convertirURLparaIFrame($_GET['videoLesson']);
-}
-else{
+} else {
     if ($courseId == null) {
         header("Location: ../home.php");
     } else {
@@ -26,18 +24,15 @@ $comentarios = obtenerComentarios($courseId);
 
 $estoySubscrito = hasSubscription($userId, $courseId);
 
-
-if(isset($_POST['subscribe'])){
+if (isset($_POST['subscribe'])) {
     subscribirme($userId, $courseId); // puede ser tanto el nombre de usuario como el mail
     // delay 500 milisegundos
     header("Refresh: 0.5; url=../cursos/curso.php?id=$courseId");
 }
 
-if(isset($_POST['comentario'])){
-    //convertir courseId a entero
-    //$courseId = intval($courseId);
-    enviarComentario($courseId, $userId, $_POST['comentario']);
-    // delay 500 milisegundos
+if (isset($_POST['comentario']) && !empty($_POST['rating'])) {
+
+    enviarComentario($courseId, $userId, $_POST['comentario'], $_POST['rating']);
     header("Refresh: 0.5; url=../cursos/curso.php?id=$courseId");
 }
 
@@ -70,13 +65,14 @@ function convertirURLparaIFrame($url)
     <link rel="icon" href="../../assets/img/CourseDetail.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-    <link rel="stylesheet" href="../../assets/css/common.css">
+    <link rel="stylesheet" href="/isitec/assets/css/common.css">
+    <link rel="stylesheet" href="/isitec/assets/css/estrella.css">
     <link rel="stylesheet" href="https://unpkg.com/emoji-mart/css/emoji-mart.css" />
 </head>
 
 <body class="bg-gray-900 text-white">
 
-    <?php require_once __DIR__ . '/../../includes/navBar.php'; ?>
+    <?php require_once __DIR__ . '/../../includes/navBar.php';?>
 
     <div class="container mx-auto p-4">
         <div class="flex flex-wrap">
@@ -90,13 +86,13 @@ function convertirURLparaIFrame($url)
                             <li class="py-2 border-b border-gray-700">
                                 <p href="#" class="text-white hover:text-blue-400">No hay lecciones disponibles</p>
                             </li>
-                        <?php endif; ?>
+                        <?php endif;?>
 
                         <?php foreach ($lecciones as $leccion): ?>
                             <li class="py-2 border-b border-gray-700">
                                 <a href="curso.php?id=<?php echo $leccion['courseId']; ?>&titleLesson=<?php echo $leccion['title']; ?>&descriptionLesson=<?php echo $leccion['description']; ?>&videoLesson=<?php echo $leccion['videoURL']; ?>" class="text-white hover:text-blue-400"><?php echo $leccion['title']; ?></a>
                             </li>
-                        <?php endforeach; ?>
+                        <?php endforeach;?>
                     </ul>
                 </div>
             </div>
@@ -107,17 +103,17 @@ function convertirURLparaIFrame($url)
                 <div class="mb-4">
                     <h1 class="text-3xl font-bold mb-2">
                     <?php
-                    $titleToShow = empty($_GET['titleLesson']) ? htmlspecialchars($course['title']) : htmlspecialchars($_GET['titleLesson']);
-                    echo $titleToShow;
-                    ?>
+$titleToShow = empty($_GET['titleLesson']) ? htmlspecialchars($course['title']) : htmlspecialchars($_GET['titleLesson']);
+echo $titleToShow;
+?>
 
                     </h1>
                     <p class="text-gray-500 dark:text-gray-400">
                         <!-- <?php echo htmlspecialchars($course['description']); ?> -->
                         <?php
-                            $descToShow = empty($_GET['descriptionLesson']) ? htmlspecialchars($course['description']) : htmlspecialchars($_GET['descriptionLesson']);
-                            echo $descToShow;
-                        ?>
+$descToShow = empty($_GET['descriptionLesson']) ? htmlspecialchars($course['description']) : htmlspecialchars($_GET['descriptionLesson']);
+echo $descToShow;
+?>
                     </p>
                 </div>
 
@@ -125,14 +121,14 @@ function convertirURLparaIFrame($url)
                 <div class="mb-4">
                     <iframe width="560" height="315"
                         src="<?php
-                            $videoToShow = empty($videoLesson) ? htmlspecialchars(convertirURLparaIFrame($course['videos'][0]['videoURL'])) : htmlspecialchars($videoLesson);
-                            echo $videoToShow;
-                        ?>" frameborder="0"
+$videoToShow = empty($videoLesson) ? htmlspecialchars(convertirURLparaIFrame($course['videos'][0]['videoURL'])) : htmlspecialchars($videoLesson);
+echo $videoToShow;
+?>" frameborder="0"
                         allowfullscreen></iframe>
                 </div>
 
                 <!-- Formulario de Inscripción -->
-                <?php if(!$estoySubscrito): ?>
+                <?php if (!$estoySubscrito): ?>
                 <div class="mb-4">
                     <h3 class="text-xl font-bold mb-2">Inscribirse en el Curso</h3>
                     <form method="post" class="bg-gray-800 p-4 rounded-lg">
@@ -143,11 +139,124 @@ function convertirURLparaIFrame($url)
                         </div>
                     </form>
                 </div>
-                <?php endif; ?>
-                <?php if($estoySubscrito): ?>
-
+                <?php endif;?>
                 
-                <form method="post">
+                <?php if ($estoySubscrito): ?>
+                <form method="post" id="chat-form" class="rating">
+                    <div class="rating__stars">
+                        <input id="numEstrella" class="hidden" type="text" name="rating" value=1 name="rating">
+                        <input id="rating-1" class="rating__input rating__input-1" type="radio" name="rating" value="1">
+                        <input id="rating-2" class="rating__input rating__input-2" type="radio" name="rating" value="2">
+                        <input id="rating-3" class="rating__input rating__input-3" type="radio" name="rating" value="3">
+                        <input id="rating-4" class="rating__input rating__input-4" type="radio" name="rating" value="4">
+                        <input id="rating-5" class="rating__input rating__input-5" type="radio" name="rating" value="5">
+                        <label class="rating__label" for="rating-1">
+                            <svg class="rating__star" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+                                <g transform="translate(16,16)">
+                                    <circle class="rating__star-ring" fill="none" stroke="#000" stroke-width="16" r="8" transform="scale(0)" />
+                                </g>
+                                <g stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <g transform="translate(16,16) rotate(180)">
+                                        <polygon class="rating__star-stroke" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="none" />
+                                        <polygon class="rating__star-fill" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="#000" />
+                                    </g>
+                                    <g transform="translate(16,16)" stroke-dasharray="12 12" stroke-dashoffset="12">
+                                        <polyline class="rating__star-line" transform="rotate(0)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(72)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(144)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(216)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(288)" points="0 4,0 16" />
+                                    </g>
+                                </g>
+                            </svg>
+                            <span class="rating__sr">1 star—Terrible</span>
+                        </label>
+                        <label class="rating__label" for="rating-2">
+                            <svg class="rating__star" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+                                <g transform="translate(16,16)">
+                                    <circle class="rating__star-ring" fill="none" stroke="#000" stroke-width="16" r="8" transform="scale(0)" />
+                                </g>
+                                <g stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <g transform="translate(16,16) rotate(180)">
+                                        <polygon class="rating__star-stroke" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="none" />
+                                        <polygon class="rating__star-fill" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="#000" />
+                                    </g>
+                                    <g transform="translate(16,16)" stroke-dasharray="12 12" stroke-dashoffset="12">
+                                        <polyline class="rating__star-line" transform="rotate(0)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(72)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(144)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(216)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(288)" points="0 4,0 16" />
+                                    </g>
+                                </g>
+                            </svg>
+                            <span class="rating__sr">2 stars—Bad</span>
+                        </label>
+                        <label class="rating__label" for="rating-3">
+                            <svg class="rating__star" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+                                <g transform="translate(16,16)">
+                                    <circle class="rating__star-ring" fill="none" stroke="#000" stroke-width="16" r="8" transform="scale(0)" />
+                                </g>
+                                <g stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <g transform="translate(16,16) rotate(180)">
+                                        <polygon class="rating__star-stroke" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="none" />
+                                        <polygon class="rating__star-fill" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="#000" />
+                                    </g>
+                                    <g transform="translate(16,16)" stroke-dasharray="12 12" stroke-dashoffset="12">
+                                        <polyline class="rating__star-line" transform="rotate(0)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(72)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(144)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(216)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(288)" points="0 4,0 16" />
+                                    </g>
+                                </g>
+                            </svg>
+                            <span class="rating__sr">3 stars—OK</span>
+                        </label>
+                        <label class="rating__label" for="rating-4">
+                            <svg class="rating__star" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+                                <g transform="translate(16,16)">
+                                    <circle class="rating__star-ring" fill="none" stroke="#000" stroke-width="16" r="8" transform="scale(0)" />
+                                </g>
+                                <g stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <g transform="translate(16,16) rotate(180)">
+                                        <polygon class="rating__star-stroke" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="none" />
+                                        <polygon class="rating__star-fill" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="#000" />
+                                    </g>
+                                    <g transform="translate(16,16)" stroke-dasharray="12 12" stroke-dashoffset="12">
+                                        <polyline class="rating__star-line" transform="rotate(0)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(72)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(144)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(216)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(288)" points="0 4,0 16" />
+                                    </g>
+                                </g>
+                            </svg>
+                            <span class="rating__sr">4 stars—Good</span>
+                        </label>
+                        <label class="rating__label" for="rating-5">
+                            <svg class="rating__star" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+                                <g transform="translate(16,16)">
+                                    <circle class="rating__star-ring" fill="none" stroke="#000" stroke-width="16" r="8" transform="scale(0)" />
+                                </g>
+                                <g stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <g transform="translate(16,16) rotate(180)">
+                                        <polygon class="rating__star-stroke" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="none" />
+                                        <polygon class="rating__star-fill" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="#000" />
+                                    </g>
+                                    <g transform="translate(16,16)" stroke-dasharray="12 12" stroke-dashoffset="12">
+                                        <polyline class="rating__star-line" transform="rotate(0)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(72)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(144)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(216)" points="0 4,0 16" />
+                                        <polyline class="rating__star-line" transform="rotate(288)" points="0 4,0 16" />
+                                    </g>
+                                </g>
+                            </svg>
+                            <span class="rating__sr">5 stars—Excellent</span>
+                        </label>
+                    </div>
+
                     <label for="chat" class="sr-only">Your message</label>
                     <div class="flex items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700 relative"> <!-- Añade relative para que z-index funcione -->
                         <button id="emojiButton" type="button" class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
@@ -167,9 +276,8 @@ function convertirURLparaIFrame($url)
                             <span class="sr-only">Send message</span>
                         </button>
                     </div>
-
                 </form>
-                    <?php endif; ?>
+                <?php endif;?>
 
 
                 <!-- Testimonios -->
@@ -181,15 +289,17 @@ function convertirURLparaIFrame($url)
                         <p class="text-gray-500 dark:text-gray-400"><?php echo $testimonial['username']; ?></p>
                         <span class="block text-sm text-gray-400 mt-2">— <?php echo $testimonial['testimonial']; ?></span>
                     </div>
-                    <?php endforeach; ?>
+                    <?php endforeach;?>
                 </div>
 
             </div>
         </div>
     </div>
+    
 
     <script src="../../assets/js/home.js"></script>
-    
+    <script src="/isitec/assets/js/estrella.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
     <!-- Ya se mirara -->
     <script>
@@ -221,6 +331,5 @@ function convertirURLparaIFrame($url)
         // Agregar el selector de emoji al div emojiPicker
         emojiPicker.appendChild(picker);
     </script>
-
 </body>
 </html>

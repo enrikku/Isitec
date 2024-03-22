@@ -829,9 +829,7 @@ function hasSubscription($userId, $courseId){
     }
 }
 
-function enviarComentario($courseId, $userId, $testimonial){
-
-    $rating = 1;
+function enviarComentario($courseId, $userId, $testimonial, $rating) {
     $db = conexion();
 
     $sql = "INSERT INTO testimonials (courseId,userId,testimonial,rating) VALUES (:courseId, :userId, :testimonial, :rating)";

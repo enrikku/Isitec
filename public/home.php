@@ -214,6 +214,7 @@ if (isset($_GET['search'])) {
                     </div>
                     <div class="px-6 py-3 flex flex-row items-center justify-between bg-gray-100">
                         <span href="#" class="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center">
+                            <?php if ($curso['tiempoUltimoComentario'] != '0 comentarios'): ?>
                             <svg height="13px" width="13px" version="1.1" id="Layer_1"
                                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
                                 y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;"
@@ -226,7 +227,9 @@ if (isset($_GET['search'])) {
                                     </g>
                                 </g>
                             </svg>
-                            <span class="ml-1">6 mins ago</span>
+                            
+                            <span class="ml-1"><?php echo $curso['tiempoUltimoComentario']?></span>
+                            <?php endif?>
                         </span>
 
                         <span href="#" class="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center">
@@ -235,7 +238,7 @@ if (isset($_GET['search'])) {
                                     d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
                                 </path>
                             </svg>
-                            <span class="ml-1">39 Comments</span>
+                            <span class="ml-1"><?php echo $curso['testimonios']; ?> comentarios</span>
                         </span>
                     </div>
                 </div>

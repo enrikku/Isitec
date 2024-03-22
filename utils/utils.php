@@ -531,9 +531,51 @@ function obtenerCursos()
         $stmtVotos->execute([$curso['courseId']]);
         $votos = $stmtVotos->fetch(PDO::FETCH_ASSOC);
         $cursos[$index]['votos'] = $votos ? $votos : ['likes' => 0, 'dislikes' => 0];
+
+        //Obtener el count de testimonios
+        $stmtTestimonios = $db->prepare("SELECT COUNT(*) AS count FROM testimonials WHERE courseId = ?");
+        $stmtTestimonios->execute([$curso['courseId']]);
+        $testimonios = $stmtTestimonios->fetch(PDO::FETCH_ASSOC);
+        $cursos[$index]['testimonios'] = $testimonios ? $testimonios['count'] : 0;
+
+        // Obtener la fecha del último comentario
+        $stmtUltimoComentario = $db->prepare("SELECT MAX(commentDate) AS ultimoComentario FROM testimonials WHERE courseId = ?");
+        $stmtUltimoComentario->execute([$curso['courseId']]);
+        $ultimoComentario = $stmtUltimoComentario->fetch(PDO::FETCH_ASSOC);
+        $cursos[$index]['tiempoUltimoComentario'] = $ultimoComentario ? tiempoTranscurrido($ultimoComentario['ultimoComentario']) : "Nunca";
     }
 
     return $cursos;
+}
+
+
+// Función para calcular el tiempo transcurrido desde una fecha hasta ahora
+function tiempoTranscurrido($fecha) {
+    $fechaComentario = new DateTime($fecha);
+    $fechaActual = new DateTime();
+    $intervalo = $fechaComentario->diff($fechaActual);
+    $tiempoTranscurrido = "";
+    
+    if($fecha != null){
+    if ($intervalo->y > 0) {
+        $tiempoTranscurrido = $intervalo->format('%y años');
+    } elseif ($intervalo->m > 0) {
+        $tiempoTranscurrido = $intervalo->format('%m meses');
+    } elseif ($intervalo->d > 0) {
+        $tiempoTranscurrido = $intervalo->format('%d días');
+    } elseif ($intervalo->h > 0) {
+        $tiempoTranscurrido = $intervalo->format('%h horas');
+    } elseif ($intervalo->i > 0) {
+        $tiempoTranscurrido = $intervalo->format('%i minutos');
+    } else {
+        $tiempoTranscurrido = "hace un momento";
+    }
+    }else{
+        $tiempoTranscurrido = "0 comentarios";
+    }
+
+
+    return $tiempoTranscurrido;
 }
 
 function obtenerCursosUsuario($userId)
@@ -576,6 +618,18 @@ function obtenerCursosByTag($search_query)
         $stmtVotos->execute([$curso['courseId']]);
         $votos = $stmtVotos->fetch(PDO::FETCH_ASSOC);
         $cursos[$index]['votos'] = $votos ? $votos : ['likes' => 0, 'dislikes' => 0];
+
+        //Obtener el count de testimonios
+        $stmtTestimonios = $db->prepare("SELECT COUNT(*) AS count FROM testimonials WHERE courseId = ?");
+        $stmtTestimonios->execute([$curso['courseId']]);
+        $testimonios = $stmtTestimonios->fetch(PDO::FETCH_ASSOC);
+        $cursos[$index]['testimonios'] = $testimonios ? $testimonios['count'] : 0;
+
+        // Obtener la fecha del último comentario
+        $stmtUltimoComentario = $db->prepare("SELECT MAX(commentDate) AS ultimoComentario FROM testimonials WHERE courseId = ?");
+        $stmtUltimoComentario->execute([$curso['courseId']]);
+        $ultimoComentario = $stmtUltimoComentario->fetch(PDO::FETCH_ASSOC);
+        $cursos[$index]['tiempoUltimoComentario'] = $ultimoComentario ? tiempoTranscurrido($ultimoComentario['ultimoComentario']) : "Nunca";
     }
 
     return $cursos;

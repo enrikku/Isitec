@@ -67,6 +67,8 @@ CREATE TABLE `testimonials` (
   CONSTRAINT `testimonials_chk_1` CHECK ((`rating` between 1 and 5))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin
 
+ALTER TABLE testimonials
+ADD commentDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER rating;
 
 CREATE TABLE `users` (
   `iduser` int NOT NULL AUTO_INCREMENT,
@@ -109,3 +111,4 @@ CREATE TABLE `votes` (
   PRIMARY KEY (`courseId`),
   CONSTRAINT `votes_ibfk_1` FOREIGN KEY (`courseId`) REFERENCES `courses` (`courseId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin
+

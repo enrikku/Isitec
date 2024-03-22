@@ -2,8 +2,6 @@
 require_once __DIR__ . '\..\utils/utils.php';
 require_once __DIR__ . '\..\includes\svgs.php';
 
-
-
 // En algún lugar en tu archivo PHP
 //$cursos = obtenerCursos();
 
@@ -29,21 +27,12 @@ if (isset($_GET['search'])) {
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <link rel="stylesheet" href="../assets/css/home.css">
-    <link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="../assets/css/common.css">
 </head>
 
 <body class="bg-gray-900 text-white">
 
     <?php require_once __DIR__ . '\..\includes\navBar.php';?>
-
-    <!--
-    <header class="bg-white shadow">
-        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-bold tracking-tight text-gray-900"> Bienvenido <?php echo $_COOKIE['token']; ?>
-            </h1>
-        </div>
-    </header> -->
-
 
     <main>
 
@@ -227,8 +216,8 @@ if (isset($_GET['search'])) {
                                     </g>
                                 </g>
                             </svg>
-                            
-                            <span class="ml-1"><?php echo $curso['tiempoUltimoComentario']?></span>
+
+                            <span class="ml-1"><?php echo $curso['tiempoUltimoComentario'] ?></span>
                             <?php endif?>
                         </span>
 

@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="assets/css/common.css">
 <!-- Footer container -->
 <footer class="custom-footer-bg text-center text-surface/75 dark:bg-neutral-700 dark:text-white/75 lg:text-left">
     <div
@@ -152,7 +151,7 @@
                     <a href="#!">Cookies</a>
                 </p>
                 <p>
-                    <a href="#!">FAQ's</a>
+                    <a href="/isitec/public/faq.php">FAQ's</a>
                 </p>
             </div>
             <!-- Contact section -->

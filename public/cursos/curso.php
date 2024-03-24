@@ -62,7 +62,7 @@ function convertirURLparaIFrame($url)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Curso</title>
-    <link rel="icon" href="../../assets/img/CourseDetail.ico" type="image/x-icon">
+    <link rel="icon" href="/isitec/assets/img/CourseDetail.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <link rel="stylesheet" href="/isitec/assets/css/common.css">
@@ -83,15 +83,16 @@ function convertirURLparaIFrame($url)
                     <ul class="bg-gray-800 p-4 rounded-lg">
                         <!-- Suponiendo que tienes un array de lecciones -->
                         <?php if (count($lecciones) == 0): ?>
-                            <li class="py-2 border-b border-gray-700">
-                                <p href="#" class="text-white hover:text-blue-400">No hay lecciones disponibles</p>
-                            </li>
+                        <li class="py-2 border-b border-gray-700">
+                            <p href="#" class="text-white hover:text-blue-400">No hay lecciones disponibles</p>
+                        </li>
                         <?php endif;?>
 
                         <?php foreach ($lecciones as $leccion): ?>
-                            <li class="py-2 border-b border-gray-700">
-                                <a href="curso.php?id=<?php echo $leccion['courseId']; ?>&titleLesson=<?php echo $leccion['title']; ?>&descriptionLesson=<?php echo $leccion['description']; ?>&videoLesson=<?php echo $leccion['videoURL']; ?>" class="text-white hover:text-blue-400"><?php echo $leccion['title']; ?></a>
-                            </li>
+                        <li class="py-2 border-b border-gray-700">
+                            <a href="curso.php?id=<?php echo $leccion['courseId']; ?>&titleLesson=<?php echo $leccion['title']; ?>&descriptionLesson=<?php echo $leccion['description']; ?>&videoLesson=<?php echo $leccion['videoURL']; ?>"
+                                class="text-white hover:text-blue-400"><?php echo $leccion['title']; ?></a>
+                        </li>
                         <?php endforeach;?>
                     </ul>
                 </div>
@@ -102,7 +103,7 @@ function convertirURLparaIFrame($url)
                 <!-- Detalles del Curso -->
                 <div class="mb-4">
                     <h1 class="text-3xl font-bold mb-2">
-                    <?php
+                        <?php
 $titleToShow = empty($_GET['titleLesson']) ? htmlspecialchars($course['title']) : htmlspecialchars($_GET['titleLesson']);
 echo $titleToShow;
 ?>
@@ -119,12 +120,10 @@ echo $descToShow;
 
                 <!-- Player de Video -->
                 <div class="mb-4">
-                    <iframe width="560" height="315"
-                        src="<?php
+                    <iframe width="560" height="315" src="<?php
 $videoToShow = empty($videoLesson) ? htmlspecialchars(convertirURLparaIFrame($course['videos'][0]['videoURL'])) : htmlspecialchars($videoLesson);
 echo $videoToShow;
-?>" frameborder="0"
-                        allowfullscreen></iframe>
+?>" frameborder="0" allowfullscreen></iframe>
                 </div>
 
                 <!-- Formulario de Inscripción -->
@@ -133,14 +132,13 @@ echo $videoToShow;
                     <h3 class="text-xl font-bold mb-2">Inscribirse en el Curso</h3>
                     <form method="post" class="bg-gray-800 p-4 rounded-lg">
                         <div class="flex justify-center">
-                            <button type="submit"
-                                name="subscribe"
+                            <button type="submit" name="subscribe"
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Inscribirse</button>
                         </div>
                     </form>
                 </div>
                 <?php endif;?>
-                
+
                 <?php if ($estoySubscrito): ?>
                 <form method="post" id="chat-form" class="rating">
                     <div class="rating__stars">
@@ -153,12 +151,17 @@ echo $videoToShow;
                         <label class="rating__label" for="rating-1">
                             <svg class="rating__star" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
                                 <g transform="translate(16,16)">
-                                    <circle class="rating__star-ring" fill="none" stroke="#000" stroke-width="16" r="8" transform="scale(0)" />
+                                    <circle class="rating__star-ring" fill="none" stroke="#000" stroke-width="16" r="8"
+                                        transform="scale(0)" />
                                 </g>
                                 <g stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <g transform="translate(16,16) rotate(180)">
-                                        <polygon class="rating__star-stroke" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="none" />
-                                        <polygon class="rating__star-fill" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="#000" />
+                                        <polygon class="rating__star-stroke"
+                                            points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07"
+                                            fill="none" />
+                                        <polygon class="rating__star-fill"
+                                            points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07"
+                                            fill="#000" />
                                     </g>
                                     <g transform="translate(16,16)" stroke-dasharray="12 12" stroke-dashoffset="12">
                                         <polyline class="rating__star-line" transform="rotate(0)" points="0 4,0 16" />
@@ -174,12 +177,17 @@ echo $videoToShow;
                         <label class="rating__label" for="rating-2">
                             <svg class="rating__star" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
                                 <g transform="translate(16,16)">
-                                    <circle class="rating__star-ring" fill="none" stroke="#000" stroke-width="16" r="8" transform="scale(0)" />
+                                    <circle class="rating__star-ring" fill="none" stroke="#000" stroke-width="16" r="8"
+                                        transform="scale(0)" />
                                 </g>
                                 <g stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <g transform="translate(16,16) rotate(180)">
-                                        <polygon class="rating__star-stroke" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="none" />
-                                        <polygon class="rating__star-fill" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="#000" />
+                                        <polygon class="rating__star-stroke"
+                                            points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07"
+                                            fill="none" />
+                                        <polygon class="rating__star-fill"
+                                            points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07"
+                                            fill="#000" />
                                     </g>
                                     <g transform="translate(16,16)" stroke-dasharray="12 12" stroke-dashoffset="12">
                                         <polyline class="rating__star-line" transform="rotate(0)" points="0 4,0 16" />
@@ -195,12 +203,17 @@ echo $videoToShow;
                         <label class="rating__label" for="rating-3">
                             <svg class="rating__star" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
                                 <g transform="translate(16,16)">
-                                    <circle class="rating__star-ring" fill="none" stroke="#000" stroke-width="16" r="8" transform="scale(0)" />
+                                    <circle class="rating__star-ring" fill="none" stroke="#000" stroke-width="16" r="8"
+                                        transform="scale(0)" />
                                 </g>
                                 <g stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <g transform="translate(16,16) rotate(180)">
-                                        <polygon class="rating__star-stroke" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="none" />
-                                        <polygon class="rating__star-fill" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="#000" />
+                                        <polygon class="rating__star-stroke"
+                                            points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07"
+                                            fill="none" />
+                                        <polygon class="rating__star-fill"
+                                            points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07"
+                                            fill="#000" />
                                     </g>
                                     <g transform="translate(16,16)" stroke-dasharray="12 12" stroke-dashoffset="12">
                                         <polyline class="rating__star-line" transform="rotate(0)" points="0 4,0 16" />
@@ -216,12 +229,17 @@ echo $videoToShow;
                         <label class="rating__label" for="rating-4">
                             <svg class="rating__star" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
                                 <g transform="translate(16,16)">
-                                    <circle class="rating__star-ring" fill="none" stroke="#000" stroke-width="16" r="8" transform="scale(0)" />
+                                    <circle class="rating__star-ring" fill="none" stroke="#000" stroke-width="16" r="8"
+                                        transform="scale(0)" />
                                 </g>
                                 <g stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <g transform="translate(16,16) rotate(180)">
-                                        <polygon class="rating__star-stroke" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="none" />
-                                        <polygon class="rating__star-fill" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="#000" />
+                                        <polygon class="rating__star-stroke"
+                                            points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07"
+                                            fill="none" />
+                                        <polygon class="rating__star-fill"
+                                            points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07"
+                                            fill="#000" />
                                     </g>
                                     <g transform="translate(16,16)" stroke-dasharray="12 12" stroke-dashoffset="12">
                                         <polyline class="rating__star-line" transform="rotate(0)" points="0 4,0 16" />
@@ -237,12 +255,17 @@ echo $videoToShow;
                         <label class="rating__label" for="rating-5">
                             <svg class="rating__star" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
                                 <g transform="translate(16,16)">
-                                    <circle class="rating__star-ring" fill="none" stroke="#000" stroke-width="16" r="8" transform="scale(0)" />
+                                    <circle class="rating__star-ring" fill="none" stroke="#000" stroke-width="16" r="8"
+                                        transform="scale(0)" />
                                 </g>
                                 <g stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <g transform="translate(16,16) rotate(180)">
-                                        <polygon class="rating__star-stroke" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="none" />
-                                        <polygon class="rating__star-fill" points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07" fill="#000" />
+                                        <polygon class="rating__star-stroke"
+                                            points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07"
+                                            fill="none" />
+                                        <polygon class="rating__star-fill"
+                                            points="0,15 4.41,6.07 14.27,4.64 7.13,-2.32 8.82,-12.14 0,-7.5 -8.82,-12.14 -7.13,-2.32 -14.27,4.64 -4.41,6.07"
+                                            fill="#000" />
                                     </g>
                                     <g transform="translate(16,16)" stroke-dasharray="12 12" stroke-dashoffset="12">
                                         <polyline class="rating__star-line" transform="rotate(0)" points="0 4,0 16" />
@@ -258,20 +281,32 @@ echo $videoToShow;
                     </div>
 
                     <label for="chat" class="sr-only">Your message</label>
-                    <div class="flex items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700 relative"> <!-- Añade relative para que z-index funcione -->
-                        <button id="emojiButton" type="button" class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.408 7.5h.01m-6.876 0h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM4.6 11a5.5 5.5 0 0 0 10.81 0H4.6Z"/>
+                    <div class="flex items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700 relative">
+                        <!-- Añade relative para que z-index funcione -->
+                        <button id="emojiButton" type="button"
+                            class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M13.408 7.5h.01m-6.876 0h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM4.6 11a5.5 5.5 0 0 0 10.81 0H4.6Z" />
                             </svg>
                             <span class="sr-only">Add emoji</span>
                         </button>
 
-                        <div id="emojiPicker" style="display: none; position: absolute; top: calc(100% + 10px); left: 0; z-index: 999;"></div> <!-- Ajusta el estilo para que se vea correctamente -->
+                        <div id="emojiPicker"
+                            style="display: none; position: absolute; top: calc(100% + 10px); left: 0; z-index: 999;">
+                        </div> <!-- Ajusta el estilo para que se vea correctamente -->
 
-                        <textarea id="chat" name="comentario" rows="1" class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your message..."></textarea>
-                        <button type="submit" class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
-                            <svg class="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
-                                <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
+                        <textarea id="chat" name="comentario" rows="1"
+                            class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Your message..."></textarea>
+                        <button type="submit"
+                            class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                            <svg class="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                                <path
+                                    d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
                             </svg>
                             <span class="sr-only">Send message</span>
                         </button>
@@ -287,7 +322,8 @@ echo $videoToShow;
                     <?php foreach ($comentarios as $testimonial): ?>
                     <div class="bg-gray-800 p-4 rounded-lg mb-4">
                         <p class="text-gray-500 dark:text-gray-400"><?php echo $testimonial['username']; ?></p>
-                        <span class="block text-sm text-gray-400 mt-2">— <?php echo $testimonial['testimonial']; ?></span>
+                        <span class="block text-sm text-gray-400 mt-2">—
+                            <?php echo $testimonial['testimonial']; ?></span>
                     </div>
                     <?php endforeach;?>
                 </div>
@@ -295,7 +331,7 @@ echo $videoToShow;
             </div>
         </div>
     </div>
-    
+
 
     <script src="../../assets/js/home.js"></script>
     <script src="/isitec/assets/js/estrella.js"></script>
@@ -303,33 +339,34 @@ echo $videoToShow;
     <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
     <!-- Ya se mirara -->
     <script>
-        const emojiButton = document.getElementById('emojiButton');
-        const emojiPicker = document.getElementById('emojiPicker');
-        const chatTextarea = document.getElementById('chat');
+    const emojiButton = document.getElementById('emojiButton');
+    const emojiPicker = document.getElementById('emojiPicker');
+    const chatTextarea = document.getElementById('chat');
 
-        // Agregar un evento de clic al botón para mostrar u ocultar el selector de emoji
-        emojiButton.addEventListener('click', function() {
-            if (emojiPicker.style.display === 'none') {
-                // Mostrar el selector de emoji si está oculto
-                emojiPicker.style.display = 'block';
-            } else {
-                // Ocultar el selector de emoji si está visible
-                emojiPicker.style.display = 'none';
-            }
-        });
+    // Agregar un evento de clic al botón para mostrar u ocultar el selector de emoji
+    emojiButton.addEventListener('click', function() {
+        if (emojiPicker.style.display === 'none') {
+            // Mostrar el selector de emoji si está oculto
+            emojiPicker.style.display = 'block';
+        } else {
+            // Ocultar el selector de emoji si está visible
+            emojiPicker.style.display = 'none';
+        }
+    });
 
-        // Configurar el selector de emoji
-        const pickerOptions = {
-            onSelect: function(emoji) {
-                // Obtener el emoji seleccionado y agregarlo al contenido del textarea
-                chatTextarea.value += emoji.native; // Agrega el emoji al final del contenido del textarea
-                alert("a")
-            }
-        };
-        const picker = new EmojiMart.Picker(pickerOptions);
+    // Configurar el selector de emoji
+    const pickerOptions = {
+        onSelect: function(emoji) {
+            // Obtener el emoji seleccionado y agregarlo al contenido del textarea
+            chatTextarea.value += emoji.native; // Agrega el emoji al final del contenido del textarea
+            alert("a")
+        }
+    };
+    const picker = new EmojiMart.Picker(pickerOptions);
 
-        // Agregar el selector de emoji al div emojiPicker
-        emojiPicker.appendChild(picker);
+    // Agregar el selector de emoji al div emojiPicker
+    emojiPicker.appendChild(picker);
     </script>
 </body>
+
 </html>

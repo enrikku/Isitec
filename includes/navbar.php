@@ -38,8 +38,6 @@ function print_link_class($page)
                 <div class="hidden sm:block sm:ml-6">
                     <div class="flex space-x-4">
                         <!-- Los elementos de tu menú aquí -->
-                        <a href="/isitec/public/home.php" class="<?php print_link_class('home.php');?>"
-                            <?php echo ($current_page == 'home.php' ? 'aria-current="page"' : ''); ?>>Home</a>
 
                         <a href="/isitec/public/cursos/addCourse.php" class="<?php print_link_class('addCourse.php');?>"
                             <?php echo ($current_page == 'addCourse.php' ? 'aria-current="page"' : ''); ?>>Añadir
@@ -87,7 +85,7 @@ if ($current_page != 'addCourse.php') {
                             </div>
                             <input type="search" id="default-search" name="search"
                                 class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-600 rounded-lg bg-gray-700 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="React, php, Angular, c# ..." required />
+                                placeholder="React, php, c# ..." required />
                             <button type="submit" class="absolute right-2.5 bottom-2.5 bg-gray-600 hover:bg-gray-500 text-white border border-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300
         font-medium rounded-lg text-sm px-4 py-2 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                                 Buscar

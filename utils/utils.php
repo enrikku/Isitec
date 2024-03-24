@@ -548,32 +548,31 @@ function obtenerCursos()
     return $cursos;
 }
 
-
 // Función para calcular el tiempo transcurrido desde una fecha hasta ahora
-function tiempoTranscurrido($fecha) {
+function tiempoTranscurrido($fecha)
+{
     $fechaComentario = new DateTime($fecha);
     $fechaActual = new DateTime();
     $intervalo = $fechaComentario->diff($fechaActual);
     $tiempoTranscurrido = "";
-    
-    if($fecha != null){
-    if ($intervalo->y > 0) {
-        $tiempoTranscurrido = $intervalo->format('%y años');
-    } elseif ($intervalo->m > 0) {
-        $tiempoTranscurrido = $intervalo->format('%m meses');
-    } elseif ($intervalo->d > 0) {
-        $tiempoTranscurrido = $intervalo->format('%d días');
-    } elseif ($intervalo->h > 0) {
-        $tiempoTranscurrido = $intervalo->format('%h horas');
-    } elseif ($intervalo->i > 0) {
-        $tiempoTranscurrido = $intervalo->format('%i minutos');
+
+    if ($fecha != null) {
+        if ($intervalo->y > 0) {
+            $tiempoTranscurrido = $intervalo->format('%y años');
+        } elseif ($intervalo->m > 0) {
+            $tiempoTranscurrido = $intervalo->format('%m meses');
+        } elseif ($intervalo->d > 0) {
+            $tiempoTranscurrido = $intervalo->format('%d días');
+        } elseif ($intervalo->h > 0) {
+            $tiempoTranscurrido = $intervalo->format('%h horas');
+        } elseif ($intervalo->i > 0) {
+            $tiempoTranscurrido = $intervalo->format('%i minutos');
+        } else {
+            $tiempoTranscurrido = "hace un momento";
+        }
     } else {
-        $tiempoTranscurrido = "hace un momento";
-    }
-    }else{
         $tiempoTranscurrido = "0 comentarios";
     }
-
 
     return $tiempoTranscurrido;
 }
@@ -671,8 +670,8 @@ function obtenerCurso($courseid)
     return $curso;
 }
 
-
-function obtenerLecciones($courseId){
+function obtenerLecciones($courseId)
+{
 
     $db = conexion();
 
@@ -783,7 +782,6 @@ function agregarLeccion($cursoId, $titulo, $descripcion, $videoURL, $resourceZip
     }
 }
 
-
 function subscribirme($userId, $courseId)
 {
     $db = conexion();
@@ -796,15 +794,15 @@ function subscribirme($userId, $courseId)
         $stmt->bindParam(':courseId', $courseId, PDO::PARAM_INT);
 
         $stmt->execute();
-    }
-    catch  (PDOException $e) {
+    } catch (PDOException $e) {
         error_log("Error al insertar la lección: " . $e->getMessage()); // Registra el error
         return false; // Retorna falso si hay error
     }
     return true;
 }
 
-function hasSubscription($userId, $courseId){
+function hasSubscription($userId, $courseId)
+{
 
     $db = conexion();
 
@@ -817,19 +815,20 @@ function hasSubscription($userId, $courseId){
         $stmt->execute();
 
         // Verificar si se encontraron filas en el resultado
-        if($stmt->rowCount() > 0) {
+        if ($stmt->rowCount() > 0) {
             return true; // Si hay al menos una fila, devolver true
         } else {
             return false; // Si no hay filas, devolver false
         }
 
-    } catch(PDOException $e) {
+    } catch (PDOException $e) {
         echo "Error de la base de datos: " . $e->getMessage();
         return false; // En caso de error, devolver false
     }
 }
 
-function enviarComentario($courseId, $userId, $testimonial, $rating) {
+function enviarComentario($courseId, $userId, $testimonial, $rating)
+{
     $db = conexion();
 
     $sql = "INSERT INTO testimonials (courseId,userId,testimonial,rating) VALUES (:courseId, :userId, :testimonial, :rating)";
@@ -841,27 +840,109 @@ function enviarComentario($courseId, $userId, $testimonial, $rating) {
         $stmt->bindParam(':testimonial', $testimonial, PDO::PARAM_STR);
         $stmt->bindParam(':rating', $rating, PDO::PARAM_INT);
         $stmt->execute();
-    }catch (PDOException $e) {
+    } catch (PDOException $e) {
         echo "Error de la base de datos: " . $e->getMessage();
     }
 }
 
-function obtenerComentarios($courseId){
+function obtenerComentarios($courseId)
+{
     $db = conexion();
 
     $sql = "SELECT t.*, u.mail, u.username
-            FROM testimonials t 
-            INNER JOIN users u ON t.userId = u.idUser 
+            FROM testimonials t
+            INNER JOIN users u ON t.userId = u.idUser
             WHERE t.courseId = :courseId";
 
     try {
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':courseId', $courseId, PDO::PARAM_INT);
         $stmt->execute();
-    }
-    catch (PDOException $e) {
+    } catch (PDOException $e) {
         echo "Error de la base de datos: " . $e->getMessage();
     }
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function esElAutor($userId, $courseId)
+{
+    $db = conexion();
+
+    $sql = "SELECT * FROM courses WHERE userId = :userId AND courseId = :courseId";
+
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':courseId', $courseId, PDO::PARAM_INT);
+        $stmt->execute();
+    } catch (PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+    }
+    return $stmt->rowCount() > 0;
+}
+
+function updateRating($courseId, $userId)
+{
+    $db = conexion();
+
+    $sql = "UPDATE testimonials SET rating = NULL WHERE courseId = :courseId AND userId = :userId";
+
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':courseId', $courseId, PDO::PARAM_INT);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+
+        $stmt->execute();
+    } catch (PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+    }
+}
+
+function updateCourseRating($courseId)
+{
+    $db = conexion();
+
+    // Calcular la puntuación media de todas las puntuaciones para el curso
+    $sqlAverage = "SELECT AVG(rating) as averageRating FROM testimonials WHERE courseId = :courseId";
+
+    // Actualizar la puntuación media en la tabla del curso
+    $sqlUpdate = "UPDATE courses SET rating = :averageRating WHERE courseId = :courseId";
+
+    try {
+        // Preparar la sentencia para calcular la media
+        $stmtAverage = $db->prepare($sqlAverage);
+        $stmtAverage->bindParam(':courseId', $courseId, PDO::PARAM_INT);
+        $stmtAverage->execute();
+
+        // Obtener el resultado
+        $result = $stmtAverage->fetch(PDO::FETCH_ASSOC);
+        $averageRating = $result['averageRating'];
+
+        // Comprobar si se obtuvo un resultado válido
+        if ($averageRating !== null) {
+            // Preparar la sentencia para actualizar la media en la tabla de cursos
+            $stmtUpdate = $db->prepare($sqlUpdate);
+            $stmtUpdate->bindParam(':averageRating', $averageRating, PDO::PARAM_STR); // Asegúrate de que el tipo de dato coincide con tu esquema de DB
+            $stmtUpdate->bindParam(':courseId', $courseId, PDO::PARAM_INT);
+            $stmtUpdate->execute();
+        }
+
+    } catch (PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+    }
+}
+
+function averageCourseRating($courseId)
+{
+    $db = conexion();
+    $sql = "SELECT AVG(rating) as averageRating FROM testimonials WHERE courseId = :courseId";
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':courseId', $courseId, PDO::PARAM_INT);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['averageRating'];
+    } catch (PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+    }
+}

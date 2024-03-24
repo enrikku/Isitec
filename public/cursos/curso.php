@@ -5,6 +5,7 @@ $courseId = isset($_GET['id']) ? $_GET['id'] : null;
 //conseguir variable de la cooke
 $user = $_COOKIE['token'];
 $userId = getUserIdByUsernameOrEmail($user);
+$soyElAutor = esElAutor($userId, $courseId);
 
 if (isset($_GET['titleLesson']) && isset($_GET['descriptionLesson']) && isset($_GET['videoLesson'])) {
     $titleLesson = $_GET['titleLesson'];
@@ -31,7 +32,7 @@ if (isset($_POST['subscribe'])) {
 }
 
 if (isset($_POST['comentario']) && !empty($_POST['rating'])) {
-
+    updateRating($courseId, $userId);
     enviarComentario($courseId, $userId, $_POST['comentario'], $_POST['rating']);
     header("Refresh: 0.5; url=../cursos/curso.php?id=$courseId");
 }
@@ -96,6 +97,9 @@ function convertirURLparaIFrame($url)
                         <?php endforeach;?>
                     </ul>
                 </div>
+                <div>
+                    <h1>hola aqui va la puntiación del curso</h1>
+                </div>
             </div>
 
             <!-- Contenido Principal -->
@@ -118,30 +122,31 @@ echo $descToShow;
                     </p>
                 </div>
 
-                <!-- Player de Video -->
-                <div class="mb-4">
-                    <iframe width="560" height="315" src="<?php
-$videoToShow = empty($videoLesson) ? htmlspecialchars(convertirURLparaIFrame($course['videos'][0]['videoURL'])) : htmlspecialchars($videoLesson);
-echo $videoToShow;
-?>" frameborder="0" allowfullscreen></iframe>
+                <!-- Contenedor responsivo para el iframe del video -->
+                <div class="video-container relative overflow-hidden pb-56.25% rounded-3xl shadow-3xl"
+                    style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                    <iframe src="<?php $videoToShow = empty($videoLesson) ? htmlspecialchars(convertirURLparaIFrame($course['videos'][0]['videoURL'])) : htmlspecialchars($videoLesson);
+echo $videoToShow;?>" class="absolute top-0 left-0 w-full h-full" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
                 </div>
 
-                <!-- Formulario de Inscripción -->
-                <?php if (!$estoySubscrito): ?>
-                <div class="mb-4">
-                    <h3 class="text-xl font-bold mb-2">Inscribirse en el Curso</h3>
-                    <form method="post" class="bg-gray-800 p-4 rounded-lg">
-                        <div class="flex justify-center">
-                            <button type="submit" name="subscribe"
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Inscribirse</button>
-                        </div>
+                <!-- Formulario de Subscripción -->
+                <?php if (!$estoySubscrito && !$soyElAutor): ?>
+                <!--@enrikku: si no estoy suscrito y no soy el autor -->
+                <div class=" mb-4 text-center py-5">
+
+                    <form method="post">
+                        <button type="submit" name="subscribe"
+                            class="bg-transparent bg-gray-600 hover:bg-gray-500 rounded-lg px-4 py-2 font-bold border-2 border-gray-600">Subscribete</button>
                     </form>
                 </div>
                 <?php endif;?>
 
                 <?php if ($estoySubscrito): ?>
                 <form method="post" id="chat-form" class="rating">
-                    <div class="rating__stars">
+                    <div class="rating__stars py-5">
                         <input id="numEstrella" class="hidden" type="text" name="rating" value=1 name="rating">
                         <input id="rating-1" class="rating__input rating__input-1" type="radio" name="rating" value="1">
                         <input id="rating-2" class="rating__input rating__input-2" type="radio" name="rating" value="2">
@@ -316,7 +321,7 @@ echo $videoToShow;
 
 
                 <!-- Testimonios -->
-                <div class="mb-4">
+                <div class="mb-4 py-5">
                     <h3 class="text-xl font-bold mb-2">Testimonios</h3>
                     <!-- Suponiendo que tienes un array de testimonios -->
                     <?php foreach ($comentarios as $testimonial): ?>
@@ -333,7 +338,7 @@ echo $videoToShow;
     </div>
 
 
-    <script src="../../assets/js/home.js"></script>
+    <script src="/isitec/assets/js/home.js"></script>
     <script src="/isitec/assets/js/estrella.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
@@ -367,6 +372,9 @@ echo $videoToShow;
     // Agregar el selector de emoji al div emojiPicker
     emojiPicker.appendChild(picker);
     </script>
+    <?php require_once __DIR__ . '\..\..\includes\footer.php';
+
+?>
 </body>
 
 </html>

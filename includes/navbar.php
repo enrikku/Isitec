@@ -22,7 +22,7 @@ function print_link_class($page)
         <div class="relative flex items-center justify-between h-16">
             <!-- Contenedor del logotipo -->
             <div class="flex-1 flex items-center justify-start sm:items-stretch sm:justify-start">
-                <a href="/home" class="flex-shrink-0 flex items-center">
+                <a href="/isitec/public/home.php" class="flex-shrink-0 flex items-center">
                     <section class="hidden sm:block">
                         <span class="text-lg sm:text-xl md:text-1xl lg:text-2xl text-red-500">developer</span>
                         <span class="text-lg sm:text-xl md:text-1xl lg:text-2xl text-green-500">@</span>

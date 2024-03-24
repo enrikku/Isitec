@@ -67,7 +67,7 @@ if (isset($_FILES['image'])) {
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <link rel="stylesheet" href="../../assets/css/addCourse.css" />
-    <link rel="stylesheet" href="assets/css/common.css">
+    <link rel="stylesheet" href="../../assets/css/common.css">
 </head>
 
 <body class="bg-gray-900 text-white">

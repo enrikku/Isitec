@@ -142,13 +142,13 @@
                     Politicas y Privacidad
                 </h6>
                 <p class="mb-4">
-                    <a href="#!">Terminos y condiciones</a>
+                    <a href="/isitec/public/terminos.php">Terminos y condiciones</a>
                 </p>
                 <p class="mb-4">
-                    <a href="#!">Privacidad</a>
+                    <a href="/isitec/public/privacidad.php">Privacidad</a>
                 </p>
                 <p class="mb-4">
-                    <a href="#!">Cookies</a>
+                    <a href="/isitec/public/cookies.php">Cookies</a>
                 </p>
                 <p>
                     <a href="/isitec/public/faq.php">FAQ's</a>
@@ -168,7 +168,7 @@
                                 d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
                         </svg>
                     </span>
-                    New York, NY 10012, US
+                    Granollers, Josep Maluquer 19, ES
                 </p>
                 <p class="mb-4 flex items-center justify-center md:justify-start">
                     <span class="me-3 [&>svg]:h-5 [&>svg]:w-5">
@@ -189,7 +189,7 @@
                                 clip-rule="evenodd" />
                         </svg>
                     </span>
-                    + 01 234 567 88
+                    93 879 18 75
                 </p>
                 <p class="flex items-center justify-center md:justify-start">
                     <span class="me-3 [&>svg]:h-5 [&>svg]:w-5">
@@ -199,7 +199,7 @@
                                 clip-rule="evenodd" />
                         </svg>
                     </span>
-                    + 01 234 567 89
+                    93 666 66 66
                 </p>
             </div>
         </div>

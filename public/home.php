@@ -17,7 +17,7 @@ if (isset($_GET['search'])) {
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -239,7 +239,7 @@ if (isset($_GET['search'])) {
     <?php require_once __DIR__ . '\..\includes\footer.php';
 ?>
 
-                                
+
     <script src="../assets/js/home.js"></script>
 </body>
 

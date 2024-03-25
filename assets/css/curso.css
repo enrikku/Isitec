@@ -1,0 +1,22 @@
+.rating {
+  color: gold;
+
+  padding: 5px;
+  font-size: 20px;
+}
+
+.star.full {
+  color: gold;
+}
+
+.star.half {
+  /* Uso de un gradiente lineal para crear la media estrella */
+  background: linear-gradient(90deg, gold 50%, gray 50%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.star.empty {
+  color: gray;
+}

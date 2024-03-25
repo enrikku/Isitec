@@ -6,6 +6,13 @@ $courseId = isset($_GET['id']) ? $_GET['id'] : null;
 $user = $_COOKIE['token'];
 $userId = getUserIdByUsernameOrEmail($user);
 $soyElAutor = esElAutor($userId, $courseId);
+$avgCourse = round(averageCourseRating($courseId), 2);
+
+$totalRatings = getTotalRatings($courseId);
+$totalStudents = getTotalStudents($courseId);
+$fullStars = floor($avgCourse);
+$halfStar = ($avgCourse - $fullStars) >= 0.5 ? 1 : 0;
+$emptyStars = 5 - $fullStars - $halfStar;
 
 if (isset($_GET['titleLesson']) && isset($_GET['descriptionLesson']) && isset($_GET['videoLesson'])) {
     $titleLesson = $_GET['titleLesson'];
@@ -20,14 +27,11 @@ if (isset($_GET['titleLesson']) && isset($_GET['descriptionLesson']) && isset($_
 }
 
 $lecciones = obtenerLecciones($courseId);
-
 $comentarios = obtenerComentarios($courseId);
-
 $estoySubscrito = hasSubscription($userId, $courseId);
 
 if (isset($_POST['subscribe'])) {
     subscribirme($userId, $courseId); // puede ser tanto el nombre de usuario como el mail
-    // delay 500 milisegundos
     header("Refresh: 0.5; url=../cursos/curso.php?id=$courseId");
 }
 
@@ -66,6 +70,7 @@ function convertirURLparaIFrame($url)
     <link rel="icon" href="/isitec/assets/img/CourseDetail.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <link rel="stylesheet" href="/isitec/assets/css/curso.css">
     <link rel="stylesheet" href="/isitec/assets/css/common.css">
     <link rel="stylesheet" href="/isitec/assets/css/estrella.css">
     <link rel="stylesheet" href="https://unpkg.com/emoji-mart/css/emoji-mart.css" />
@@ -97,10 +102,31 @@ function convertirURLparaIFrame($url)
                         <?php endforeach;?>
                     </ul>
                 </div>
-                <div>
-                    <h1>hola aqui va la puntiación del curso</h1>
+                <div class="rating">
+                    <!-- Estrellas completas -->
+                    <?php for ($i = 0; $i < $fullStars; $i++): ?>
+                    <span class="star full">★</span>
+                    <?php endfor;?>
+
+                    <!-- Media estrella -->
+                    <?php if ($halfStar): ?>
+                    <span class="star half">★</span>
+                    <?php endif;?>
+
+                    <!-- Estrellas vacías -->
+                    <?php for ($i = 0; $i < $emptyStars; $i++): ?>
+                    <span class="star empty">★</span>
+                    <?php endfor;?>
+
+                    <!-- Calificación y número de calificaciones -->
+                    <span class="rating-number"><?php echo number_format($avgCourse, 1); ?></span><br>
+                    <span class=" total-ratings"><?php echo number_format($totalRatings); ?> calificaciones</span><br>
+                    <span class="total-students"><?php echo number_format($totalStudents); ?> estudiantes</span>
                 </div>
             </div>
+
+
+
 
             <!-- Contenido Principal -->
             <div class="w-full lg:w-3/4 px-2 mb-4">

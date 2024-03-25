@@ -881,7 +881,7 @@ function esElAutor($userId, $courseId)
     return $stmt->rowCount() > 0;
 }
 
-function updateRating($courseId, $userId)
+function updateRating($courseId, $userId) //Poner en NULL la puntuación de un usuario
 {
     $db = conexion();
 
@@ -898,41 +898,7 @@ function updateRating($courseId, $userId)
     }
 }
 
-function updateCourseRating($courseId)
-{
-    $db = conexion();
-
-    // Calcular la puntuación media de todas las puntuaciones para el curso
-    $sqlAverage = "SELECT AVG(rating) as averageRating FROM testimonials WHERE courseId = :courseId";
-
-    // Actualizar la puntuación media en la tabla del curso
-    $sqlUpdate = "UPDATE courses SET rating = :averageRating WHERE courseId = :courseId";
-
-    try {
-        // Preparar la sentencia para calcular la media
-        $stmtAverage = $db->prepare($sqlAverage);
-        $stmtAverage->bindParam(':courseId', $courseId, PDO::PARAM_INT);
-        $stmtAverage->execute();
-
-        // Obtener el resultado
-        $result = $stmtAverage->fetch(PDO::FETCH_ASSOC);
-        $averageRating = $result['averageRating'];
-
-        // Comprobar si se obtuvo un resultado válido
-        if ($averageRating !== null) {
-            // Preparar la sentencia para actualizar la media en la tabla de cursos
-            $stmtUpdate = $db->prepare($sqlUpdate);
-            $stmtUpdate->bindParam(':averageRating', $averageRating, PDO::PARAM_STR); // Asegúrate de que el tipo de dato coincide con tu esquema de DB
-            $stmtUpdate->bindParam(':courseId', $courseId, PDO::PARAM_INT);
-            $stmtUpdate->execute();
-        }
-
-    } catch (PDOException $e) {
-        echo "Error de la base de datos: " . $e->getMessage();
-    }
-}
-
-function averageCourseRating($courseId)
+function averageCourseRating($courseId) // Obtener la puntuación media de un curso
 {
     $db = conexion();
     $sql = "SELECT AVG(rating) as averageRating FROM testimonials WHERE courseId = :courseId";
@@ -942,6 +908,87 @@ function averageCourseRating($courseId)
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['averageRating'];
+    } catch (PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+    }
+}
+
+function getTotalRatings($courseId) // Obtener el total de puntuaciones
+{
+    $db = conexion();
+    $sql = "SELECT COUNT(rating) FROM testimonials WHERE courseId = :courseId AND rating IS NOT NULL";
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':courseId', $courseId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // FETCH_COLUMN devuelve directamente el valor de la columna seleccionada
+        return $stmt->fetchColumn();
+    } catch (PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+        return 0; // En caso de error, devuelve 0
+    }
+
+}
+
+function getTotalStudents($courseId) // Obtener el total de estudiantes
+{
+    $db = conexion();
+
+    $sql = "SELECT COUNT(*) FROM course_subscriptions WHERE courseId = :courseId";
+
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':courseId', $courseId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchColumn();
+    } catch (PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+        return 0;
+    }
+}
+
+function esAutor($userId)
+{
+    $db = conexion();
+    $sql = "SELECT * FROM courses WHERE userId = :userId";
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->rowCount() > 0;
+    } catch (PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+    }
+}
+
+function esEstudiante($userId)
+{
+    $db = conexion();
+    $sql = "SELECT * FROM course_subscriptions WHERE userId = :userId";
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->rowCount() > 0;
+    } catch (PDOException $e) {
+        echo "Error de la base de datos: " . $e->getMessage();
+    }
+}
+
+function obtenerMisCursos($userId)
+{
+    $db = conexion();
+    $sql = "SELECT c.* FROM courses c
+            INNER JOIN course_subscriptions cs ON c.courseId = cs.courseId
+            WHERE cs.userId = :userId";
+
+    try {
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         echo "Error de la base de datos: " . $e->getMessage();
     }

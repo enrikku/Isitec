@@ -1,8 +1,12 @@
 <?php
+require_once __DIR__ . '\..\utils/utils.php';
 require_once __DIR__ . '\redireccion.php';
 
-// Obtienes el nombre del archivo actual
 $current_page = basename($_SERVER['PHP_SELF']);
+$user = $_COOKIE['token'];
+$userId = getUserIdByUsernameOrEmail($user);
+$esAutor = esAutor($userId);
+$esEstudiante = esEstudiante($userId);
 
 // Función para imprimir la clase correcta
 function print_link_class($page)
@@ -20,20 +24,22 @@ function print_link_class($page)
 <nav class="bg-gray-800">
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div class="relative flex items-center justify-between h-16">
+
             <!-- Contenedor del logotipo -->
             <div class="flex-1 flex items-center justify-start sm:items-stretch sm:justify-start">
                 <a href="/isitec/public/home.php" class="flex-shrink-0 flex items-center">
                     <section class="hidden sm:block">
-                        <span class="text-lg sm:text-xl md:text-1xl lg:text-2xl text-red-500">developer</span>
-                        <span class="text-lg sm:text-xl md:text-1xl lg:text-2xl text-green-500">@</span>
-                        <span class="text-lg sm:text-xl md:text-1xl lg:text-2xl text-blue-500">php:</span>
-                        <span class="text-lg sm:text-xl md:text-1xl lg:text-2xl text-yellow-500">~</span>
-                        <span class="text-lg sm:text-xl md:text-1xl lg:text-2xl text-purple-500">$</span>
+                        <span class="text-lg sm:text-xl md:text-1xl lg:text-1xl text-red-500">developer</span>
+                        <span class="text-lg sm:text-xl md:text-1xl lg:text-1xl text-green-500">@</span>
+                        <span class="text-lg sm:text-xl md:text-1xl lg:text-1xl text-blue-500">php:</span>
+                        <span class="text-lg sm:text-xl md:text-1xl lg:text-1xl text-yellow-500">~</span>
+                        <span class="text-lg sm:text-xl md:text-1xl lg:text-1xl text-purple-500">$</span>
                         <span
-                            class="text-lg sm:text-xl md:text-1xl lg:text-2xl font-bold mx-2 text-orange-500">ISITEC</span>
-                        <span class="text-lg sm:text-xl md:text-1xl lg:text-2xl animate-blink text-green-500">|</span>
+                            class="text-lg sm:text-xl md:text-1xl lg:text-1xl font-bold mx-2 text-orange-500">ISITEC</span>
+                        <span class="text-lg sm:text-xl md:text-1xl lg:text-1xl animate-blink text-green-500">|</span>
                     </section>
                 </a>
+
                 <!-- Menú de navegación para escritorio -->
                 <div class="hidden sm:block sm:ml-6">
                     <div class="flex space-x-4">
@@ -43,14 +49,19 @@ function print_link_class($page)
                             <?php echo ($current_page == 'addCourse.php' ? 'aria-current="page"' : ''); ?>>Añadir
                             curso</a>
 
+                        <?php if ($esAutor): ?>
                         <a href="/isitec/public/cursos/addLesson.php" class="<?php print_link_class('addLesson.php');?>"
                             <?php echo ($current_page == 'addLesson.php' ? 'aria-current="page"' : ''); ?>>
                             Añadir Leccion</a>
-                        <!-- Agrega los otros enlaces aquí siguiendo el mismo patrón -->
+                        <?php endif;?>
 
-                        <a href="/isitec/public/cursos/curso.php" class="<?php print_link_class('curso.php');?>"
-                            <?php echo ($current_page == 'curso.php' ? 'aria-current="page"' : ''); ?>>
-                            Curso</a>
+                        <?php if ($esEstudiante): ?>
+                        <a href="/isitec/public/cursos/misCursos.php" class="<?php print_link_class('misCursos.php');?>"
+                            <?php echo ($current_page == 'misCursos.php' ? 'aria-current="page"' : ''); ?>>
+                            Mis Cursos</a>
+
+                        <?php endif;?>
+
                     </div>
                 </div>
             </div>
@@ -123,8 +134,8 @@ if ($current_page != 'addCourse.php') {
                         <div class="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                             <!-- Active: "bg-gray-100", Not Active: "" -->
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                                id="user-menu-item-0">perfil</a>
+                            <a href="/isitec/public/perfil.php" class="block px-4 py-2 text-sm text-gray-700"
+                                role="menuitem" tabindex="-1" id="user-menu-item-0">perfil</a>
                             <a href="/isitec/controller/logout.php" class="block px-4 py-2 text-sm text-gray-700"
                                 role="menuitem" tabindex="-1" id="user-menu-item-2">Log out</a>
                         </div>
@@ -159,18 +170,31 @@ if ($current_page != 'addCourse.php') {
     <!-- Mobile menu, show/hide based on menu state. -->
 
     <div class="md:hidden hidden " id="mobile-menu">
+
         <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
 
             <a href="/isitec/public/home.php"
                 class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium <?php echo ($current_page == 'home.php' ? 'bg-gray-900 text-white' : ''); ?>"
                 <?php echo ($current_page == 'home.php' ? 'aria-current="page"' : ''); ?>>Home</a>
+
+
             <a href="/isitec/public/cursos/addCourse.php"
                 class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium <?php echo ($current_page == 'addCourse.php' ? 'bg-gray-900 text-white' : ''); ?>"
                 <?php echo ($current_page == 'addCourse.php' ? 'aria-current="page"' : ''); ?>>Añadir curso</a>
 
+
+            <?php if ($esAutor): ?>
             <a href="/isitec/public/cursos/addLesson.php" class="<?php print_link_class('addLesson.php');?>"
-                <?php echo ($current_page == 'addLesson.php' ? 'aria-current="page"' : ''); ?>>
-                Añadir Leccion</a>
+                <?php echo ($current_page == 'addLesson.php' ? 'aria-current="page"' : ''); ?>> Añadir Leccion</a>
+            <?php endif;?>
+
+
+            <?php if ($esEstudiante): ?>
+            <a href="/isitec/public/cursos/misCursos.php"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium <?php print_link_class('misCursos.php');?>"
+                <?php echo ($current_page == 'misCursos.php' ? 'aria-current="page"' : ''); ?>> Mis Cursos</a>
+            <?php endif;?>
+
         </div>
 
         <?php
@@ -212,7 +236,7 @@ if ($current_page != 'addCourse.php') {
                 </button>
             </div>
             <div class="mt-3 space-y-1 px-2">
-                <a href="#"
+                <a href="/isitec/public/perfil.php"
                     class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Perfil</a>
 
                 <a href="/isitec/controller/logout.php"

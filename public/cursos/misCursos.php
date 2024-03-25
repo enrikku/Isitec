@@ -21,7 +21,7 @@ if (isset($_GET['search'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis cursos</title>
-    <link rel="icon" href="/isitec/assets/img/cookies.webp" type="image/x-icon">
+    <link rel="icon" href="/isitec/assets/img/misCursos.webp" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <link rel="stylesheet" href="/isitec/assets/css/common.css">

@@ -71,7 +71,7 @@ function print_link_class($page)
 
 $current_page = basename($_SERVER['PHP_SELF']);
 
-if ($current_page != 'addCourse.php') {
+if ($current_page != 'addCourse.php' && $current_page != 'addLesson.php') {
     ?>
             <div class="hidden md:block w-full max-w-xs">
                 <form class="max-w-md mx-auto" method="get">
@@ -201,7 +201,7 @@ if ($current_page != 'addCourse.php') {
 
 $current_page = basename($_SERVER['PHP_SELF']);
 
-if ($current_page != 'addCourse.php') {
+if ($current_page != 'addCourse.php' && $current_page != 'addLesson.php') {
     ?>
         <div class="pb-3 border-t border-gray-700">
             <form class="max-w-md mx-auto">

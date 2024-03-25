@@ -412,30 +412,6 @@ function obtenerTags()
     return $tags;
 }
 
-function guardarPath($path)
-{
-    $db = conexion();
-
-    $sql = "UPDATE courses
-        SET passHash = :passHash, resetPassExpiry = NULL, resetPassCode = NULL
-        WHERE mail = :mailURL AND (minute(resetPassExpiry)-minute(NOW()) < 30) AND active = 1";
-
-    try {
-        $stmt = $db->prepare($sql);
-        $stmt->bindParam(':passHash', $passHash);
-        $stmt->bindParam(':mailURL', $mailURL);
-        $stmt->execute();
-
-        if ($stmt->rowCount() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    } catch (PDOException $e) {
-        echo "Error de la base de datos: " . $e->getMessage();
-    }
-}
-
 function guardarCurso($userId, $title, $description, $coverURL)
 {
     $db = conexion();
@@ -980,16 +956,62 @@ function esEstudiante($userId)
 function obtenerMisCursos($userId)
 {
     $db = conexion();
-    $sql = "SELECT c.* FROM courses c
-            INNER JOIN course_subscriptions cs ON c.courseId = cs.courseId
-            WHERE cs.userId = :userId";
 
-    try {
-        $stmt = $db->prepare($sql);
-        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        echo "Error de la base de datos: " . $e->getMessage();
+    // Obtener los cursos en los que el usuario está inscrito
+    $stmtCursos = $db->prepare("SELECT c.* FROM courses c
+                                INNER JOIN course_subscriptions cs ON c.courseId = cs.courseId
+                                WHERE cs.userId = :userId");
+    $stmtCursos->execute([':userId' => $userId]);
+    $cursos = $stmtCursos->fetchAll(PDO::FETCH_ASSOC);
+
+    // Para cada curso, obtener los vídeos, tags y votos
+    foreach ($cursos as $index => $curso) {
+        // Obtener los vídeos
+        $stmtVideos = $db->prepare("SELECT * FROM videos WHERE courseId = ?");
+        $stmtVideos->execute([$curso['courseId']]);
+        $cursos[$index]['videos'] = $stmtVideos->fetchAll(PDO::FETCH_ASSOC);
+
+        // Obtener los tags
+        $stmtTags = $db->prepare("SELECT t.* FROM tags t JOIN coursetags ct ON t.tagId = ct.tagId WHERE ct.courseId = ?");
+        $stmtTags->execute([$curso['courseId']]);
+        $cursos[$index]['tags'] = $stmtTags->fetchAll(PDO::FETCH_ASSOC);
+
+        // Obtener los votos
+        $stmtVotos = $db->prepare("SELECT likes, dislikes FROM votes WHERE courseId = ?");
+        $stmtVotos->execute([$curso['courseId']]);
+        $votos = $stmtVotos->fetch(PDO::FETCH_ASSOC);
+        $cursos[$index]['votos'] = $votos ? $votos : ['likes' => 0, 'dislikes' => 0];
+
+        //Obtener el count de testimonios
+        $stmtTestimonios = $db->prepare("SELECT COUNT(*) AS count FROM testimonials WHERE courseId = ?");
+        $stmtTestimonios->execute([$curso['courseId']]);
+        $testimonios = $stmtTestimonios->fetch(PDO::FETCH_ASSOC);
+        $cursos[$index]['testimonios'] = $testimonios ? $testimonios['count'] : 0;
+
+        // Obtener la fecha del último comentario
+        $stmtUltimoComentario = $db->prepare("SELECT MAX(commentDate) AS ultimoComentario FROM testimonials WHERE courseId = ?");
+        $stmtUltimoComentario->execute([$curso['courseId']]);
+        $ultimoComentario = $stmtUltimoComentario->fetch(PDO::FETCH_ASSOC);
+        $cursos[$index]['tiempoUltimoComentario'] = $ultimoComentario ? tiempoTranscurrido($ultimoComentario['ultimoComentario']) : "Nunca";
     }
+
+    return $cursos;
+}
+
+function getUserDetails($userId)
+{
+    $db = conexion();
+    $stmt = $db->prepare("SELECT * FROM users WHERE iduser = :userId");
+    $stmt->execute([':userId' => $userId]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $user;
+}
+
+function getTitleCourse($courseId)
+{
+    $db = conexion();
+    $stmt = $db->prepare("SELECT title FROM courses WHERE courseId = :courseId");
+    $stmt->execute([':courseId' => $courseId]);
+    $title = $stmt->fetchColumn();
+    return $title;
 }

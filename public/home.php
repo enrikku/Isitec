@@ -145,7 +145,7 @@ if (isset($_GET['search'])) {
                     <a href="./cursos/curso.php?id=<?php echo htmlspecialchars($curso['courseId']); ?>"></a>
                     <div class="relative cursor-pointer">
                         <a href="./cursos/curso.php?id=<?php echo htmlspecialchars($curso['courseId']); ?>">
-                            <img class="w-full" src="<?php echo htmlspecialchars($curso['coverURL']); ?>"
+                            <img class="w-full" src="cursos/<?php echo htmlspecialchars($curso['coverURL']); ?>"
                                 alt="Imagen del curso <?php echo htmlspecialchars($curso['title']); ?>"
                                 style="max-height: 80%;">
                             <div

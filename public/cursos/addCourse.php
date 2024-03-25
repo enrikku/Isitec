@@ -46,7 +46,7 @@ if (isset($_FILES['image'])) {
     }
 
     if (move_uploaded_file($tmp_name, $destination)) {
-        $courseId = guardarCurso($userId, $_POST['title'], $_POST['description'], "cursos/uploads/" . $hashed_name . "." . $extension);
+        $courseId = guardarCurso($userId, $_POST['title'], $_POST['description'], "uploads/" . $hashed_name . "." . $extension);
         if ($courseId !== null && guardarTagsDelCurso($courseId, $selectedTags) && insertVideoLink($courseId, $_POST['videoURL'])) {
             header("Location: /isitec/public/home.php");
         }

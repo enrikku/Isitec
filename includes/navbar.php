@@ -61,7 +61,6 @@ function print_link_class($page)
                             Mis Cursos</a>
 
                         <?php endif;?>
-
                     </div>
                 </div>
             </div>
@@ -136,8 +135,13 @@ if ($current_page != 'addCourse.php' && $current_page != 'addLesson.php') {
                             <!-- Active: "bg-gray-100", Not Active: "" -->
                             <a href="/isitec/public/perfil.php" class="block px-4 py-2 text-sm text-gray-700"
                                 role="menuitem" tabindex="-1" id="user-menu-item-0">perfil</a>
-                            <a href="/isitec/controller/logout.php" class="block px-4 py-2 text-sm text-gray-700"
+                            
+                                <a href="/isitec/controller/logout.php" class="block px-4 py-2 text-sm text-gray-700"
                                 role="menuitem" tabindex="-1" id="user-menu-item-2">Log out</a>
+                            
+                                <a href="/isitec/public/cursos/cursosCreados.php" class="block px-4 py-2 text-sm text-gray-700"
+                                role="menuitem" tabindex="-1" id="user-menu-item-2">Cursos creados</a>
+
                         </div>
                     </div>
                 </div>

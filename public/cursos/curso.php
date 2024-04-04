@@ -13,11 +13,19 @@ $totalStudents = getTotalStudents($courseId);
 $fullStars = floor($avgCourse);
 $halfStar = ($avgCourse - $fullStars) >= 0.5 ? 1 : 0;
 $emptyStars = 5 - $fullStars - $halfStar;
+$tieneZIP = false;
 
 if (isset($_GET['titleLesson']) && isset($_GET['descriptionLesson']) && isset($_GET['videoLesson'])) {
     $titleLesson = $_GET['titleLesson'];
     $descriptionLesson = $_GET['descriptionLesson'];
     $videoLesson = convertirURLparaIFrame($_GET['videoLesson']);
+    $tieneZIP = tieneZIP($_GET['idLesson'], $courseId);
+    
+    if($tieneZIP)
+    {
+        $zip = getZIP($_GET['idLesson'], $courseId);
+    }
+
 } else {
     if ($courseId == null) {
         header("Location: ../home.php");
@@ -37,7 +45,7 @@ if (isset($_POST['subscribe'])) {
 
 if (isset($_POST['comentario']) && !empty($_POST['rating'])) {
     updateRating($courseId, $userId);
-    enviarComentario($courseId, $userId, $_POST['comentario'], $_POST['rating']);
+    enviarComentario($courseId, $userId, $_POST['comentario'], $_POST['rating'] != 0 ? $_POST['rating'] : null);
     header("Refresh: 0.5; url=../cursos/curso.php?id=$courseId");
 }
 
@@ -80,6 +88,12 @@ function convertirURLparaIFrame($url)
 
     <?php require_once __DIR__ . '/../../includes/navBar.php';?>
 
+    <?php if($tieneZIP): ?>
+
+        <button><a href= "<?= $zip; ?>" download>Descargar ZIP</a></button>
+
+    <?php endif; ?>
+
     <div class="container mx-auto p-4">
         <div class="flex flex-wrap">
             <!-- Sidebar para lista de lecciones -->
@@ -96,7 +110,7 @@ function convertirURLparaIFrame($url)
 
                         <?php foreach ($lecciones as $leccion): ?>
                         <li class="py-2 border-b border-gray-700">
-                            <a href="curso.php?id=<?php echo $leccion['courseId']; ?>&titleLesson=<?php echo $leccion['title']; ?>&descriptionLesson=<?php echo $leccion['description']; ?>&videoLesson=<?php echo $leccion['videoURL']; ?>"
+                            <a href="curso.php?id=<?php echo $leccion['courseId']; ?>&titleLesson=<?php echo $leccion['title']; ?>&descriptionLesson=<?php echo $leccion['description']; ?>&videoLesson=<?php echo $leccion['videoURL']; ?> &idLesson=<?php echo $leccion['lessonId']; ?>"
                                 class="text-white hover:text-blue-400"><?php echo $leccion['title']; ?></a>
                         </li>
                         <?php endforeach;?>
@@ -134,17 +148,17 @@ function convertirURLparaIFrame($url)
                 <div class="mb-4">
                     <h1 class="text-3xl font-bold mb-2">
                         <?php
-$titleToShow = empty($_GET['titleLesson']) ? htmlspecialchars($course['title']) : htmlspecialchars($_GET['titleLesson']);
-echo $titleToShow;
-?>
+                            $titleToShow = empty($_GET['titleLesson']) ? htmlspecialchars($course['title']) : htmlspecialchars($_GET['titleLesson']);
+                            echo $titleToShow;
+                        ?>
 
                     </h1>
                     <p class="text-gray-500 dark:text-gray-400">
                         <!-- <?php echo htmlspecialchars($course['description']); ?> -->
                         <?php
-$descToShow = empty($_GET['descriptionLesson']) ? htmlspecialchars($course['description']) : htmlspecialchars($_GET['descriptionLesson']);
-echo $descToShow;
-?>
+                            $descToShow = empty($_GET['descriptionLesson']) ? htmlspecialchars($course['description']) : htmlspecialchars($_GET['descriptionLesson']);
+                            echo $descToShow;
+                        ?>
                     </p>
                 </div>
 
@@ -152,7 +166,7 @@ echo $descToShow;
                 <div class="video-container relative overflow-hidden pb-56.25% rounded-3xl shadow-3xl"
                     style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
                     <iframe src="<?php $videoToShow = empty($videoLesson) ? htmlspecialchars(convertirURLparaIFrame($course['videos'][0]['videoURL'])) : htmlspecialchars($videoLesson);
-echo $videoToShow;?>" class="absolute top-0 left-0 w-full h-full" frameborder="0"
+                        echo $videoToShow;?>" class="absolute top-0 left-0 w-full h-full" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
                     </iframe>
@@ -173,7 +187,7 @@ echo $videoToShow;?>" class="absolute top-0 left-0 w-full h-full" frameborder="0
                 <?php if ($estoySubscrito): ?>
                 <form method="post" id="chat-form" class="rating">
                     <div class="rating__stars py-5">
-                        <input id="numEstrella" class="hidden" type="text" name="rating" value=1 name="rating">
+                        <input id="numEstrella" class="hidden" type="text" name="rating" value=0 name="rating">
                         <input id="rating-1" class="rating__input rating__input-1" type="radio" name="rating" value="1">
                         <input id="rating-2" class="rating__input rating__input-2" type="radio" name="rating" value="2">
                         <input id="rating-3" class="rating__input rating__input-3" type="radio" name="rating" value="3">
@@ -347,7 +361,7 @@ echo $videoToShow;?>" class="absolute top-0 left-0 w-full h-full" frameborder="0
 
 
                 <!-- Testimonios -->
-                <div class="mb-4 py-5">
+                <div class="mb-4 py-5" style="max-height: 300px; overflow-y: auto;">
                     <h3 class="text-xl font-bold mb-2">Testimonios</h3>
                     <!-- Suponiendo que tienes un array de testimonios -->
                     <?php foreach ($comentarios as $testimonial): ?>

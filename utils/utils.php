@@ -1015,3 +1015,45 @@ function getTitleCourse($courseId)
     $title = $stmt->fetchColumn();
     return $title;
 }
+
+
+function tieneZIP($lessonId, $courseId)
+{
+    $db = conexion();
+    $stmt = $db->prepare("SELECT resourceZip FROM lessons WHERE lessonId = :lessonId AND courseId = :courseId");
+    $stmt->execute([':lessonId' => $lessonId, ':courseId' => $courseId]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($result && isset($result['resourceZip'])) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function getZIP($lessonId, $courseId){
+    $db = conexion();
+    $stmt = $db->prepare("SELECT resourceZip FROM lessons WHERE lessonId = :lessonId AND courseId = :courseId");
+    $stmt->execute([':lessonId' => $lessonId, ':courseId' => $courseId]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['resourceZip'];
+}
+
+function cursosCreados($user){
+    $db = conexion();
+    $stmt = $db->prepare("SELECT c.*, MAX(t.commentDate) AS tiempoUltimoComentario, COUNT(t.testimonialId) AS testimonios 
+                         FROM courses c 
+                         INNER JOIN users u ON u.iduser = c.userId 
+                         LEFT JOIN testimonials t ON c.courseId = t.courseId
+                         WHERE u.iduser = :iduser
+                         GROUP BY c.courseId");
+
+    $stmt->execute([':iduser' => $user]);
+    $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($cursos as $index => $curso) {
+        $cursos[$index]['tiempoUltimoComentario'] = tiempoTranscurrido($cursos[$index]['tiempoUltimoComentario']);
+    }
+
+    return $cursos;
+}

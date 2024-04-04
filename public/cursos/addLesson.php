@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($cursoId && $titulo) {
         if (isset($_FILES['resourceZip']) && $_FILES['resourceZip']['error'] === UPLOAD_ERR_OK) {
             $filename = basename($_FILES['resourceZip']['name']);
-            $resources_dir = $_SERVER['DOCUMENT_ROOT'] . '/isitec/public/cursos/resources/' . $filename;
+            $resources_dir = 'resources/' . $filename;
             if (move_uploaded_file($_FILES['resourceZip']['tmp_name'], $resources_dir)) {
                 $resourceZip = $resources_dir;
             } else {

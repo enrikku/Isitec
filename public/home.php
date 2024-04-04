@@ -39,6 +39,7 @@ $mejorValorados = cursosMejorRating();
     <main>
 
         <!-- Carousel -->
+        <?php if (!empty($mejorValorados)): ?>
         <div class="mx-auto max-w-5xl py-6 sm:px-6 lg:px-8">
 
             <div id="default-carousel" class="relative w-full" data-carousel="slide">
@@ -94,6 +95,7 @@ $mejorValorados = cursosMejorRating();
             </div>
 
         </div>
+        <?php endif; ?>
 
         <div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
             <div class="border-b mb-5 flex justify-between text-sm">
@@ -119,7 +121,7 @@ $mejorValorados = cursosMejorRating();
 
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-
+               <?php if (!empty($cursos)): ?> 
                 <?php foreach ($cursos as $curso): ?>
 
                 <!-- CARD 1 -->
@@ -215,6 +217,9 @@ $mejorValorados = cursosMejorRating();
                     </div>
                 </div>
                 <?php endforeach;?>
+                <?php else:?>
+                <p>No hay cursos</p>
+                <?php endif?>
             </div>
         </div>
     </main>

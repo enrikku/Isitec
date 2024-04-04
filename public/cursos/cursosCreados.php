@@ -27,6 +27,7 @@ $cursos = cursosCreados($id);
         <main class="py-10">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
             
+            <?php if (!empty($cursos)): ?>
             <?php foreach ($cursos as $curso): ?>
 
             <!-- CARD 1 -->
@@ -122,6 +123,10 @@ $cursos = cursosCreados($id);
                 </div>
             </div>
             <?php endforeach;?>
+            <?php else: ?>
+                <p>No hay cursos creados</p>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><a href="/isitec/public/cursos/addCourse.php">Crear un curso</a></button>
+            <?php endif?>
         </div>
     </main>
 

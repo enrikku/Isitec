@@ -1,3 +1,10 @@
+<?php 
+    require_once __DIR__ . '\..\utils\utils.php';
+
+    $mejorValorados = cursosMejorRating();
+?>
+
+
 <!-- Footer container -->
 <footer class="custom-footer-bg text-center text-surface/75 dark:bg-neutral-700 dark:text-white/75 lg:text-left">
     <div
@@ -106,18 +113,11 @@
                 <h6 class="mb-4 flex justify-center font-semibold uppercase md:justify-start">
                     Products
                 </h6>
-                <p class="mb-4">
-                    <a href="#!">Angular</a>
-                </p>
-                <p class="mb-4">
-                    <a href="#!">React</a>
-                </p>
-                <p class="mb-4">
-                    <a href="#!">Vue</a>
-                </p>
-                <p>
-                    <a href="#!">Laravel</a>
-                </p>
+                <?php foreach ($mejorValorados as $mejorValorado) : ?>
+                    <p class="mb-4">
+                        <a href=" <?='/isitec/public/cursos/curso.php?id=' .$mejorValorado['courseId']; ?>"><?= $mejorValorado['title'] ?></a>
+                    </p>
+                <?php endforeach; ?>
             </div>
             <!-- Useful links section -->
             <div>

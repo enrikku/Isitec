@@ -1057,3 +1057,21 @@ function cursosCreados($user){
 
     return $cursos;
 }
+
+
+function cursosMejorRating(){
+
+    $db = conexion();
+    $stmt = $db->prepare("SELECT c.*, AVG(t.rating) AS averageRating
+                        FROM courses c
+                        INNER JOIN testimonials t ON c.courseId = t.courseId
+                        GROUP BY c.courseId, c.title
+                        ORDER BY AVG(t.rating) DESC
+                        LIMIT 5;");
+    
+    $stmt->execute();
+    $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    return $resultados;
+}
+

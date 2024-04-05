@@ -94,12 +94,13 @@ if ($current_page != 'addCourse.php' && $current_page != 'addLesson.php') {
                                 </svg>
                             </div>
                             <input type="search" id="default-search" name="search"
-                                class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-600 rounded-lg bg-gray-700 focus:ring-blue-500 focus:border-blue-500"
+                                class="block w-full p-4 pl-10 text-sm text-white bg-gray-700 border border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                                 placeholder="React, php, c# ..." required />
                             <button type="submit" class="absolute right-2.5 bottom-2.5 bg-gray-600 hover:bg-gray-500 text-white border border-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300
-        font-medium rounded-lg text-sm px-4 py-2 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+font-medium rounded-lg text-sm px-4 py-2 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                                 Buscar
                             </button>
+
                         </div>
 
                     </div>
@@ -133,14 +134,15 @@ if ($current_page != 'addCourse.php' && $current_page != 'addLesson.php') {
                         <div class="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                             <!-- Active: "bg-gray-100", Not Active: "" -->
-                                <a href="/isitec/public/perfil.php" class="block px-4 py-2 text-sm text-gray-700"
+                            <a href="/isitec/public/perfil.php" class="block px-4 py-2 text-sm text-gray-700"
                                 role="menuitem" tabindex="-1" id="user-menu-item-0">perfil</a>
-                            
-                                <a href="/isitec/controller/logout.php" class="block px-4 py-2 text-sm text-gray-700"
+
+                            <a href="/isitec/public/cursos/cursosCreados.php"
+                                class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                                id="user-menu-item-2">Cursos creados</a>
+
+                            <a href="/isitec/controller/logout.php" class="block px-4 py-2 text-sm text-gray-700"
                                 role="menuitem" tabindex="-1" id="user-menu-item-2">Log out</a>
-                            
-                                <a href="/isitec/public/cursos/cursosCreados.php" class="block px-4 py-2 text-sm text-gray-700"
-                                role="menuitem" tabindex="-1" id="user-menu-item-2">Cursos creados</a>
 
                         </div>
                     </div>
@@ -242,12 +244,13 @@ if ($current_page != 'addCourse.php' && $current_page != 'addLesson.php') {
                 <a href="/isitec/public/perfil.php"
                     class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Perfil</a>
 
-                <a href="/isitec/controller/logout.php"
-                    class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Log out</a>
-                
-                <a href="/isitec/public/cursos/cursosCreados.php" 
-                    class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Cursos creados</a>
+                <a href="/isitec/public/cursos/cursosCreados.php"
+                    class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Cursos
+                    creados</a>
 
+                <a href="/isitec/controller/logout.php"
+                    class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Log
+                    out</a>
             </div>
         </div>
     </div>

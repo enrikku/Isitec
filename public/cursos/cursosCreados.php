@@ -1,8 +1,5 @@
 <?php
 require_once __DIR__ . '\..\..\utils\utils.php';
-/* $user = $_COOKIE['token'];
-$userId = getUserIdByUsernameOrEmail($user); */
-/* require_once __DIR__ . '\..\..\includes\navBar.php'; */
 
 $user = $_COOKIE['token'];
 
@@ -14,19 +11,21 @@ $cursos = cursosCreados($id);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Cursos</title>
+    <link rel="stylesheet" href="/isitec/assets/css/common.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-    <body class="bg-gray-900 text-white">
-        <?php require_once __DIR__ . '/../../includes/navBar.php';?>
 
+<body class="bg-gray-900 text-white">
+    <?php require_once __DIR__ . '/../../includes/navBar.php';?>
 
-        <main class="py-10">
+    <main class="py-10">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-            
+
             <?php if (!empty($cursos)): ?>
             <?php foreach ($cursos as $curso): ?>
 
@@ -124,15 +123,16 @@ $cursos = cursosCreados($id);
             </div>
             <?php endforeach;?>
             <?php else: ?>
-                <p>No hay cursos creados</p>
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><a href="/isitec/public/cursos/addCourse.php">Crear un curso</a></button>
+            <p>No hay cursos creados</p>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><a
+                    href="/isitec/public/cursos/addCourse.php">Crear un curso</a></button>
             <?php endif?>
         </div>
     </main>
 
     <?php require_once __DIR__ . '\..\..\includes\footer.php';?>
 
-
     <script src="/isitec/assets/js/home.js"></script>
 </body>
+
 </html>

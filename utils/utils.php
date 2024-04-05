@@ -803,7 +803,7 @@ function hasSubscription($userId, $courseId)
     }
 }
 
-function enviarComentario($courseId, $userId, $testimonial, $rating)
+function enviarComentario($courseId, $userId, $testimonial, $rating = null)
 {
     $db = conexion();
 
@@ -1016,14 +1016,13 @@ function getTitleCourse($courseId)
     return $title;
 }
 
-
 function tieneZIP($lessonId, $courseId)
 {
     $db = conexion();
     $stmt = $db->prepare("SELECT resourceZip FROM lessons WHERE lessonId = :lessonId AND courseId = :courseId");
     $stmt->execute([':lessonId' => $lessonId, ':courseId' => $courseId]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     if ($result && isset($result['resourceZip'])) {
         return true;
     } else {
@@ -1031,7 +1030,8 @@ function tieneZIP($lessonId, $courseId)
     }
 }
 
-function getZIP($lessonId, $courseId){
+function getZIP($lessonId, $courseId)
+{
     $db = conexion();
     $stmt = $db->prepare("SELECT resourceZip FROM lessons WHERE lessonId = :lessonId AND courseId = :courseId");
     $stmt->execute([':lessonId' => $lessonId, ':courseId' => $courseId]);
@@ -1039,14 +1039,15 @@ function getZIP($lessonId, $courseId){
     return $result['resourceZip'];
 }
 
-function cursosCreados($user){
+function cursosCreados($user)
+{
     $db = conexion();
-    $stmt = $db->prepare("SELECT c.*, MAX(t.commentDate) AS tiempoUltimoComentario, COUNT(t.testimonialId) AS testimonios 
-                         FROM courses c 
-                         INNER JOIN users u ON u.iduser = c.userId 
-                         LEFT JOIN testimonials t ON c.courseId = t.courseId
-                         WHERE u.iduser = :iduser
-                         GROUP BY c.courseId");
+    $stmt = $db->prepare("SELECT c.*, MAX(t.commentDate) AS tiempoUltimoComentario, COUNT(t.testimonialId) AS testimonios
+                        FROM courses c
+                        INNER JOIN users u ON u.iduser = c.userId
+                        LEFT JOIN testimonials t ON c.courseId = t.courseId
+                        WHERE u.iduser = :iduser
+                        GROUP BY c.courseId");
 
     $stmt->execute([':iduser' => $user]);
     $cursos = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -1058,8 +1059,8 @@ function cursosCreados($user){
     return $cursos;
 }
 
-
-function cursosMejorRating(){
+function cursosMejorRating()
+{
 
     $db = conexion();
     $stmt = $db->prepare("SELECT c.*, AVG(t.rating) AS averageRating
@@ -1068,10 +1069,9 @@ function cursosMejorRating(){
                         GROUP BY c.courseId, c.title
                         ORDER BY AVG(t.rating) DESC
                         LIMIT 5;");
-    
+
     $stmt->execute();
     $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
     return $resultados;
 }
-

@@ -61,8 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php require_once __DIR__ . '\..\..\includes\navBar.php';?>
 
     <div class="container mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-content">
+        <h1 class="text-3xl font-bold mb-6 text-center">Añadir Lecciones a tu Curso</h1>
         <div class="w-full max-w-4xl mx-auto my-8 md:my-16">
-            <h1 class="text-3xl font-bold mb-6 text-center">Añadir Lecciones a tu Curso</h1>
+
 
             <!-- Usar 'md:flex' para asegurar que se convierta en flexbox en pantallas medianas y más grandes -->
             <div class="md:flex gap-8">

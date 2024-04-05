@@ -2,21 +2,13 @@
 require_once __DIR__ . '\..\utils/utils.php';
 require_once __DIR__ . '\..\includes\svgs.php';
 
-// En algún lugar en tu archivo PHP
-//$cursos = obtenerCursos();
-
 if (isset($_GET['search'])) {
     $search_query = $_GET['search'];
     $cursos = obtenerCursosByTag($search_query);
 } else {
     $cursos = obtenerCursos();
 }
-
-$mejorValorados = cursosMejorRating();
-
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -46,23 +38,26 @@ $mejorValorados = cursosMejorRating();
                 <!-- Carousel wrapper -->
                 <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
                     <?php foreach ($mejorValorados as $mejorValorado): ?>
-                        <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                            <a href="./cursos/curso.php?id=<?= $mejorValorado['courseId'] ?>">
-                                <img src="<?= 'cursos/' . $mejorValorado['coverURL'] ?>"
-                                class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
-                            </a>
+                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                        <a href="./cursos/curso.php?id=<?=$mejorValorado['courseId']?>">
+                            <img src="<?='cursos/' . $mejorValorado['coverURL']?>"
+                                class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+                                alt="...">
+                        </a>
                     </div>
-                    <?php endforeach; ?>
+                    <?php endforeach;?>
                 </div>
                 <!-- Slider indicators -->
                 <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
                     <?php foreach ($mejorValorados as $index => $mejorValorado): ?>
-                        <?php if ($index == 0): ?>
-                            <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide <?= $index + 1 ?>" data-carousel-slide-to="<?= $index ?>"></button>
-                        <?php else: ?>
-                            <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide <?= $index + 1 ?>" data-carousel-slide-to="<?= $index ?>"></button> 
-                        <?php endif; ?>
-                    <?php endforeach; ?>
+                    <?php if ($index == 0): ?>
+                    <button type="button" class="w-3 h-3 rounded-full" aria-current="true"
+                        aria-label="Slide <?=$index + 1?>" data-carousel-slide-to="<?=$index?>"></button>
+                    <?php else: ?>
+                    <button type="button" class="w-3 h-3 rounded-full" aria-current="false"
+                        aria-label="Slide <?=$index + 1?>" data-carousel-slide-to="<?=$index?>"></button>
+                    <?php endif;?>
+                    <?php endforeach;?>
                 </div>
 
                 <!-- Slider controls -->
@@ -95,7 +90,7 @@ $mejorValorados = cursosMejorRating();
             </div>
 
         </div>
-        <?php endif; ?>
+        <?php endif;?>
 
         <div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
             <div class="border-b mb-5 flex justify-between text-sm">
@@ -119,18 +114,17 @@ $mejorValorados = cursosMejorRating();
                 <a href="./home.php">See All</a>
             </div>
 
-
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-               <?php if (!empty($cursos)): ?> 
+                <?php if (!empty($cursos)): ?>
                 <?php foreach ($cursos as $curso): ?>
 
                 <!-- CARD 1 -->
                 <div
                     class="rounded overflow-hidden shadow-lg flex flex-col bg-card transition-transform hover:scale-105">
                     <a href="./cursos/curso.php?id=<?php echo htmlspecialchars($curso['courseId']); ?>"></a>
-                    <div class="relative cursor-pointer">
+                    <div class="relative cursor-pointer max-h-80">
                         <a href="./cursos/curso.php?id=<?php echo htmlspecialchars($curso['courseId']); ?>">
-                            <img class="w-full" src="cursos/<?php echo htmlspecialchars($curso['coverURL']); ?>"
+                            <img class="w-full  " src="cursos/<?php echo htmlspecialchars($curso['coverURL']); ?>"
                                 alt="Imagen del curso <?php echo htmlspecialchars($curso['title']); ?>"
                                 style="max-height: 80%;">
                             <div
@@ -217,7 +211,7 @@ $mejorValorados = cursosMejorRating();
                     </div>
                 </div>
                 <?php endforeach;?>
-                <?php else:?>
+                <?php else: ?>
                 <p>No hay cursos</p>
                 <?php endif?>
             </div>
@@ -226,7 +220,6 @@ $mejorValorados = cursosMejorRating();
     </div>
     <?php require_once __DIR__ . '\..\includes\footer.php';
 ?>
-
 
     <script src="../assets/js/home.js"></script>
 </body>

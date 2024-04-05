@@ -118,7 +118,9 @@ if (isset($_FILES['image'])) {
                                 </button>
                                 <!-- Menú del dropdown -->
                                 <div id="dropdown"
-                                    class="hidden absolute left-0 mt-1 w-full bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">
+                                    class="hidden absolute left-0 mt-1 w-full bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700"
+                                    style="max-height: 200px; overflow-y: auto;">
+
                                     <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
                                         aria-labelledby="dropdownButton">
                                         <?php echo $htmlTags; ?>

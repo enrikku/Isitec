@@ -20,8 +20,8 @@ if (isset($_GET['search'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis cursos</title>
-    <link rel="icon" href="/isitec/assets/img/misCursos.webp" type="image/x-icon">
+    <title>Cursos creados</title>
+    <link rel="icon" href="/isitec/assets/img/misCursos.webp" type="image/webp">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <link rel="stylesheet" href="/isitec/assets/css/common.css">

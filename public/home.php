@@ -224,4 +224,8 @@ if (isset($_GET['search'])) {
     <script src="../assets/js/home.js"></script>
 </body>
 
+<script>
+validarTexto();
+</script>
+
 </html>

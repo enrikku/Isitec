@@ -135,9 +135,9 @@ function convertirURLparaIFrame($url)
                 <?php if ($tieneZIP): ?>
                 <button><a href="<?=$zip;?>" download>Descargar ZIP</a></button>
 
-                <div class="flex justify-center">
+                <div class="flex justify-center  ">
                     <button
-                        class="download-button transform active:scale-95 bg-blue-500 hover:bg-blue-400 text-white px-16 py-6 rounded-lg font-bold tracking-widest w-full">
+                        class="download-button transform active:scale-95 bg-blue-500 hover:bg-blue-400 text-white px-16 py-6 rounded-lg font-bold tracking-widest w-full  bg-transparent bg-gray-600 hover:bg-gray-500 rounded-lg px-4 py-2 font-bold border-2 border-gray-600">
                         <div class="flex justify-center items-center relative">
                             <div class="svg-container">
                                 <!-- Download Icon -->
@@ -159,8 +159,8 @@ function convertirURLparaIFrame($url)
                                         fill="white" />
                                 </svg>
                             </div>
-                            <div class="button-copy pl-2 leading-none uppercase"><a href="<?=$zip;?>"
-                                    download>Descargar Recurso</a></div>
+                            <div class="button-copy pl-2 leading-none uppercase"><a href="<?=$zip;?>" download>Descargar
+                                    Recurso</a></div>
                         </div>
                     </button>
                 </div>
@@ -465,86 +465,6 @@ echo $videoToShow;?>" class="absolute top-0 left-0 w-full h-full" frameborder="0
     </script>
 
 
-    <style>
-    @use postcss-nested;
-
-    body {
-        font-family: "Roboto", sans-serif;
-    }
-
-    button {
-        &:hover {
-            transform: scale(1.01);
-        }
-
-        &:focus {
-            outline: none !important;
-        }
-
-        &:active {
-            transform: scale(0.99);
-        }
-    }
-
-    .check-svg {
-        animation: svgScale 0.5s ease-in-out;
-    }
-
-    .download-arrow {
-        transition: transform 0.2s linear;
-    }
-
-    button:hover .download-arrow {
-        transform: translate(0, 3px);
-    }
-
-    @keyframes svgScale {
-        0% {
-            transform: scale(0);
-        }
-
-        50% {
-            transform: scale(1.2);
-        }
-    }
-
-    button.download-button {
-        min-width: 340px;
-        min-height: 68px;
-    }
-
-    .download-loader {
-        width: 16px;
-        height: 16px;
-        border: 2px solid transparent;
-        border-top-color: #ffffff;
-        border-radius: 50%;
-        opacity: 0;
-        animation: button-loading-spinner 1s ease 3;
-    }
-
-    @keyframes button-loading-spinner {
-        from {
-            transform: rotate(0turn);
-            opacity: 1;
-        }
-
-        to {
-            transform: rotate(1turn);
-            opacity: 0;
-        }
-    }
-
-    .button-copy {
-        padding-top: 2px;
-    }
-
-    @media (max-width: 375px) {
-        button.copy-button {
-            min-width: 300px;
-        }
-    }
-    </style>
 
 
     <?php require_once __DIR__ . '\..\..\includes\footer.php';

@@ -27,65 +27,68 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+document.querySelectorAll(".like-button").forEach((button) => {
+  button.addEventListener("click", function () {
+    const courseId = this.getAttribute("data-id");
+    console.log("Id del curso: " + courseId);
 
-document.querySelectorAll('.like-button').forEach(button => {
-  button.addEventListener('click', function() {
-      const courseId = this.getAttribute('data-id');
-      console.log("Id del curso: " + courseId);
+    setTimeout(function () {
+      window.location.reload();
+    }, 50);
 
-      setTimeout(function() {
-          window.location.reload();
-      }, 50);
-
-
-      fetch('./guardar-like.php', {
-          method: 'POST',
-          body: JSON.stringify({ courseId: courseId }),
-          headers: {
-              'Content-Type': 'application/json'
-          }
+    fetch("./guardar-like.php", {
+      method: "POST",
+      body: JSON.stringify({ courseId: courseId }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Error al guardar el like");
       })
-      .then(response => {
-          if (response.ok) {
-              return response.json();
-          }
-          throw new Error('Error al guardar el like');
-      })
-      .catch(error => {
-          console.error('Error:', error);
+      .catch((error) => {
+        console.error("Error:", error);
       });
-
-
   });
 });
 
-document.querySelectorAll('.dislike-button').forEach(button => {
-  button.addEventListener('click', function() {
-      const courseId = this.getAttribute('data-id');
-      console.log("Id del curso: " + courseId);
+document.querySelectorAll(".dislike-button").forEach((button) => {
+  button.addEventListener("click", function () {
+    const courseId = this.getAttribute("data-id");
+    console.log("Id del curso: " + courseId);
 
-      setTimeout(function() {
-          window.location.reload();
-      }, 50);
+    setTimeout(function () {
+      window.location.reload();
+    }, 50);
 
-
-      fetch('./guardar-dislike.php', {
-          method: 'POST',
-          body: JSON.stringify({ courseId: courseId }),
-          headers: {
-              'Content-Type': 'application/json'
-          }
+    fetch("./guardar-dislike.php", {
+      method: "POST",
+      body: JSON.stringify({ courseId: courseId }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Error al guardar el like");
       })
-      .then(response => {
-          if (response.ok) {
-              return response.json();
-          }
-          throw new Error('Error al guardar el like');
-      })
-      .catch(error => {
-          console.error('Error:', error);
+      .catch((error) => {
+        console.error("Error:", error);
       });
-
-
   });
 });
+
+function validarTexto() {
+  let text = document.getElementsByClassName("text-gray-500 text-sm")[0]
+    .innerText;
+
+  for (let i = 0; i < text.length; i++) {
+    let letter = text.charAt(0);
+    console.log(text.charAt(i) + "-" + text.charCodeAt(i));
+  }
+}

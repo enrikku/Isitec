@@ -5,7 +5,7 @@ $user = $_COOKIE['token'];
 
 $id = getUserIdByUsernameOrEmail($user);
 
-$cursos = cursosCreados($id);
+/* $cursos = cursosCreados($id); */
 
 ?>
 
@@ -20,17 +20,17 @@ $cursos = cursosCreados($id);
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-900 text-white">
+<body class="bg-gray-900 text-white flex flex-col min-h-screen">
     <?php require_once __DIR__ . '/../../includes/navBar.php';?>
 
-    <main class="py-10">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+    <main class="flex-grow flex items-center justify-center">
+        <div class=" text-center">
 
             <?php if (!empty($cursos)): ?>
             <?php foreach ($cursos as $curso): ?>
 
             <!-- CARD 1 -->
-            <div class="rounded overflow-hidden shadow-lg flex flex-col bg-card transition-transform hover:scale-105">
+            <div class="rounded overflow-hidden shadow-lg flex flex-col bg-card transition-transform hover:scale-105 ">
                 <a href="./curso.php?id=<?php echo htmlspecialchars($curso['courseId']); ?>"></a>
                 <div class="relative cursor-pointer">
                     <a href="./curso.php?id=<?php echo htmlspecialchars($curso['courseId']); ?>">
@@ -123,8 +123,9 @@ $cursos = cursosCreados($id);
             </div>
             <?php endforeach;?>
             <?php else: ?>
-            <p>No hay cursos creados</p>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><a
+
+            <button
+                class="bg-transparent bg-gray-600 hover:bg-gray-500 rounded-lg px-20 py-4 font-bold border-2 border-gray-600 transition duration-300 ease-in-out transform hover:scale-105 text-2xl"><a
                     href="/isitec/public/cursos/addCourse.php">Crear un curso</a></button>
             <?php endif?>
         </div>
